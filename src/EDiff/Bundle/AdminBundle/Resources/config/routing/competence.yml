@@ -1,0 +1,30 @@
+competence:
+    pattern:  /
+    defaults: { _controller: "EDiffAdminBundle:Competence:index" }
+
+competence_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EDiffAdminBundle:Competence:show" }
+
+competence_new:
+    pattern:  /new
+    defaults: { _controller: "EDiffAdminBundle:Competence:new" }
+
+competence_create:
+    pattern:  /create
+    defaults: { _controller: "EDiffAdminBundle:Competence:create" }
+    requirements: { _method: post }
+
+competence_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "EDiffAdminBundle:Competence:edit" }
+
+competence_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "EDiffAdminBundle:Competence:update" }
+    requirements: { _method: post }
+
+competence_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "EDiffAdminBundle:Competence:delete" }
+    requirements: { _method: post }

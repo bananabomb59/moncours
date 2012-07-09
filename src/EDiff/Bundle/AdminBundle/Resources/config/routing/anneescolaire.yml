@@ -1,0 +1,30 @@
+anneescolaire:
+    pattern:  /
+    defaults: { _controller: "EDiffAdminBundle:AnneeScolaire:index" }
+
+anneescolaire_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EDiffAdminBundle:AnneeScolaire:show" }
+
+anneescolaire_new:
+    pattern:  /new
+    defaults: { _controller: "EDiffAdminBundle:AnneeScolaire:new" }
+
+anneescolaire_create:
+    pattern:  /create
+    defaults: { _controller: "EDiffAdminBundle:AnneeScolaire:create" }
+    requirements: { _method: post }
+
+anneescolaire_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "EDiffAdminBundle:AnneeScolaire:edit" }
+
+anneescolaire_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "EDiffAdminBundle:AnneeScolaire:update" }
+    requirements: { _method: post }
+
+anneescolaire_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "EDiffAdminBundle:AnneeScolaire:delete" }
+    requirements: { _method: post }

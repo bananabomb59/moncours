@@ -1,0 +1,7 @@
+parameters:
+#    e_diff_admin.example.class: EDiff\Bundle\AdminBundle\Example
+
+services:
+#    e_diff_admin.example:
+#        class: %e_diff_admin.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

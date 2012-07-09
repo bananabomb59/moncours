@@ -1,0 +1,30 @@
+question:
+    pattern:  /
+    defaults: { _controller: "EDiffAdminBundle:Question:index" }
+
+question_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EDiffAdminBundle:Question:show" }
+
+question_new:
+    pattern:  /new
+    defaults: { _controller: "EDiffAdminBundle:Question:new" }
+
+question_create:
+    pattern:  /create
+    defaults: { _controller: "EDiffAdminBundle:Question:create" }
+    requirements: { _method: post }
+
+question_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "EDiffAdminBundle:Question:edit" }
+
+question_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "EDiffAdminBundle:Question:update" }
+    requirements: { _method: post }
+
+question_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "EDiffAdminBundle:Question:delete" }
+    requirements: { _method: post }

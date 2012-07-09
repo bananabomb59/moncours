@@ -1,0 +1,187 @@
+<?php
+
+namespace EDiff\Bundle\AdminBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use EDiff\Bundle\AdminBundle\Entity\AnneeScolaire;
+use EDiff\Bundle\AdminBundle\Form\AnneeScolaireType;
+
+/**
+ * AnneeScolaire controller.
+ *
+ */
+class AnneeScolaireController extends Controller
+{
+    /**
+     * Lists all AnneeScolaire entities.
+     *
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entities = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
+
+        return $this->render('EDiffAdminBundle:AnneeScolaire:index.html.twig', array(
+            'entities' => $entities
+        ));
+    }
+
+    /**
+     * Finds and displays a AnneeScolaire entity.
+     *
+     */
+    public function showAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entity = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find AnneeScolaire entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return $this->render('EDiffAdminBundle:AnneeScolaire:show.html.twig', array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+
+        ));
+    }
+
+    /**
+     * Displays a form to create a new AnneeScolaire entity.
+     *
+     */
+    public function newAction()
+    {
+        $entity = new AnneeScolaire();
+        $form   = $this->createForm(new AnneeScolaireType(), $entity);
+
+        return $this->render('EDiffAdminBundle:AnneeScolaire:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        ));
+    }
+
+    /**
+     * Creates a new AnneeScolaire entity.
+     *
+     */
+    public function createAction()
+    {
+        $entity  = new AnneeScolaire();
+        $request = $this->getRequest();
+        $form    = $this->createForm(new AnneeScolaireType(), $entity);
+        $form->bindRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('anneescolaire_show', array('id' => $entity->getId())));
+            
+        }
+
+        return $this->render('EDiffAdminBundle:AnneeScolaire:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing AnneeScolaire entity.
+     *
+     */
+    public function editAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entity = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find AnneeScolaire entity.');
+        }
+
+        $editForm = $this->createForm(new AnneeScolaireType(), $entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return $this->render('EDiffAdminBundle:AnneeScolaire:edit.html.twig', array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Edits an existing AnneeScolaire entity.
+     *
+     */
+    public function updateAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entity = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find AnneeScolaire entity.');
+        }
+
+        $editForm   = $this->createForm(new AnneeScolaireType(), $entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        $request = $this->getRequest();
+
+        $editForm->bindRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('anneescolaire_edit', array('id' => $id)));
+        }
+
+        return $this->render('EDiffAdminBundle:AnneeScolaire:edit.html.twig', array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Deletes a AnneeScolaire entity.
+     *
+     */
+    public function deleteAction($id)
+    {
+        $form = $this->createDeleteForm($id);
+        $request = $this->getRequest();
+
+        $form->bindRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getEntityManager();
+            $entity = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find AnneeScolaire entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('anneescolaire'));
+    }
+
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array('id' => $id))
+            ->add('id', 'hidden')
+            ->getForm()
+        ;
+    }
+}

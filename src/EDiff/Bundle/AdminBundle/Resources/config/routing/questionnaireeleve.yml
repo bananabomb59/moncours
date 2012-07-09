@@ -1,0 +1,30 @@
+questionnaireeleve:
+    pattern:  /
+    defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:index" }
+
+questionnaireeleve_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:show" }
+
+questionnaireeleve_new:
+    pattern:  /new
+    defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:new" }
+
+questionnaireeleve_create:
+    pattern:  /create
+    defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:create" }
+    requirements: { _method: post }
+
+questionnaireeleve_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:edit" }
+
+questionnaireeleve_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:update" }
+    requirements: { _method: post }
+
+questionnaireeleve_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:delete" }
+    requirements: { _method: post }

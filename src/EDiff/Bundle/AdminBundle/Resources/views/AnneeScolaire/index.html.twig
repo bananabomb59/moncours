@@ -1,0 +1,39 @@
+<h1>AnneeScolaire list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Annee_debut</th>
+            <th>Annee_fin</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td><a href="{{ path('anneescolaire_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.anneedebut }}</td>
+            <td>{{ entity.anneefin }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('anneescolaire_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('anneescolaire_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('anneescolaire_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>

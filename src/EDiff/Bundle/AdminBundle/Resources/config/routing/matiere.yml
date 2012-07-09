@@ -1,0 +1,30 @@
+matiere:
+    pattern:  /
+    defaults: { _controller: "EDiffAdminBundle:Matiere:index" }
+
+matiere_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EDiffAdminBundle:Matiere:show" }
+
+matiere_new:
+    pattern:  /new
+    defaults: { _controller: "EDiffAdminBundle:Matiere:new" }
+
+matiere_create:
+    pattern:  /create
+    defaults: { _controller: "EDiffAdminBundle:Matiere:create" }
+    requirements: { _method: post }
+
+matiere_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "EDiffAdminBundle:Matiere:edit" }
+
+matiere_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "EDiffAdminBundle:Matiere:update" }
+    requirements: { _method: post }
+
+matiere_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "EDiffAdminBundle:Matiere:delete" }
+    requirements: { _method: post }

@@ -1,0 +1,41 @@
+<h1>Questionnaire</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Titre</th>
+            <td>{{ entity.titre }}</td>
+        </tr>
+        <tr>
+            <th>Statut</th>
+            <td>{{ entity.statut }}</td>
+        </tr>
+        <tr>
+            <th>Nb_questions_a_repondre</th>
+            <td>{{ entity.nbquestionsarepondre }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('questionnaire') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('questionnaire_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('questionnaire_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

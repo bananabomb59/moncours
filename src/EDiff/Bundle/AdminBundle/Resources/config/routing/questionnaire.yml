@@ -1,0 +1,30 @@
+questionnaire:
+    pattern:  /
+    defaults: { _controller: "EDiffAdminBundle:Questionnaire:index" }
+
+questionnaire_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EDiffAdminBundle:Questionnaire:show" }
+
+questionnaire_new:
+    pattern:  /new
+    defaults: { _controller: "EDiffAdminBundle:Questionnaire:new" }
+
+questionnaire_create:
+    pattern:  /create
+    defaults: { _controller: "EDiffAdminBundle:Questionnaire:create" }
+    requirements: { _method: post }
+
+questionnaire_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "EDiffAdminBundle:Questionnaire:edit" }
+
+questionnaire_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "EDiffAdminBundle:Questionnaire:update" }
+    requirements: { _method: post }
+
+questionnaire_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "EDiffAdminBundle:Questionnaire:delete" }
+    requirements: { _method: post }

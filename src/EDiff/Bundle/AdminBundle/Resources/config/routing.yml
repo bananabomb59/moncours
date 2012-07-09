@@ -1,0 +1,47 @@
+EDiffAdminBundle_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: EDiffAdminBundle:Default:index }
+
+EDiffAdminBundle_crud:
+    resource: "@EDiffAdminBundle/Resources/config/routing/anneescolaire.yml"
+    prefix:   /anneescolaire
+    
+EDiffAdminBundle_matiere_crud:
+    resource: "@EDiffAdminBundle/Resources/config/routing/matiere.yml"
+    prefix:   /matiere
+
+EDiffAdminBundle_classe:
+    resource: "@EDiffAdminBundle/Resources/config/routing/classe.yml"
+    prefix:   /classe
+
+EDiffAdminBundle_competence:
+    resource: "@EDiffAdminBundle/Resources/config/routing/competence.yml"
+    prefix:   /competence
+    
+EDiffAdminBundle_user:
+    resource: "@EDiffAdminBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+    
+EDiffAdminBundle_question:
+    resource: "@EDiffAdminBundle/Resources/config/routing/question.yml"
+    prefix:   /question
+
+EDiffAdminBundle_reponse:
+    resource: "@EDiffAdminBundle/Resources/config/routing/reponse.yml"
+    prefix:   /reponse
+
+EDiffAdminBundle_questionnaire:
+    resource: "@EDiffAdminBundle/Resources/config/routing/questionnaire.yml"
+    prefix:   /questionnaire
+    
+EDiffAdminBundle_questionnaireeleve:
+    resource: "@EDiffAdminBundle/Resources/config/routing/questionnaireeleve.yml"
+    prefix:   /questionnaireeleve
+    
+EDiffAdminBundle_competenceeleveannee:
+    resource: "@EDiffAdminBundle/Resources/config/routing/competenceeleveannee.yml"
+    prefix:   /competenceeleveannee 
+    
+EDiffAdminBundle_competenceclasseannee:
+    resource: "@EDiffAdminBundle/Resources/config/routing/competenceclasseannee.yml"
+    prefix:   /competenceclasseannee       

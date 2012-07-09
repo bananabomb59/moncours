@@ -1,0 +1,30 @@
+reponse:
+    pattern:  /
+    defaults: { _controller: "EDiffAdminBundle:Reponse:index" }
+
+reponse_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EDiffAdminBundle:Reponse:show" }
+
+reponse_new:
+    pattern:  /new
+    defaults: { _controller: "EDiffAdminBundle:Reponse:new" }
+
+reponse_create:
+    pattern:  /create
+    defaults: { _controller: "EDiffAdminBundle:Reponse:create" }
+    requirements: { _method: post }
+
+reponse_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "EDiffAdminBundle:Reponse:edit" }
+
+reponse_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "EDiffAdminBundle:Reponse:update" }
+    requirements: { _method: post }
+
+reponse_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "EDiffAdminBundle:Reponse:delete" }
+    requirements: { _method: post }

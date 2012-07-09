@@ -1,0 +1,30 @@
+classe:
+    pattern:  /
+    defaults: { _controller: "EDiffAdminBundle:Classe:index" }
+
+classe_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EDiffAdminBundle:Classe:show" }
+
+classe_new:
+    pattern:  /new
+    defaults: { _controller: "EDiffAdminBundle:Classe:new" }
+
+classe_create:
+    pattern:  /create
+    defaults: { _controller: "EDiffAdminBundle:Classe:create" }
+    requirements: { _method: post }
+
+classe_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "EDiffAdminBundle:Classe:edit" }
+
+classe_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "EDiffAdminBundle:Classe:update" }
+    requirements: { _method: post }
+
+classe_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "EDiffAdminBundle:Classe:delete" }
+    requirements: { _method: post }

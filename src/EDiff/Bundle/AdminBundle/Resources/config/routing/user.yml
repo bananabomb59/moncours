@@ -1,0 +1,30 @@
+user:
+    pattern:  /
+    defaults: { _controller: "EDiffAdminBundle:User:index" }
+
+user_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EDiffAdminBundle:User:show" }
+
+user_new:
+    pattern:  /new
+    defaults: { _controller: "EDiffAdminBundle:User:new" }
+
+user_create:
+    pattern:  /create
+    defaults: { _controller: "EDiffAdminBundle:User:create" }
+    requirements: { _method: post }
+
+user_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "EDiffAdminBundle:User:edit" }
+
+user_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "EDiffAdminBundle:User:update" }
+    requirements: { _method: post }
+
+user_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "EDiffAdminBundle:User:delete" }
+    requirements: { _method: post }

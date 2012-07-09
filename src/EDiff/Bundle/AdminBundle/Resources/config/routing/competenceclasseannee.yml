@@ -1,0 +1,30 @@
+competenceclasseannee:
+    pattern:  /
+    defaults: { _controller: "EDiffAdminBundle:CompetenceClasseAnnee:index" }
+
+competenceclasseannee_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "EDiffAdminBundle:CompetenceClasseAnnee:show" }
+
+competenceclasseannee_new:
+    pattern:  /new
+    defaults: { _controller: "EDiffAdminBundle:CompetenceClasseAnnee:new" }
+
+competenceclasseannee_create:
+    pattern:  /create
+    defaults: { _controller: "EDiffAdminBundle:CompetenceClasseAnnee:create" }
+    requirements: { _method: post }
+
+competenceclasseannee_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "EDiffAdminBundle:CompetenceClasseAnnee:edit" }
+
+competenceclasseannee_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "EDiffAdminBundle:CompetenceClasseAnnee:update" }
+    requirements: { _method: post }
+
+competenceclasseannee_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "EDiffAdminBundle:CompetenceClasseAnnee:delete" }
+    requirements: { _method: post }
