@@ -27,4 +27,3 @@ reponse_update:
 reponse_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "EDiffAdminBundle:Reponse:delete" }
-    requirements: { _method: post }

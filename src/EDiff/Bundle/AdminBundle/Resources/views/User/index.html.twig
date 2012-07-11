@@ -1,47 +1,61 @@
-<h1>User list</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/User/index.html.twig #}
 
-<table class="records_list">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Login</th>
-            <th>Password</th>
-            <th>Droits</th>
-            <th>Nom</th>
-            <th>Prenom</th>
-            <th>Date_naissance</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for entity in entities %}
-        <tr>
-            <td><a href="{{ path('user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.login }}</td>
-            <td>{{ entity.password }}</td>
-            <td>{{ entity.droits }}</td>
-            <td>{{ entity.nom }}</td>
-            <td>{{ entity.prenom }}</td>
-            <td>{% if entity.datenaissance %}{{ entity.datenaissance|date('Y-m-d H:i:s') }}{% endif%}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('user_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('user_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul>
-    <li>
-        <a href="{{ path('user_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Utilisateur{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Liste des utilisateurs</h1>
+		
+		{% if delete %}
+			<div class="alert alert-error">
+				<button class="close" data-dismiss="alert" type="button">×</button>
+				Votre utilisateur a bien été supprimé !
+			</div>
+		{% endif %}
+		
+		{% if entities|length > 0 %}
+		<table class="table-bordered table">
+		    <thead>
+		        <tr>
+		            <th>Login</th>
+		            <th>Mot de passe</th>
+		            <th>Droits</th>
+		            <th>Nom</th>
+		            <th>Prenom</th>
+		            <th>Date de naissance</th>
+		            <th>Actions</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		    {% for entity in entities %}
+		        <tr>
+		            <td>{{ entity.login }}</td>
+		            <td>{{ entity.password }}</td>
+		            <td>{{ entity.droits }}</td>
+		            <td>{{ entity.nom }}</td>
+		            <td>{{ entity.prenom }}</td>
+		            <td>{% if entity.datenaissance %}{{ entity.datenaissance|date('d-m-Y') }}{% endif%}</td>
+		            <td>	                
+                        <a class="btn btn btn-small" href="{{ path('user_show', { 'id': entity.id }) }}">Voir</a>   
+                        <a class="btn btn btn-small" href="{{ path('user_edit', { 'id': entity.id }) }}">Modifier</a>
+		            </td>
+		        </tr>
+		    {% endfor %}
+		    </tbody>
+		</table>
+		{% else %} 
+		Aucun utilisateur </br>
+		{% endif %}
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary" href="{{ path('user_new') }}">
+	            Création d'un nouvel utilisateur
+	        </a>
+		</p>
+
+	</div>
+{% endblock %}

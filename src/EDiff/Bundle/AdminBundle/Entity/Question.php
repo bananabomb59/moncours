@@ -41,18 +41,18 @@ class Question
      * @ORM\Column(name="libelle", type="text")
      */
     private $libelle;
+    
+    /**
+     * @var text $document
+     *
+     * @ORM\Column(name="document", type="string", length=255)
+     */
+    private $document;
 
     /**
      * @ORM\ManyToOne(targetEntity="EDiff\Bundle\AdminBundle\Entity\Matiere")
      */
     private $matiere;
-    
-    /**
-     * @var string $pathtodocument
-     *
-     * @ORM\Column(name="pathtodocument", type="string", length=255)
-     */
-    private $pathtodocument;
     
     /**
      * Get id
@@ -124,33 +124,23 @@ class Question
         return $this->libelle;
     }
     
-	/**
-     * Set pathtodocument
-     *
-     * @param string $pathtodocument
-     */
-    public function setPathtodocument($pathtodocument)
+	public function setDocument($document)
     {
-        $this->pathtodocument = $pathtodocument;
+        $this->document = $document;
     }
 
-    /**
-     * Get pathtodocument
-     *
-     * @return string 
-     */
-    public function getPathtodocument()
+    public function getDocument()
     {
-        return $this->pathtodocument;
+        return $this->document;
     }
     
-    // On définit le getter et le setter associé à la relation Matiere.
+    // On dï¿½finit le getter et le setter associï¿½ ï¿½ la relation Matiere.
     public function getMatiere()
     {
         return $this->matiere;
     }
 
-    // Ici, on force le type de l'argument à être une instance de notre entité Matiere.
+    // Ici, on force le type de l'argument ï¿½ ï¿½tre une instance de notre entitï¿½ Matiere.
     public function setMatiere(\EDiff\Bundle\AdminBundle\Entity\Matiere $matiere)
     {
         $this->matiere = $matiere;

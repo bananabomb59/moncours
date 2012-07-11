@@ -1,0 +1,30 @@
+{# src/EDiff/Bundle/AdminBundle/Resources/views/Matiere/index.html.twig #}
+
+{% extends "EDiffAdminBundle::layout_front.html.twig" %}
+
+{% block title %}{{ parent() }} | Choix de la matière{% endblock %}
+
+{% block body %}
+
+<div class="my-unit">
+	<h2>Bonjour {{ app.session.get('user').nom }} {{ app.session.get('user').prenom }} !</h2>
+	
+	<p><br/>Quelle matière allons-nous bien pouvoir travailler aujourd'hui ?</p>
+	
+	<form action="{{ path('EDiffAdminBundle_valider_liste_matieres') }}" method="post">
+	
+		<select id="choix_matiere" name="choix_matiere">
+			{% for entity in entities %}
+				<option value="{{ entity.id }}">{{ entity.libelle }}</option>
+			{% endfor %}
+		</select>
+		
+		<p>
+			<button class="btn btn-primary btn-large" type="submit">OK !</button>
+		</p>
+	
+	</form>
+
+</div>
+
+{% endblock %}

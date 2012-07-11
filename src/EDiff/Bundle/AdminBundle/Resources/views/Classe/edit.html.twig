@@ -1,22 +1,32 @@
-<h1>Classe edit</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/Classe/edit.html.twig #}
 
-<form action="{{ path('classe_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit">Edit</button>
-    </p>
-</form>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('classe') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('classe_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Classe{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Edition d'une classe</h1>
+		
+		<form action="{{ path('classe_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+		    {{ form_widget(edit_form) }}
+		    <p>
+		        <button class="btn btn-large" type="submit">Modifier !</button>
+		    </p>
+		</form>
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary" href="{{ path('classe') }}">
+	            Retour à la liste
+	        </a>
+
+	        <form action="{{ path('classe_delete', { 'id': entity.id }) }}" method="post">
+	            {{ form_widget(delete_form) }}
+	            <button class="btn btn" type="submit">Supprimer cette classe</button>
+	        </form>
+		<p>
+
+	</div>
+{% endblock %}

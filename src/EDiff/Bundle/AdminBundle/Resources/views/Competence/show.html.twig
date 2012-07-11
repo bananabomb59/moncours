@@ -1,33 +1,43 @@
-<h1>Competence</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/Competence/show.html.twig #}
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Libelle</th>
-            <td>{{ entity.libelle }}</td>
-        </tr>
-    </tbody>
-</table>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('competence') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('competence_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('competence_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Compétence{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Fiche d'une compétence</h1>
+		
+		{% if update %}
+			<div class="alert alert-error">
+				<button class="close" data-dismiss="alert" type="button">×</button>
+				Votre compétence a bien été modifiée !
+			</div>
+		{% endif %}
+		
+		<p>
+			<label class="large" for="libelle">Libellé</label>{{ entity.libelle }}
+		</p>
+		<p>
+			<label class="large" for="libelle">Matière</label>{{ entity.matiere }}
+		</p>
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary btn" href="{{ path('competence') }}">
+	            Retour à la liste
+	        </a>
+
+	        <a class="btn" href="{{ path('competence_edit', { 'id': entity.id }) }}">
+	            Modifier
+	        </a>
+
+	        <form action="{{ path('competence_delete', { 'id': entity.id }) }}" method="post">
+	            {{ form_widget(delete_form) }}
+	            <button class="btn btn" type="submit">Supprimer cette compétence</button>
+	        </form>
+		<p>
+
+	</div>
+{% endblock %}

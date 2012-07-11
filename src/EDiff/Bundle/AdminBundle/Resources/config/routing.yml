@@ -1,6 +1,53 @@
-EDiffAdminBundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: EDiffAdminBundle:Default:index }
+EDiffAdminBundle_accueil:
+    pattern:  /accueil
+    defaults: { _controller: EDiffAdminBundle:Accueil:index }
+
+EDiffAdminBundle_deconnexion:
+    pattern:  /deconnexion
+    defaults: { _controller: EDiffAdminBundle:Accueil:deconnexion }
+    
+EDiffAdminBundle_accueil_BO_admin:
+    pattern:  /accueil_admin
+    defaults: { _controller: EDiffAdminBundle:Accueil:indexAdmin }
+    
+EDiffAdminBundle_accueil_BO_prof:
+    pattern:  /accueil_prof
+    defaults: { _controller: EDiffAdminBundle:Accueil:indexProf }
+    
+EDiffAdminBundle_connected:
+    pattern:  /accueil/{name}
+    defaults: { _controller: EDiffAdminBundle:Accueil:connected }
+    
+EDiffAdminBundle_connexion:
+    pattern:  /connexion
+    defaults: { _controller: EDiffAdminBundle:Accueil:connect }
+    requirements: { _method: post }
+    
+EDiffAdminBundle_liste_matieres:
+    pattern:  /choix_matiere
+    defaults: { _controller: EDiffAdminBundle:Accueil:matiere }
+    
+EDiffAdminBundle_valider_liste_matieres:
+    pattern:  /valider_matiere
+    defaults: { _controller: EDiffAdminBundle:Accueil:validerMatiere }
+    requirements: { _method: post }
+
+EDiffAdminBundle_liste_questionnaires:
+    pattern:  /choix_questionnaire
+    defaults: { _controller: EDiffAdminBundle:Accueil:questionnaire }
+    
+EDiffAdminBundle_question_front:
+    pattern:  /etude/{id}
+    defaults: { _controller: EDiffAdminBundle:Accueil:question }
+    
+EDiffAdminBundle_valider_question:
+    pattern: /question/valider/{id}
+    defaults: { _controller: EDiffAdminBundle:Accueil:validerQuestion }
+    requirements: { _method: post }
+    
+EDiffAdminBundle_recap_final:
+    pattern:  /recap/{id}
+    defaults: { _controller: EDiffAdminBundle:Accueil:recap }
 
 EDiffAdminBundle_crud:
     resource: "@EDiffAdminBundle/Resources/config/routing/anneescolaire.yml"

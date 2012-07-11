@@ -1,16 +1,27 @@
-<h1>User creation</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/User/new.html.twig #}
 
-<form action="{{ path('user_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('user') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Utilisateur{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Création d'un utilisateur</h1>
+		
+		<form action="{{ path('user_create') }}" method="post" {{ form_enctype(form) }}>
+		    {{ form_widget(form) }}
+		    <p>
+		        <button class="btn btn-large" type="submit">Créer !</button>
+		    </p>
+		</form>
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary btn" href="{{ path('user') }}">
+	            Retour à la liste
+	        </a>
+		<p>
+
+	</div>
+{% endblock %}

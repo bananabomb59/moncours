@@ -23,8 +23,13 @@ class UserController extends Controller
 
         $entities = $em->getRepository('EDiffAdminBundle:User')->findAll();
 
+        $isDelete = false;
+        if($this->get('request')->query->get('delete') == 'true')
+        	$isDelete = true;
+        
         return $this->render('EDiffAdminBundle:User:index.html.twig', array(
-            'entities' => $entities
+            'entities' => $entities,
+        	'delete'   => $isDelete
         ));
     }
 
@@ -43,9 +48,14 @@ class UserController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
+        
+        $isUpdate = false;
+        if($this->get('request')->query->get('update') == 'true')
+        	$isUpdate = true;
 
         return $this->render('EDiffAdminBundle:User:show.html.twig', array(
             'entity'      => $entity,
+        	'update'	  => $isUpdate,
             'delete_form' => $deleteForm->createView(),
 
         ));
@@ -136,12 +146,12 @@ class UserController extends Controller
         $request = $this->getRequest();
 
         $editForm->bindRequest($request);
-
+        
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('user_show', array('id' => $id, 'update' => 'true')));
         }
 
         return $this->render('EDiffAdminBundle:User:edit.html.twig', array(
@@ -174,7 +184,7 @@ class UserController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('user'));
+        return $this->redirect($this->generateUrl('user', array('delete' => 'true')));
     }
 
     private function createDeleteForm($id)

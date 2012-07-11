@@ -1,16 +1,27 @@
-<h1>AnneeScolaire creation</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/AnneeScolaire/new.html.twig #}
 
-<form action="{{ path('anneescolaire_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('anneescolaire') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Année scolaire{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Création d'une année scolaire</h1>
+		
+		<form action="{{ path('anneescolaire_create') }}" method="post" {{ form_enctype(form) }}>
+		    {{ form_widget(form) }}
+		    <p>
+		        <button class="btn btn-large" type="submit">Créer !</button>
+		    </p>
+		</form>
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary btn" href="{{ path('anneescolaire') }}">
+	            Retour à la liste
+	        </a>
+		<p>
+
+	</div>
+{% endblock %}

@@ -1,22 +1,32 @@
-<h1>Reponse edit</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/Reponse/edit.html.twig #}
 
-<form action="{{ path('reponse_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit">Edit</button>
-    </p>
-</form>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('reponse') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('reponse_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Réponse{% endblock %}
+
+{% block body %}
+
+    <div class="hero-unit utilisateur">
+		<h1>Edition d'une réponse</h1>
+		
+		<form action="{{ path('reponse_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+		    {{ form_widget(edit_form) }}
+		    <p>
+		        <button class="btn btn-large" type="submit">Modifier !</button>
+		    </p>
+		</form>
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary" href="{{ path('question_show', { 'id': question.id }) }}">
+	            Retour à la question
+	        </a>
+
+	        <a class="btn" href="{{ path('reponse_delete', { 'id': entity.id }) }}">
+	        	Supprimer
+	        </a> 
+		<p>
+
+	</div>
+{% endblock %}

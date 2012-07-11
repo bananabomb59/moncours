@@ -1,43 +1,59 @@
-<h1>Question list</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/Question/index.html.twig #}
 
-<table class="records_list">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Type</th>
-            <th>Niveau</th>
-            <th>Libelle</th>
-            <th>Pathtodocument</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for entity in entities %}
-        <tr>
-            <td><a href="{{ path('question_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.type }}</td>
-            <td>{{ entity.niveau }}</td>
-            <td>{{ entity.libelle }}</td>
-            <td>{{ entity.pathtodocument }}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('question_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('question_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul>
-    <li>
-        <a href="{{ path('question_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Question{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Liste des questions</h1>
+		
+		{% if delete %}
+			<div class="alert alert-error">
+				<button class="close" data-dismiss="alert" type="button">×</button>
+				Votre question a bien été supprimée !
+			</div>
+		{% endif %}
+		
+		{% if entities|length > 0 %}
+		<table class="table-bordered table">
+		    <thead>
+		        <tr>
+		            <th>Type</th>
+		            <th>Niveau</th>
+		            <th>Libelle</th>
+		            <th>Document</th>
+		            <th>Matière</th>
+		            <th>Actions</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		    {% for entity in entities %}
+		        <tr>
+		            <td>{{ entity.type }}</td>
+		            <td>{{ entity.niveau }}</td>
+		            <td>{{ entity.libelle }}</td>
+		            <td>{{ entity.document }}</td>
+		            <td>{{ entity.matiere }}</td>
+		            <td>	                
+                        <a class="btn btn btn-small" href="{{ path('question_show', { 'id': entity.id }) }}">Voir</a>   
+                        <a class="btn btn btn-small" href="{{ path('question_edit', { 'id': entity.id }) }}">Modifier</a>
+		            </td>
+		        </tr>
+		    {% endfor %}
+		    </tbody>
+		</table>
+		{% else %} 
+		Aucune question </br>
+		{% endif %}
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary" href="{{ path('question_new') }}">
+	            Création d'une nouvelle question
+	        </a>
+		</p>
+
+	</div>
+{% endblock %}

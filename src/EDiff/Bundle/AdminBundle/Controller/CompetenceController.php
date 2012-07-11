@@ -22,9 +22,14 @@ class CompetenceController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entities = $em->getRepository('EDiffAdminBundle:Competence')->findAll();
+        
+        $isDelete = false;
+        if($this->get('request')->query->get('delete') == 'true')
+        	$isDelete = true;
 
         return $this->render('EDiffAdminBundle:Competence:index.html.twig', array(
-            'entities' => $entities
+            'entities' => $entities,
+        	'delete'   => $isDelete
         ));
     }
 
@@ -44,8 +49,13 @@ class CompetenceController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
+        $isUpdate = false;
+        if($this->get('request')->query->get('update') == 'true')
+        	$isUpdate = true;
+        	
         return $this->render('EDiffAdminBundle:Competence:show.html.twig', array(
             'entity'      => $entity,
+        	'update'	  => $isUpdate,
             'delete_form' => $deleteForm->createView(),
 
         ));
@@ -141,7 +151,7 @@ class CompetenceController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('competence_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('competence_show', array('id' => $id, 'update' => 'true')));
         }
 
         return $this->render('EDiffAdminBundle:Competence:edit.html.twig', array(
@@ -174,7 +184,7 @@ class CompetenceController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('competence'));
+        return $this->redirect($this->generateUrl('competence', array('delete' => 'true')));
     }
 
     private function createDeleteForm($id)

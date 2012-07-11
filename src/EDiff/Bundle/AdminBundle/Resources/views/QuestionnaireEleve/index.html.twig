@@ -1,39 +1,47 @@
-<h1>QuestionnaireEleve list</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/QuestionnaireEleve/index.html.twig #}
 
-<table class="records_list">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Numero_question</th>
-            <th>Reponse</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for entity in entities %}
-        <tr>
-            <td><a href="{{ path('questionnaireeleve_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.numeroquestion }}</td>
-            <td>{{ entity.reponse }}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('questionnaireeleve_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('questionnaireeleve_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul>
-    <li>
-        <a href="{{ path('questionnaireeleve_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Réponses des élèves{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Liste des réponses des élèves</h1>
+		
+		{% if entities|length > 0 %}
+		<table class="table-bordered table">
+		    <thead>
+		        <tr>
+		            <th>Elève</th>
+		            <th>Matière</th>
+		            <th>Questionnaire</th>
+		            <th>Question</th>
+		            <th>Numero</th>
+            		<th>Bonne réponse ?</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		    {% for entity in entities %}
+		        <tr>
+		            <td>{{ entity.eleve }}</td>
+		            <td>{{ entity.questionnaire.matiere }}</td>
+		            <td>{{ entity.questionnaire }}</td>
+		            <td>{{ entity.question }}</td>
+		            <td>{{ entity.numeroquestion }}</td>
+		            <td>
+		            	{% if entity.bonneoumauvaise == 1 %}
+		            	Bonne réponse
+		            	{% else %}
+						Mauvaise réponse
+						{% endif %}
+					</td>
+		        </tr>
+		    {% endfor %}
+		    </tbody>
+		</table>
+		{% else %} 
+		Zut ! Encore aucune réponse ! </br>
+		{% endif %}
+
+	</div>
+{% endblock %}

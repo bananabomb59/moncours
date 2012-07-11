@@ -1,41 +1,74 @@
-<h1>Questionnaire</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/Questionnaire/show.html.twig #}
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Titre</th>
-            <td>{{ entity.titre }}</td>
-        </tr>
-        <tr>
-            <th>Statut</th>
-            <td>{{ entity.statut }}</td>
-        </tr>
-        <tr>
-            <th>Nb_questions_a_repondre</th>
-            <td>{{ entity.nbquestionsarepondre }}</td>
-        </tr>
-    </tbody>
-</table>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('questionnaire') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('questionnaire_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('questionnaire_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Questionnaire{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Fiche d'un questionnaire</h1>
+		
+		{% if update %}
+			<div class="alert alert-error">
+				<button class="close" data-dismiss="alert" type="button">×</button>
+				Votre questionnaire a bien été modifié !
+			</div>
+		{% endif %}
+		
+		<p>
+			<label class="large" for="login">Titre</label>{{ entity.titre }}
+		</p>
+		<p>
+			<label class="large" for="password">Statut</label>
+			{% if entity.statut == 2 %}
+				Fermé
+			{% else %}
+				Ouvert
+			{% endif %}
+		</p>
+		<p>
+			<label class="large" for="password">Nombre de questions</label>{{ entity.nbquestionsarepondre }}
+		</p>
+		<p>
+			<label class="large" for="reponses">Questions associées : </label>
+			
+			{% if entity.questions|length > 0 %}
+			<br/>
+			<table class="table-bordered table">
+			    <thead>
+			        <tr>
+			            <th>Libellé</th>
+			            <th>Niveau</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			    {% for question in entity.questions %}
+			        <tr>
+			            <td>{{ question.libelle }}</td>
+			            <td>{{ question.niveau }}</td>
+			        </tr>
+			    {% endfor %}
+			    </tbody>
+			</table>
+			{% endif %}
+		</p>
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary btn" href="{{ path('questionnaire') }}">
+	            Retour à la liste
+	        </a>
+
+	        <a class="btn" href="{{ path('questionnaire_edit', { 'id': entity.id }) }}">
+	            Modifier
+	        </a>
+
+	        <form action="{{ path('questionnaire_delete', { 'id': entity.id }) }}" method="post">
+	            {{ form_widget(delete_form) }}
+	            <button class="btn btn" type="submit">Supprimer ce questionnaire</button>
+	        </form>
+		<p>
+
+	</div>
+{% endblock %}

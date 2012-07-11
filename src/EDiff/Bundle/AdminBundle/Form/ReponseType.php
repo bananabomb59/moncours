@@ -10,9 +10,14 @@ class ReponseType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('libelle')
-            ->add('bonne_ou_mauvaise')
-            ->add('question')
+        	->add('question')    
+        
+        	->add('libelle')
+            
+            ->add('bonne_ou_mauvaise', 'choice', array(
+		    'choices'   => array('1' => 'Bonne', '2' => 'Mauvaise'),
+		    'required'  => true,
+			))
         ;
     }
 

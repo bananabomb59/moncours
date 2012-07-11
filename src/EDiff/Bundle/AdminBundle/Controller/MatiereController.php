@@ -23,8 +23,13 @@ class MatiereController extends Controller
 
         $entities = $em->getRepository('EDiffAdminBundle:Matiere')->findAll();
 
+        $isDelete = false;
+        if($this->get('request')->query->get('delete') == 'true')
+        	$isDelete = true;
+        	
         return $this->render('EDiffAdminBundle:Matiere:index.html.twig', array(
-            'entities' => $entities
+            'entities' => $entities,
+        	'delete'   => $isDelete
         ));
     }
 
@@ -44,8 +49,13 @@ class MatiereController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
+        $isUpdate = false;
+        if($this->get('request')->query->get('update') == 'true')
+        	$isUpdate = true;
+        
         return $this->render('EDiffAdminBundle:Matiere:show.html.twig', array(
             'entity'      => $entity,
+        	'update'	  => $isUpdate,
             'delete_form' => $deleteForm->createView(),
 
         ));
@@ -141,7 +151,7 @@ class MatiereController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('matiere_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('matiere_show', array('id' => $id, 'update' => 'true')));
         }
 
         return $this->render('EDiffAdminBundle:Matiere:edit.html.twig', array(
@@ -174,7 +184,7 @@ class MatiereController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('matiere'));
+        return $this->redirect($this->generateUrl('matiere', array('delete' => 'true')));
     }
 
     private function createDeleteForm($id)

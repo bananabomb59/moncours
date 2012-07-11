@@ -12,10 +12,18 @@ class UserType extends AbstractType
         $builder
             ->add('login')
             ->add('password')
-            ->add('droits')
-            ->add('nom')
-            ->add('prenom')
-            ->add('date_naissance')
+            
+            ->add('droits', 'choice', array(
+		    'choices'   => array('eleve' => 'Elève', 'prof' => 'Professeur', 'admin' => 'Administrateur'),
+		    'required'  => true,
+			))
+            
+			->add('nom')
+            ->add('prenom')            
+            ->add('date_naissance', 'date', array(
+			    'widget' => 'single_text',
+			    'format' => 'dd/MM/yyyy',
+			))
         ;
     }
 

@@ -23,8 +23,13 @@ class QuestionController extends Controller
 
         $entities = $em->getRepository('EDiffAdminBundle:Question')->findAll();
 
+        $isDelete = false;
+        if($this->get('request')->query->get('delete') == 'true')
+        	$isDelete = true;
+        
         return $this->render('EDiffAdminBundle:Question:index.html.twig', array(
-            'entities' => $entities
+            'entities' => $entities,
+        	'delete'   => $isDelete
         ));
     }
 
@@ -42,10 +47,18 @@ class QuestionController extends Controller
             throw $this->createNotFoundException('Unable to find Question entity.');
         }
 
+        $reponses = $em->getRepository('EDiffAdminBundle:Reponse')->findByQuestion($id);
+        
         $deleteForm = $this->createDeleteForm($id);
 
+        $isUpdate = false;
+        if($this->get('request')->query->get('update') == 'true')
+        	$isUpdate = true;
+        	
         return $this->render('EDiffAdminBundle:Question:show.html.twig', array(
             'entity'      => $entity,
+        	'reponses'    => $reponses,
+        	'update'	  => $isUpdate,
             'delete_form' => $deleteForm->createView(),
 
         ));
@@ -141,7 +154,7 @@ class QuestionController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('question_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('question_show', array('id' => $id, 'update' => 'true')));
         }
 
         return $this->render('EDiffAdminBundle:Question:edit.html.twig', array(
@@ -174,7 +187,7 @@ class QuestionController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('question'));
+        return $this->redirect($this->generateUrl('question', array('delete' => 'true')));
     }
 
     private function createDeleteForm($id)

@@ -23,8 +23,13 @@ class AnneeScolaireController extends Controller
 
         $entities = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
 
+        $isDelete = false;
+        if($this->get('request')->query->get('delete') == 'true')
+        	$isDelete = true;
+        
         return $this->render('EDiffAdminBundle:AnneeScolaire:index.html.twig', array(
-            'entities' => $entities
+            'entities' => $entities,
+        	'delete'   => $isDelete
         ));
     }
 
@@ -44,8 +49,13 @@ class AnneeScolaireController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
+        $isUpdate = false;
+        if($this->get('request')->query->get('update') == 'true')
+        	$isUpdate = true;
+        
         return $this->render('EDiffAdminBundle:AnneeScolaire:show.html.twig', array(
             'entity'      => $entity,
+        	'update'	  => $isUpdate,
             'delete_form' => $deleteForm->createView(),
 
         ));
@@ -141,7 +151,7 @@ class AnneeScolaireController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('anneescolaire_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('anneescolaire_show', array('id' => $id, 'update' => 'true')));
         }
 
         return $this->render('EDiffAdminBundle:AnneeScolaire:edit.html.twig', array(
@@ -174,7 +184,7 @@ class AnneeScolaireController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('anneescolaire'));
+        return $this->redirect($this->generateUrl('anneescolaire', array('delete' => 'true')));
     }
 
     private function createDeleteForm($id)

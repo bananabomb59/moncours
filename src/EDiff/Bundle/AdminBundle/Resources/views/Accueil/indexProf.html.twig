@@ -1,0 +1,15 @@
+{# src/EDiff/Bundle/AdminBundle/Resources/views/Accueil/index.html.twig #}
+
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
+
+{% block title %}{{ parent() }} | Accueil{% endblock %}
+
+{% block body %}
+
+<div class="my-unit">
+	<h2>Bonjour {{ app.session.get('user').nom }} {{ app.session.get('user').prenom }} !</h2>
+	
+	<p><br/>Veuillez sélectionner une fonctionnalité dans le menu ci-dessus.</p>
+</div>
+
+{% endblock %}

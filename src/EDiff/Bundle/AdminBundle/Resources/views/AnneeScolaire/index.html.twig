@@ -1,39 +1,53 @@
-<h1>AnneeScolaire list</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/AnneeScolaire/index.html.twig #}
 
-<table class="records_list">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Annee_debut</th>
-            <th>Annee_fin</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for entity in entities %}
-        <tr>
-            <td><a href="{{ path('anneescolaire_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.anneedebut }}</td>
-            <td>{{ entity.anneefin }}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('anneescolaire_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('anneescolaire_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul>
-    <li>
-        <a href="{{ path('anneescolaire_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Année scolaire{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Liste des années scolaires</h1>
+		
+		{% if delete %}
+			<div class="alert alert-error">
+				<button class="close" data-dismiss="alert" type="button">×</button>
+				Votre année scolaire a bien été supprimée !
+			</div>
+		{% endif %}
+		
+		{% if entities|length > 0 %}
+		<table class="table-bordered table">
+		    <thead>
+		        <tr>
+		            <th>Annee de début</th>
+		            <th>Annee de fin</th>
+		            <th>Actions</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		    {% for entity in entities %}
+		        <tr>
+		            <td>{{ entity.anneedebut }}</td>
+		            <td>{{ entity.anneefin }}</td>
+		            <td>
+		            	<a class="btn btn btn-small" href="{{ path('anneescolaire_show', { 'id': entity.id }) }}">Voir</a>
+		                <a class="btn btn btn-small" href="{{ path('anneescolaire_edit', { 'id': entity.id }) }}">Modifier</a>
+		            </td>
+		        </tr>
+		    {% endfor %}
+		    </tbody>
+		</table>
+		{% else %} 
+		Aucune année scolaire </br>
+		{% endif %}
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary" href="{{ path('anneescolaire_new') }}">
+	            Création d'une nouvelle année scolaire
+	        </a>
+		</p>
+
+	</div>
+{% endblock %}

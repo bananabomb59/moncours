@@ -1,0 +1,33 @@
+{# src/EDiff/Bundle/AdminBundle/Resources/views/Accueil/index.html.twig #}
+
+{% extends "EDiffAdminBundle::layout_front.html.twig" %}
+
+{% block title %}{{ parent() }} | Accueil{% endblock %}
+
+{% block body %}
+    <div class="hero-unit">
+    		<h1>Bienvenue sur MonCours.org</h1>
+    			
+    		{% if hasError %}
+			<div class="alert alert-error">
+				<button class="close" data-dismiss="alert" type="button">×</button>
+				{{ message }}
+			</div>
+    		{% endif %}
+
+    		<p>Veuillez saisir vos identifiants :</p>
+    		<form class="navbar-form pull-left" action="{{ path('EDiffAdminBundle_connexion') }}" method="post">
+    			<p>
+    				<label for="login">Login</label><input type="text" class="" name="login" id="login"/>
+    			</p>
+    			<p>
+    				<label for="password">Mot de passe</label><input type="password" class="" name="password" id="password"/>
+    			</p>
+    			<div style="clear:both;"></div>
+	    		<p>
+	    			<button class="btn btn-primary btn-large" type="submit">OK !</button>
+	    		</p>
+    		</form>
+
+    	</div>
+{% endblock %}

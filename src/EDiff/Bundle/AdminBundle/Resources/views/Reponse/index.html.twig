@@ -14,7 +14,13 @@
         <tr>
             <td><a href="{{ path('reponse_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.libelle }}</td>
-            <td>{{ entity.bonneoumauvaise }}</td>
+            <td>
+            	{% if entity.bonneoumauvaise == 1 %}
+            	Bonne réponse
+            	{% else %}
+				Mauvaise réponse
+				{% endif %}
+            </td>
             <td>
                 <ul>
                     <li>

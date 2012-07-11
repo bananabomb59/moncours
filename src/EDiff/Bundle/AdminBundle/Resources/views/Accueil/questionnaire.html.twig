@@ -1,0 +1,35 @@
+{# src/EDiff/Bundle/AdminBundle/Resources/views/Matiere/index.html.twig #}
+
+{% extends "EDiffAdminBundle::layout_front.html.twig" %}
+
+{% block title %}{{ parent() }} | Choix de la matière{% endblock %}
+
+{% block body %}
+
+<div class="my-unit">
+	<h2>{{ app.session.get('matiere').libelle }} ? Bon choix !</h2>
+	
+	<p><br/>Voici les questionnaires disponibles :</p>
+	
+	<!--
+		<li><a>Chapitre 1 - La Préhistoire <span class="questionnaire_ferme">(questionnaire fermé)</span></a></li>
+		<li><a>Chapitre 2 - L'Antiquité <span class="questionnaire_ferme">(questionnaire déjà complété)</span></a></li>
+		<li><a href="/template_questions.html">Chapitre 3 - Le Moyen Âge</a></li>
+	-->
+	
+	<ul>
+		{% for entity in entities %}
+			{% if entity.statut == 3 %}
+				<li>{{ entity.titre }} <span class="questionnaire_ferme">(questionnaire déjà complété)</span></li>
+			{% elseif entity.statut == 2 %}
+			    <li>{{ entity.titre }} <span class="questionnaire_ferme">(questionnaire fermé)</span></li>
+			{% else %}
+				<li><a href="{{ path('EDiffAdminBundle_question_front', { 'id': entity.id }) }}">{{ entity.titre }}</a></li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+	
+	<p><br/><a href="{{ path('EDiffAdminBundle_liste_matieres') }}">Retour</a></p>
+</div>
+
+{% endblock %}

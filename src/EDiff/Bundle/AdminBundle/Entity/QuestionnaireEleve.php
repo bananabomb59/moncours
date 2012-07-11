@@ -34,6 +34,13 @@ class QuestionnaireEleve
      * @ORM\Column(name="reponse", type="text")
      */
     private $reponse;
+    
+    /**
+     * @var string $bonne_ou_mauvaise
+     *
+     * @ORM\Column(name="bonne_ou_mauvaise", type="string", length=255)
+     */
+    private $bonne_ou_mauvaise;
 
     /**
      * @ORM\ManyToOne(targetEntity="EDiff\Bundle\AdminBundle\Entity\Questionnaire")
@@ -99,38 +106,58 @@ class QuestionnaireEleve
     {
         return $this->reponse;
     }
+    
+	/**
+     * Set bonne_ou_mauvaise
+     *
+     * @param string $bonneOuMauvaise
+     */
+    public function setBonneOuMauvaise($bonneOuMauvaise)
+    {
+        $this->bonne_ou_mauvaise = $bonneOuMauvaise;
+    }
 
-	// On définit le getter et le setter associé à la relation Questionnaire.
+    /**
+     * Get bonne_ou_mauvaise
+     *
+     * @return string 
+     */
+    public function getBonneOuMauvaise()
+    {
+        return $this->bonne_ou_mauvaise;
+    }
+
+	// On dï¿½finit le getter et le setter associï¿½ ï¿½ la relation Questionnaire.
     public function getQuestionnaire()
     {
         return $this->questionnaire;
     }
 
-    // Ici, on force le type de l'argument à être une instance de notre entité Questionnaire.
+    // Ici, on force le type de l'argument ï¿½ ï¿½tre une instance de notre entitï¿½ Questionnaire.
     public function setQuestionnaire(\EDiff\Bundle\AdminBundle\Entity\Questionnaire $questionnaire)
     {
         $this->questionnaire = $questionnaire;
     }   
 
-	// On définit le getter et le setter associé à la relation Question.
+	// On dï¿½finit le getter et le setter associï¿½ ï¿½ la relation Question.
     public function getQuestion()
     {
         return $this->question;
     }
 
-    // Ici, on force le type de l'argument à être une instance de notre entité Question.
+    // Ici, on force le type de l'argument ï¿½ ï¿½tre une instance de notre entitï¿½ Question.
     public function setQuestion(\EDiff\Bundle\AdminBundle\Entity\Question $question)
     {
         $this->question = $question;
     }
 
-	// On définit le getter et le setter associé à la relation User (que j'appelle arbitrairement Eleve).
+	// On dï¿½finit le getter et le setter associï¿½ ï¿½ la relation User (que j'appelle arbitrairement Eleve).
     public function getEleve()
     {
         return $this->eleve;
     }
 
-    // Ici, on force le type de l'argument à être une instance de notre entité User (idem).
+    // Ici, on force le type de l'argument ï¿½ ï¿½tre une instance de notre entitï¿½ User (idem).
     public function setEleve(\EDiff\Bundle\AdminBundle\Entity\User $eleve)
     {
         $this->eleve = $eleve;

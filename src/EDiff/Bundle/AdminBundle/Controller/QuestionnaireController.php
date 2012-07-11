@@ -23,8 +23,13 @@ class QuestionnaireController extends Controller
 
         $entities = $em->getRepository('EDiffAdminBundle:Questionnaire')->findAll();
 
+        $isDelete = false;
+        if($this->get('request')->query->get('delete') == 'true')
+        	$isDelete = true;
+        
         return $this->render('EDiffAdminBundle:Questionnaire:index.html.twig', array(
-            'entities' => $entities
+            'entities' => $entities,
+        	'delete'   => $isDelete
         ));
     }
 
@@ -44,8 +49,13 @@ class QuestionnaireController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
+        $isUpdate = false;
+        if($this->get('request')->query->get('update') == 'true')
+        	$isUpdate = true;
+        
         return $this->render('EDiffAdminBundle:Questionnaire:show.html.twig', array(
             'entity'      => $entity,
+        	'update'	  => $isUpdate,
             'delete_form' => $deleteForm->createView(),
 
         ));
@@ -141,7 +151,7 @@ class QuestionnaireController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('questionnaire_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('questionnaire_show', array('id' => $id, 'update' => 'true')));
         }
 
         return $this->render('EDiffAdminBundle:Questionnaire:edit.html.twig', array(
@@ -174,7 +184,7 @@ class QuestionnaireController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('questionnaire'));
+        return $this->redirect($this->generateUrl('questionnaire', array('delete' => 'true')));
     }
 
     private function createDeleteForm($id)

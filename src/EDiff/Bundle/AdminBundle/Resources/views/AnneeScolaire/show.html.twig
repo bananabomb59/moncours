@@ -1,37 +1,43 @@
-<h1>AnneeScolaire</h1>
+{# src/EDiff/Bundle/AdminBundle/Resources/views/AnneeScolaire/show.html.twig #}
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Annee_debut</th>
-            <td>{{ entity.anneedebut }}</td>
-        </tr>
-        <tr>
-            <th>Annee_fin</th>
-            <td>{{ entity.anneefin }}</td>
-        </tr>
-    </tbody>
-</table>
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('anneescolaire') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('anneescolaire_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('anneescolaire_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+{% block title %}{{ parent() }} | Année scolaire{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Fiche d'une année scolaire</h1>
+		
+		{% if update %}
+			<div class="alert alert-error">
+				<button class="close" data-dismiss="alert" type="button">×</button>
+				Votre année scolaire a bien été modifiée !
+			</div>
+		{% endif %}
+		
+		<p>
+			<label class="large" for="anneedebut">Année de début</label>{{ entity.anneedebut }}
+		</p>
+		<p>
+			<label class="large" for="anneefin">Année de fin</label>{{ entity.anneefin }}
+		</p>
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary btn" href="{{ path('anneescolaire') }}">
+	            Retour à la liste
+	        </a>
+
+	        <a class="btn" href="{{ path('anneescolaire_edit', { 'id': entity.id }) }}">
+	            Modifier
+	        </a>
+
+	        <form action="{{ path('anneescolaire_delete', { 'id': entity.id }) }}" method="post">
+	            {{ form_widget(delete_form) }}
+	            <button class="btn btn" type="submit">Supprimer cette année scolaire</button>
+	        </form>
+		<p>
+
+	</div>
+{% endblock %}

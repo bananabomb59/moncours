@@ -10,10 +10,18 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('type')
-            ->add('niveau')
+            ->add('type', 'choice', array(
+		    'choices'   => array('qcm' => 'Choix multiple'),
+		    'required'  => true,
+			))
+            
+            ->add('niveau', 'choice', array(
+		    'choices'   => array('1' => 'Facile', '2' => 'Moyen', '3' => 'Difficile'),
+		    'required'  => true,
+			))
+            
+			->add('document')
             ->add('libelle')
-            ->add('pathtodocument')
             ->add('matiere')
         ;
     }

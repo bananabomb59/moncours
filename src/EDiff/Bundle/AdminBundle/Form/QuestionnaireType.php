@@ -12,7 +12,13 @@ class QuestionnaireType extends AbstractType
         $builder
             ->add('titre')
             ->add('statut')
-            ->add('nb_questions_a_repondre')
+            
+            ->add('statut', 'choice', array(
+		    'choices'   => array('1' => 'Ouvert', '2' => 'Fermé'),
+		    'required'  => true,
+			))
+            
+            ->add('nb_questions_a_repondre', 'text', array('max_length' => 2, 'required' => true, 'label' => 'Nb Questions'))
             ->add('matiere')
             ->add('anneescolaire')
             ->add('classe')

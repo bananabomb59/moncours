@@ -57,11 +57,17 @@ class ReponseController extends Controller
      */
     public function newAction()
     {
+    	// On recupere la question
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$question = $em->getRepository('EDiffAdminBundle:Question')->find($this->get('request')->query->get('question'));
+    	
         $entity = new Reponse();
+        $entity->setQuestion($question);
         $form   = $this->createForm(new ReponseType(), $entity);
 
         return $this->render('EDiffAdminBundle:Reponse:new.html.twig', array(
             'entity' => $entity,
+        	'question' => $question,
             'form'   => $form->createView()
         ));
     }
@@ -82,7 +88,7 @@ class ReponseController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('reponse_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('question_show', array('id' => $entity->getQuestion()->getId())));
             
         }
 
@@ -101,7 +107,8 @@ class ReponseController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('EDiffAdminBundle:Reponse')->find($id);
-
+		$question = $entity->getQuestion();
+        
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Reponse entity.');
         }
@@ -111,6 +118,7 @@ class ReponseController extends Controller
 
         return $this->render('EDiffAdminBundle:Reponse:edit.html.twig', array(
             'entity'      => $entity,
+        	'question'    => $question,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -125,6 +133,7 @@ class ReponseController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('EDiffAdminBundle:Reponse')->find($id);
+        $question = $entity->getQuestion();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Reponse entity.');
@@ -141,7 +150,7 @@ class ReponseController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('reponse_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('question_show', array('id' => $question->getId())));
         }
 
         return $this->render('EDiffAdminBundle:Reponse:edit.html.twig', array(
@@ -157,24 +166,18 @@ class ReponseController extends Controller
      */
     public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('EDiffAdminBundle:Reponse')->find($id);
+        $question = $entity->getQuestion();
 
-        $form->bindRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('EDiffAdminBundle:Reponse')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Reponse entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+        	throw $this->createNotFoundException('Unable to find Reponse entity.');
         }
 
-        return $this->redirect($this->generateUrl('reponse'));
+        $em->remove($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('question_show', array('id' => $question->getId())));
     }
 
     private function createDeleteForm($id)
