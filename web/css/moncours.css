@@ -74,6 +74,57 @@ body {
 	text-align: right;
 }
 
-.test {
-	text-align: right;
+.admin {
+	padding-top: 100px;
+}
+
+.navbar-inner-menu-admin {
+	background-color: #727272;
+}
+
+.brand.admin {
+	color: #ffffff;
+	margin-left: -10px;
+	font-size: 15px;
+	padding: 8px 20px;
+}
+
+.hero-unit {
+	height: 300px;
+}
+.hero-unit.utilisateur {
+	height: 465px;
+}
+.hero-unit h1 {
+	margin-bottom:0.5em;
+}
+.hero-unit label {
+	width:100px;
+	float:left;
+	padding-top:4px;
+	margin-bottom:0;
+}
+.hero-unit label.large {
+	width:150px;
+}
+.hero-unit input {
+	margin-top:0;
+}
+.hero-unit form {
+	margin-bottom: 5px;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.navbar .deconnexion {
+    color: #ffffff;
+    display: block;
+    float: right;
+    font-size: 12px;
+    font-weight: 200;
+    margin-right: -20px;
+    padding: 10px 20px 12px;
 }
