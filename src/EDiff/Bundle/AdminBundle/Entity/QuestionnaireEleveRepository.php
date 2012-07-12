@@ -12,4 +12,27 @@ use Doctrine\ORM\EntityRepository;
  */
 class QuestionnaireEleveRepository extends EntityRepository
 {
+	public function myFindBy($question, $eleve, $questionnaire)
+	{
+		$qb = $this->createQueryBuilder('a');
+
+		if($question != -1) {
+			$qb->where('a.question = :question_id')
+	         ->setParameter('question_id', $question);	
+		}
+		
+		if($eleve != -1) {
+			$qb->where('a.eleve = :eleve_id')
+	         ->setParameter('eleve_id', $eleve);	
+		}
+		
+		if($questionnaire != -1) {
+			$qb->where('a.questionnaire = :questionnaire_id')
+	         ->setParameter('questionnaire_id', $questionnaire);	
+		}
+	    
+	    $qb->orderBy('a.id', 'DESC');
+	
+	    return $qb->getQuery()->getResult();
+	}
 }

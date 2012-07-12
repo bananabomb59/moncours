@@ -21,17 +21,42 @@ class QuestionnaireEleveController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('EDiffAdminBundle:QuestionnaireEleve')->findAll();
-        $eleves = $em->getRepository('EDiffAdminBundle:User')->findAll();
-        $matieres = $em->getRepository('EDiffAdminBundle:Matiere')->findAll();
+        $eleves = $em->getRepository('EDiffAdminBundle:User')->findBy(array('droits' => 'eleve'));
+        $questions = $em->getRepository('EDiffAdminBundle:Question')->findAll();
+        $questionnaires = $em->getRepository('EDiffAdminBundle:Questionnaire')->findAll();
 
         $isDelete = false;
         if($this->get('request')->query->get('delete') == 'true')
         	$isDelete = true;
         
+        // On récupère la valeur des filtres
+        $filtreQuestion = $this->get('request')->request->get('choix_question');
+        if($filtreQuestion==null) {
+        	$filtreQuestion = -1;
+        }	
+        
+        $filtreEleve = $this->get('request')->request->get('choix_eleve');
+        if($filtreEleve==null) {
+        	$filtreEleve = -1;
+        }	
+        
+        $filtreQuestionnaire = $this->get('request')->request->get('choix_questionnaire');
+        if($filtreQuestionnaire==null) {
+        	$filtreQuestionnaire = -1;
+        }	
+        
+        // On récupère les entités filtrées
+        $entities = $em->getRepository('EDiffAdminBundle:QuestionnaireEleve')->myFindBy($filtreQuestion, $filtreEleve, $filtreQuestionnaire);
+        	
         return $this->render('EDiffAdminBundle:QuestionnaireEleve:index.html.twig', array(
             'entities' => $entities,
-        	'delete'   => $isDelete
+        	'delete'   => $isDelete,
+        	'eleves'   => $eleves,
+        	'questions' => $questions,
+        	'questionnaires' => $questionnaires,
+        	'filtreEleve' => $filtreEleve,
+        	'filtreQuestionnaire' => $filtreQuestionnaire,
+        	'filtreQuestion' => $filtreQuestion
         ));
     }
 

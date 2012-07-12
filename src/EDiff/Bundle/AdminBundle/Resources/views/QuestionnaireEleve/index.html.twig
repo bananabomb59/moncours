@@ -8,6 +8,31 @@
     <div class="hero-unit utilisateur">
 		<h1>Liste des réponses des élèves</h1>
 		
+		<form action="{{ path('questionnaireeleve') }}" method="post">
+			<select id="choix_question" name="choix_question">
+				<option value="-1">Sélectionnez une question</option>
+				{% for question in questions %}
+					<option value="{{ question.id }}" {% if filtreQuestion == question.id %} selected="selected" {% endif %}>{{ question.libelle }}</option>
+				{% endfor %}
+			</select>
+			
+			<select id="choix_eleve" name="choix_eleve">
+				<option value="-1">Sélectionnez un élève</option>
+				{% for eleve in eleves %}
+					<option value="{{ eleve.id }}" {% if filtreEleve == eleve.id %} selected="selected" {% endif %}>{{ eleve }}</option>
+				{% endfor %}
+			</select>
+			
+			<select id="choix_questionnaire" name="choix_questionnaire">
+				<option value="-1">Sélectionnez un questionnaire</option>
+				{% for questionnaire in questionnaires %}
+					<option value="{{ questionnaire.id }}" {% if filtreQuestionnaire == questionnaire.id %} selected="selected" {% endif %}>{{ questionnaire.titre }}</option>
+				{% endfor %}
+			</select>
+			
+			<button class="btn" type="submit">OK !</button>
+		</form>
+		
 		{% if entities|length > 0 %}
 		<table class="table-bordered table">
 		    <thead>
