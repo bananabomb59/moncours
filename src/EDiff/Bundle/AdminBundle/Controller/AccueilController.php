@@ -159,9 +159,30 @@ class AccueilController extends Controller
         
         // on recupere les infos sur le questionnaire
         $nbQuestions = $questionnaire->getNbQuestionsARepondre();
+        
+        /* TODO
+         * [JU] DEROULEMENT DE LA RECUPERATION DE LA QUESTION
+         * 
+         * 0/vérifier s'il y a une questions à afficher ou non (nb de questions du questionnaires vs nb de questions déjà répondues)
+         * 
+         * 1/recuperer (en session) les infos de la question precedente (QP) : niveau, bonne ou mauvaise reponse 
+         *  	si rien en session -> niveau = 2
+         *  	si niveau != 1 et QP fausse -> niveau --
+         *  	si niveau ==1 et QP fausse -> niveau = 1
+         *  	si niveau !=3 et QP bonne -> niveau ++
+         *  	si niveau ==3 et QP bonne -> niveau = 3
+         *  
+         * 2/recuperer la liste des id des questions déjà répondues (via l'objet Questionnaire Eleve)
+         * 
+         * 3/recuperer la question suivante en récupérant les questions du questionnaire avec le bon niveau et where id not in la liste précédente limit(1)
+         * 
+         * 4/si pas de question trouvée -> reeffectuer l'opération tous niveaux confondus
+         * 
+         */
+        
         $questions = $questionnaire->getQuestions();
         
-        // on récupere la qestion
+        // on récupere la question
         $question = $questions[1];
 
         $logger->info("question id : " . $question->getId());
@@ -206,6 +227,12 @@ class AccueilController extends Controller
         $questionEleve->setQuestionnaire($questionnaire);
         $questionEleve->setQuestion($question);
         $questionEleve->setEleve($eleve);
+        
+        
+        /*
+         * TODO
+         * [JU]il faudra mettre en session le niveau et le bool bonne ou mauvaise réponse
+         */
         
         // on redirige en fonction de la bonne reponse ou non
     	if($bonneReponse->getId()==$reponseId) {

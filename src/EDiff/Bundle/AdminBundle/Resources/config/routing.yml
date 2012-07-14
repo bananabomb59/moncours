@@ -1,3 +1,7 @@
+EDiffAdminBundle_home:
+    pattern:  /
+    defaults: { _controller: EDiffAdminBundle:Accueil:index }
+
 EDiffAdminBundle_accueil:
     pattern:  /accueil
     defaults: { _controller: EDiffAdminBundle:Accueil:index }
