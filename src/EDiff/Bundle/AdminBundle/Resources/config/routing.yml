@@ -53,6 +53,20 @@ EDiffAdminBundle_recap_final:
     pattern:  /recap/{id}
     defaults: { _controller: EDiffAdminBundle:Accueil:recap }
 
+EDiffAdminBundle_affectation_eleve:
+    pattern:  /affecter_eleve
+    defaults: { _controller: EDiffAdminBundle:ClasseEleveAnnee:index }
+
+EDiffAdminBundle_affectation_choix_eleve:
+    pattern:  /affecter_choix_eleve
+    defaults: { _controller: EDiffAdminBundle:ClasseEleveAnnee:choisirEleve }
+    requirements: { _method: post }
+    
+EDiffAdminBundle_validation_affectation:
+    pattern:  /validation_affectation
+    defaults: { _controller: EDiffAdminBundle:ClasseEleveAnnee:validationAffectation }
+    requirements: { _method: post }
+    
 EDiffAdminBundle_crud:
     resource: "@EDiffAdminBundle/Resources/config/routing/anneescolaire.yml"
     prefix:   /anneescolaire

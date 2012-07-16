@@ -1,0 +1,49 @@
+{# src/EDiff/Bundle/AdminBundle/Resources/views/ClasseEleceAnnee/index.html.twig #}
+
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
+
+{% block title %}{{ parent() }} | Classe{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+	<h1>Affectation des élèves</h1>
+	
+		<form id="form_choix_eleve" method="post">
+			<select id="choix_eleve" name="choix_eleve">
+				{% for eleve in eleves %}
+					<option value="{{ eleve.id }}">{{ eleve.nom }} {{ eleve.prenom }}</option>
+				{% endfor %}
+			</select>
+			<input type="submit" class="btn" value="OK !" />
+			<span id="loading"><img src="/img/loading.gif" width="25" height="25"></span>
+		</form>
+		
+		<div id="resultat_recherche"></div>
+		
+	</div>
+	
+<script>
+$("#loading").hide();
+
+$("#form_choix_eleve").submit(function(){ 
+    $("#loading").show();
+
+    var id = $("select[name='choix_eleve'] > option:selected").val();
+    var DATA = 'id=' + id;
+    
+    $.ajax({
+        type: "POST",
+        url: "{{ path('EDiffAdminBundle_affectation_choix_eleve') }}",
+        data: DATA,
+        cache: false,
+        success: function(data){
+           $('#resultat_recherche').html(data);
+           $("#loading2").hide();
+           $("#loading").hide();
+        }
+    });    
+    return false;
+});
+</script>
+
+{% endblock %}

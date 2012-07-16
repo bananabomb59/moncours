@@ -1,0 +1,54 @@
+<form id="form_valider_affectation" method="post">
+
+	<input type="hidden" name="eleve" id="eleve" value="{{ eleve.id }}" />
+
+    <div>
+    	<label class="required" for="classe">Classe</label>
+    	<select required="required" name="classe">
+    		{% for classe in classes %}
+				<option value="{{ classe.id }}">{{ classe.libelle }}</option>
+			{% endfor %}
+    	</select>
+    </div>
+    
+    <div>
+    	<label class="required" for="annee">Année</label>
+    	<select required="required" name="annee">
+    		{% for annee in annees %}
+				<option value="{{ annee.id }}">{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
+			{% endfor %}
+    	</select>
+    </div>
+    
+    <p>
+        <button class="btn btn-large" type="submit">{% if exist %}Modifier !{% else %}Affecter !{% endif %}</button>
+        <span id="loading2"><img src="/img/loading.gif" width="25" height="25"></span>
+    </p>
+</form>
+
+<script>
+$("#loading2").hide();
+
+$("#form_valider_affectation").submit(function(){ 
+    $("#loading2").show();
+
+    var eleve = $("#eleve").val();
+    var annee = $("select[name='annee'] > option:selected").val();
+    var classe = $("select[name='classe'] > option:selected").val();
+    var DATA = 'eleve=' + eleve + '&annee=' + annee + '&classe=' + classe;
+    
+    alert("DATA : " + DATA);
+    
+    $.ajax({
+        type: "POST",
+        url: "{{ path('EDiffAdminBundle_validation_affectation') }}",
+        data: DATA,
+        cache: false,
+        success: function(data){
+           $('#resultat_recherche').html(data);
+           $("#loading2").hide();
+        }
+    });    
+    return false;
+});
+</script>
