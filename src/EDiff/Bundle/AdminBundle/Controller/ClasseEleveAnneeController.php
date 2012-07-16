@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EDiff\Bundle\AdminBundle\Entity\Classe;
 use EDiff\Bundle\AdminBundle\Entity\AnneeScolaire;
 use EDiff\Bundle\AdminBundle\Entity\User;
+use EDiff\Bundle\AdminBundle\Entity\Classe_Eleve_Annee;
 
 /**
  * Classe controller.
@@ -43,7 +44,7 @@ class ClasseEleveAnneeController extends Controller
     	
     	// on récupère les objets métier qui vont bien
         $eleve = $em->getRepository('EDiffAdminBundle:User')->find($idEleve);
-        $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findBy(array('user' => $idEleve));
+        $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $idEleve));
         $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
         $annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
         
@@ -81,32 +82,21 @@ class ClasseEleveAnneeController extends Controller
     	$classe = $em->getRepository('EDiffAdminBundle:Classe')->find($idClasse);
         $annee = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->find($idAnnee);
         
-        $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findBy(array('user' => $idEleve));
-    	
-        $logger = $this->get('logger');
-        
+        $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $idEleve));
+
     	if($eleveClasse) {
-    		
-    		$logger->info("eleveclasse EXIST");
-    		$logger->info("eleveclasse EXIST");
-    		$logger->info("eleveclasse EXIST");
-    		
-    		$eleveClasse->setClasse($classe->getId());
+    		$eleveClasse->setClasse($classe);
     		$eleveClasse->setAnnee($annee);
     	}
     	else {
-    		
-    		$logger->info("eleveclasse NOT EXIST");
-    		$logger->info("eleveclasse NOT EXIST");
-    		$logger->info("eleveclasse NOT EXIST");
-    		
     		$eleveClasseAnnee = new Classe_Eleve_Annee();
-    		$eleveClasse->setClasse($classe);
-    		$eleveClasse->setAnnee($annee);
-    		$eleveClasse->setUser($eleve);
+    		$eleveClasseAnnee->setClasse($classe);
+    		$eleveClasseAnnee->setAnnee($annee);
+    		$eleveClasseAnnee->setUser($eleve);
+    		
+    		$em->persist($eleveClasseAnnee);
     	}
     	
-    	$em->persist($eleveClasse);
 		$em->flush();
     	
     	return $this->render('EDiffAdminBundle:ClasseEleveAnnee:validation_affectation.html.twig', array());
