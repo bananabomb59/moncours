@@ -30,11 +30,13 @@
 		        <tr>
 		            <td>{{ entity.titre }}</td>
 		            <td>
-		            	{% if entity.statut == 2 %}
-							Fermé
-						{% else %}
-							Ouvert
-						{% endif %}
+					{% if entity.statut == 0 %}
+						Préparation
+					{% elseif entity.statut == 1 %}
+						Ouvert
+					{% else %}
+						Fermé
+					{% endif %}	
 		            </td>
 		            <td>{{ entity.nbquestionsarepondre }}</td>
 		            <td>	                

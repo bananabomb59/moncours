@@ -17,17 +17,24 @@
 		<li><a href="/template_questions.html">Chapitre 3 - Le Moyen Âge</a></li>
 	-->
 	
+	<form id="form_questionnaire" action="{{ path('EDiffAdminBundle_valider_questionnaire') }}" method="post">
 	<ul>
 		{% for entity in entities %}
-			{% if entity.statut == 3 %}
-				<li>{{ entity.titre }} <span class="questionnaire_ferme">(questionnaire déjà complété)</span></li>
+			{% if entity.statut == 1 %}
+				<li><a href="#" onclick="submitQuestionnaireForm('form_questionnaire', {{ entity.id }} )">{{ entity.titre }}</a> 
+				{% for id in liste %}
+					{% if entity.id == id %}
+						<span class="questionnaire_ferme">(questionnaire déjà complété)</span>
+					{% endif %}
+				{% endfor %}
+				</li>
 			{% elseif entity.statut == 2 %}
-			    <li>{{ entity.titre }} <span class="questionnaire_ferme">(questionnaire fermé)</span></li>
-			{% else %}
-				<li><a href="{{ path('EDiffAdminBundle_question_front', { 'id': entity.id }) }}">{{ entity.titre }}</a></li>
+			    <li><a href="#" onclick="submitQuestionnaireForm('form_questionnaire', {{ entity.id }} )">{{ entity.titre }}</a> <span class="questionnaire_ferme">(questionnaire fermé)</span></li>
 			{% endif %}
 		{% endfor %}
 	</ul>
+	<input type="hidden" name="questionnaire_choisi" id="questionnaire_choisi" value="" />
+	</form>
 	
 	<p><br/><a href="{{ path('EDiffAdminBundle_liste_matieres') }}">Retour</a></p>
 </div>

@@ -1,0 +1,51 @@
+{# src/EDiff/Bundle/AdminBundle/Resources/views/Matiere/index.html.twig #}
+
+{% extends "EDiffAdminBundle::layout_front.html.twig" %}
+
+{% block title %}{{ parent() }} | Question {{numQuestion }} sur {{ nbQuestion }}{% endblock %}
+
+{% block body %}
+
+<div class="my-unit">
+
+	<h2>{{ questionnaire.titre }} // Question {{numQuestion }} sur {{ nbQuestion }} : </h2>
+
+	{% if question.document != '' %}
+		<p class="document"><br/><img src="{{ question.document }}" height="400"/></p>
+	{% endif %}
+	
+	<p><br/>A la question suivante :</p>	
+	<p class="question">{{ question.libelle }}</p>
+	
+	<form id="form_reponses" class="reponses">
+		<p>
+			{% for reponse in reponses %}
+				<input type="radio" name="reponse" value="{{ reponse.id }}" id="reponse{{ reponse.id }}" disabled="disabled" {% if reponse.id == reponseChoisie.id %}checked="checked"{% endif %}/>&nbsp;<label for="reponse">{{ reponse.libelle }}</label>
+			{% endfor %}
+
+		</p>
+	</form>
+	
+	<p>Vous avez répondu : {{reponseChoisie.libelle}}</p>
+	
+	<div id="resultat_question">
+		{% if bonneOuMauvaise == 0%}
+		<div class="alert alert-error">
+			<p class="no-margin">Hélas, la bonne réponse était : <strong>{{ bonneReponse.libelle }}</strong></p>
+		</div>
+		{% else %}
+		<div class="alert alert-success">
+			<p class="no-margin">Félicitations, c'est bien la bonne réponse !</p>
+		</div>
+		{% endif %}
+	</div>
+	
+	<p id="question_suivante" class="question_suivante">
+		<a href="{{ path('EDiffAdminBundle_question_front', { 'id': questionnaire.id }) }}">Suivant</a>
+	</p>
+	
+</div>
+
+
+
+{% endblock %}

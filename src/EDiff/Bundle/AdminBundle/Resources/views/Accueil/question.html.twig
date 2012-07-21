@@ -2,13 +2,13 @@
 
 {% extends "EDiffAdminBundle::layout_front.html.twig" %}
 
-{% block title %}{{ parent() }} | Question 1 sur {{ nbQuestion }}{% endblock %}
+{% block title %}{{ parent() }} | Question {{numQuestion }} sur {{ nbQuestion }}{% endblock %}
 
 {% block body %}
 
 <div class="my-unit">
 
-	<h2>{{ questionnaire.titre }} // Question 1 sur {{ nbQuestion }} : </h2>
+	<h2>{{ questionnaire.titre }} // Question {{numQuestion }} sur {{ nbQuestion }} : </h2>
 
 	{% if question.document != '' %}
 		<p><br/>Etudiez le document suivant :</p>
@@ -31,7 +31,7 @@
 	<div id="resultat_question"></div>
 	
 	<p id="question_suivante" class="question_suivante">
-		<a href="{{ path('EDiffAdminBundle_question_front', { 'id': questionnaire.id }) }}">Question suivante</a>
+		<a href="{{ path('EDiffAdminBundle_question_front', { 'id': questionnaire.id }) }}">Suivant</a>
 	</p>
 	
 </div>
@@ -46,7 +46,7 @@ $("#form_reponses").submit(function(){
 	$('input[type=submit]', this).attr('disabled', 'disabled');
 
     var reponse = $('input[type=radio][name=reponse]:checked').attr('value');
-    var DATA = 'reponse=' + reponse + '&questionnaire=' + {{ questionnaire.id}} ;
+    var DATA = 'reponse=' + reponse + '&questionnaire=' + {{ questionnaire.id}} + '&numQuestion=' + {{ numQuestion}} ;
     
     $.ajax({
         type: "POST",

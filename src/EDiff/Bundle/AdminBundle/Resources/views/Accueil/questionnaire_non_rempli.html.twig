@@ -2,13 +2,12 @@
 
 {% extends "EDiffAdminBundle::layout_front.html.twig" %}
 
-{% block title %}{{ parent() }} | Fin du questionnaire{% endblock %}
+{% block title %}{{ parent() }} | Erreur{% endblock %}
 
 {% block body %}
 
 <div class="my-unit">
-	<h2>Et voilà, le questionnaire "{{ questionnaire.titre }}" est terminé !</h2>
-	<p><br/>Vous obtenez la note de : {{note}} / {{points_max}} </p>
+	<p><br/>Oups! Il semble que vous n'ayez pas complété ce questionnaire. Impossible donc d'afficher celui-ci.</p>
 	<p><br/><a href="{{ path('EDiffAdminBundle_liste_questionnaires') }}">Retour à la liste des questionnaires</a></p>
 </div>
 

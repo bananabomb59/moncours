@@ -127,39 +127,40 @@ class QuestionnaireEleve
         return $this->bonne_ou_mauvaise;
     }
 
-	// On d�finit le getter et le setter associ� � la relation Questionnaire.
+	// On d�finit le getter et le setter associé à la relation Questionnaire.
     public function getQuestionnaire()
     {
         return $this->questionnaire;
     }
 
-    // Ici, on force le type de l'argument � �tre une instance de notre entit� Questionnaire.
+    // Ici, on force le type de l'argument à être une instance de notre entité Questionnaire.
     public function setQuestionnaire(\EDiff\Bundle\AdminBundle\Entity\Questionnaire $questionnaire)
     {
         $this->questionnaire = $questionnaire;
     }   
 
-	// On d�finit le getter et le setter associ� � la relation Question.
+	// On d�finit le getter et le setter associé à la relation Question.
     public function getQuestion()
     {
         return $this->question;
     }
 
-    // Ici, on force le type de l'argument � �tre une instance de notre entit� Question.
+    // Ici, on force le type de l'argument à être une instance de notre entité Question.
     public function setQuestion(\EDiff\Bundle\AdminBundle\Entity\Question $question)
     {
         $this->question = $question;
     }
 
-	// On d�finit le getter et le setter associ� � la relation User (que j'appelle arbitrairement Eleve).
+	// On d�finit le getter et le setter associé à la relation User (que j'appelle arbitrairement Eleve).
     public function getEleve()
     {
         return $this->eleve;
     }
 
-    // Ici, on force le type de l'argument � �tre une instance de notre entit� User (idem).
+    // Ici, on force le type de l'argument à être une instance de notre entité User (idem).
     public function setEleve(\EDiff\Bundle\AdminBundle\Entity\User $eleve)
     {
         $this->eleve = $eleve;
     }     
+    
 }

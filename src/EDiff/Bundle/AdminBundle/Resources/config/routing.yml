@@ -39,6 +39,11 @@ EDiffAdminBundle_valider_liste_matieres:
 EDiffAdminBundle_liste_questionnaires:
     pattern:  /choix_questionnaire
     defaults: { _controller: EDiffAdminBundle:Accueil:questionnaire }
+
+EDiffAdminBundle_valider_questionnaire:
+    pattern:  /valider_questionnaire
+    defaults: { _controller: EDiffAdminBundle:Accueil:validerQuestionnaire }
+    requirements: { _method: post }
     
 EDiffAdminBundle_question_front:
     pattern:  /etude/{id}

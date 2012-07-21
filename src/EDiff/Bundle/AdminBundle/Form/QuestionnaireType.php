@@ -14,7 +14,7 @@ class QuestionnaireType extends AbstractType
             ->add('statut')
             
             ->add('statut', 'choice', array(
-		    'choices'   => array('1' => 'Ouvert', '2' => 'Fermé'),
+		    'choices'   => array('0' => 'Préparation', '1' => 'Ouvert', '2' => 'Fermé'),
 		    'required'  => true,
 			))
             

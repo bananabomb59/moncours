@@ -20,10 +20,12 @@
 		</p>
 		<p>
 			<label class="large" for="password">Statut</label>
-			{% if entity.statut == 2 %}
-				Fermé
-			{% else %}
+			{% if entity.statut == 0 %}
+				Préparation
+			{% elseif entity.statut == 1 %}
 				Ouvert
+			{% else %}
+				Fermé
 			{% endif %}
 		</p>
 		<p>
