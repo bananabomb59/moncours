@@ -19,6 +19,8 @@ class CompetenceEleveAnneeController extends Controller
      */
     public function indexAction()
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'competenceeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
         $entities = $em->getRepository('EDiffAdminBundle:CompetenceEleveAnnee')->findAll();
@@ -34,6 +36,8 @@ class CompetenceEleveAnneeController extends Controller
      */
     public function showAction($id)
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'competenceeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('EDiffAdminBundle:CompetenceEleveAnnee')->find($id);
@@ -57,6 +61,8 @@ class CompetenceEleveAnneeController extends Controller
      */
     public function newAction()
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'competenceeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $entity = new CompetenceEleveAnnee();
         $form   = $this->createForm(new CompetenceEleveAnneeType(), $entity);
 
@@ -72,6 +78,8 @@ class CompetenceEleveAnneeController extends Controller
      */
     public function createAction()
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'competenceeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $entity  = new CompetenceEleveAnnee();
         $request = $this->getRequest();
         $form    = $this->createForm(new CompetenceEleveAnneeType(), $entity);
@@ -98,6 +106,8 @@ class CompetenceEleveAnneeController extends Controller
      */
     public function editAction($id)
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'competenceeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('EDiffAdminBundle:CompetenceEleveAnnee')->find($id);
@@ -122,6 +132,8 @@ class CompetenceEleveAnneeController extends Controller
      */
     public function updateAction($id)
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'competenceeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('EDiffAdminBundle:CompetenceEleveAnnee')->find($id);
@@ -157,6 +169,8 @@ class CompetenceEleveAnneeController extends Controller
      */
     public function deleteAction($id)
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'competenceeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
@@ -179,6 +193,8 @@ class CompetenceEleveAnneeController extends Controller
 
     private function createDeleteForm($id)
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'competenceeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
             ->getForm()

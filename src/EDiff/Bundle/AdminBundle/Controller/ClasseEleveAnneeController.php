@@ -9,6 +9,8 @@ use EDiff\Bundle\AdminBundle\Entity\AnneeScolaire;
 use EDiff\Bundle\AdminBundle\Entity\User;
 use EDiff\Bundle\AdminBundle\Entity\Classe_Eleve_Annee;
 
+use EDiff\Bundle\AdminBundle\Controller\AccueilController;
+
 /**
  * Classe controller.
  *
@@ -21,6 +23,8 @@ class ClasseEleveAnneeController extends Controller
      */
     public function indexAction()
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'classeeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
         $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
@@ -36,6 +40,8 @@ class ClasseEleveAnneeController extends Controller
     
 	public function choisirEleveAction()
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'classeeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
     	// On récupère la valeur des filtres
@@ -70,6 +76,8 @@ class ClasseEleveAnneeController extends Controller
     
 	public function validationAffectationAction()
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'classeeleveannee')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
     	// On récupère la valeur des filtres

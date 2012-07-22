@@ -540,4 +540,23 @@ class AccueilController extends Controller
         );
     }
     
+	static public function verifUserAdmin($session, $page)
+    {		
+    	$redirect = false;
+    	
+		/* Vérifier si le user est en session et s'il a les droits admin, sinon retour à l'écran de login */
+		$user=$session->get('user', false);
+		if ($user) {
+			// On récupère les droits pour rediriger vers le site admin ou front
+			$droits = $user->getDroits();
+			if($droits != 'admin') {
+				$redirect = true;
+			}
+		}
+		else {
+			$redirect = true;
+		}
+		
+		return $redirect;
+    }
 }

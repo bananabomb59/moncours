@@ -19,6 +19,8 @@ class ReponseController extends Controller
      */
     public function indexAction()
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'reponse')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
         $entities = $em->getRepository('EDiffAdminBundle:Reponse')->findAll();
@@ -34,6 +36,8 @@ class ReponseController extends Controller
      */
     public function showAction($id)
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'reponse')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('EDiffAdminBundle:Reponse')->find($id);
@@ -57,6 +61,8 @@ class ReponseController extends Controller
      */
     public function newAction()
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'reponse')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
     	// On recupere la question
     	$em = $this->getDoctrine()->getEntityManager();
     	$question = $em->getRepository('EDiffAdminBundle:Question')->find($this->get('request')->query->get('question'));
@@ -78,6 +84,8 @@ class ReponseController extends Controller
      */
     public function createAction()
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'reponse')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $entity  = new Reponse();
         $request = $this->getRequest();
         $form    = $this->createForm(new ReponseType(), $entity);
@@ -104,6 +112,8 @@ class ReponseController extends Controller
      */
     public function editAction($id)
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'reponse')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('EDiffAdminBundle:Reponse')->find($id);
@@ -130,6 +140,8 @@ class ReponseController extends Controller
      */
     public function updateAction($id)
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'reponse')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('EDiffAdminBundle:Reponse')->find($id);
@@ -166,6 +178,8 @@ class ReponseController extends Controller
      */
     public function deleteAction($id)
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'reponse')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         $em = $this->getDoctrine()->getEntityManager();
         $entity = $em->getRepository('EDiffAdminBundle:Reponse')->find($id);
         $question = $entity->getQuestion();
@@ -182,6 +196,8 @@ class ReponseController extends Controller
 
     private function createDeleteForm($id)
     {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'reponse')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
             ->getForm()
