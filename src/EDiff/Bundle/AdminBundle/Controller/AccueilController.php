@@ -510,7 +510,7 @@ class AccueilController extends Controller
 		/* On vérifie également si le questionnaire_id en session correspond à l'id qu'on essaye d'atteindre, histoire d'éviter les ptits malins
 		 * qui accèdent à un questionnaire par l'url
 		 */
-		$session_questionnaire_id=$session->get('questionnaire_id',false);
+		$session_questionnaire_id=$session->get('questionnaire_courant',false);
     	if (!$session_questionnaire_id) {
 			return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
 		}
