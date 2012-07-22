@@ -551,8 +551,13 @@ class AccueilController extends Controller
 		if ($user) {
 			// On récupère les droits pour rediriger vers le site admin ou front
 			$droits = $user->getDroits();
-			if($droits != 'admin') {
+			if($droits == 'eleve') {
 				$redirect = true;
+			}
+			if($droits == 'prof') {
+				if($page != 'competence' && $page != 'question' && $page != 'questionnaire' && $page != 'questionnaireeleve') {
+					$redirect = true;
+				}
 			}
 		}
 		else {
