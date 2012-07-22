@@ -118,7 +118,8 @@ class AccueilController extends Controller
     	
     	/* Vérifier si le user est en session, sinon retour à l'écran de login */
     	$session = $this->getRequest()->getSession();
-		if (!$session->get('user',false)) {
+    	$user=$session->get('user',false);
+    	if (!$user || $user->getDroits() != 'eleve') {
 			return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
 		}
 
@@ -168,7 +169,7 @@ class AccueilController extends Controller
     	/* Vérifier si le user est en session, sinon retour à l'écran de login */
     	$session = $this->getRequest()->getSession();
     	$user=$session->get('user',false);
-		if (!$user) {
+		if (!$user || $user->getDroits() != 'eleve') {
 			return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
 		}
     	
@@ -255,7 +256,7 @@ class AccueilController extends Controller
     	/* Vérifier si le user est en session, sinon retour à l'écran de login */
     	$session = $this->getRequest()->getSession();
     	$user=$session->get('user',false);
-		if (!$user) {
+		if (!$user || $user->getDroits() != 'eleve') {
 			return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
 		}
 		
@@ -503,7 +504,7 @@ class AccueilController extends Controller
     	/* Vérifier si le user est en session, sinon retour à l'écran de login */
     	$session = $this->getRequest()->getSession();
     	$user=$session->get('user',false);
-		if (!$user) {
+		if (!$user || $user->getDroits() != 'eleve') {
 			return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
 		}
 		
