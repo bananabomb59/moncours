@@ -3,6 +3,7 @@
 namespace EDiff\Bundle\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EDiff\Bundle\AdminBundle\Utils;
 
 /**
  * EDiff\Bundle\AdminBundle\Entity\User
@@ -101,7 +102,7 @@ class User
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = Utils::encrypt_password($password);
     }
 
     /**
@@ -111,7 +112,7 @@ class User
      */
     public function getPassword()
     {
-        return $this->password;
+        return Utils::decrypt_password($this->password);
     }
 
     /**
@@ -197,5 +198,15 @@ class User
     public function __toString()
     {
     	return $this->prenom." ".$this->nom;
+    }
+    
+	/**
+     * Get encrypted password
+     *
+     * @return string 
+     */
+    public function getEncryptedPassword()
+    {
+        return $this->password;
     }
 }

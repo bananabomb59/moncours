@@ -4,6 +4,7 @@ namespace EDiff\Bundle\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EDiff\Bundle\AdminBundle\Entity\QuestionnaireEleve;
+use EDiff\Bundle\AdminBundle\Utils;
 
 class AccueilController extends Controller
 {
@@ -72,7 +73,7 @@ class AccueilController extends Controller
         	
         	if( $user != null )
         	{
-				if($user->getPassword() == $password) {
+        		if($user->getEncryptedPassword() == Utils::encrypt_password($password)) {
 					// on met le user en session
 					$session = $this->getRequest()->getSession();
 					$session->set('user', $user);
