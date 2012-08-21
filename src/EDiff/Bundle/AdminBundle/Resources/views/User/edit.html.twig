@@ -2,11 +2,16 @@
 
 {% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-{% block title %}{{ parent() }} | Utilisateur{% endblock %}
+{% block title %}{{ parent() }} | {% if app.session.get('eleve_ou_prof') == "prof" %}Professeur{% else %}Elève{% endif %}{% endblock %}
 
 {% block body %}
     <div class="hero-unit utilisateur">
-		<h1>Edition d'un utilisateur</h1>
+		
+		{% if app.session.get('eleve_ou_prof') == "prof" %}
+        <h1>Edition d'un professeur</h1>
+        {% else %}
+        <h1>Edition d'un élève</h1>
+        {% endif %}
 		
 		<form action="{{ path('user_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
 		    {{ form_widget(edit_form) }}
@@ -18,15 +23,34 @@
 		</br>
 		
 		<p>
-	        <a class="btn btn-primary" href="{{ path('user') }}">
+	        {% if app.session.get('eleve_ou_prof') == "prof" %}
+	        <a class="btn btn-primary btn" href="{{ path('user_prof') }}">
+	        {% else %}
+	        <a class="btn btn-primary btn" href="{{ path('user_eleve') }}">
+	        {% endif %}
 	            Retour à la liste
 	        </a>
 
 	        <form action="{{ path('user_delete', { 'id': entity.id }) }}" method="post">
 	            {{ form_widget(delete_form) }}
-	            <button class="btn btn" type="submit">Supprimer cet utilisateur</button>
+	            
+	            {% if app.session.get('eleve_ou_prof') == "prof" %}
+		        <button class="btn btn" type="submit">Supprimer ce professeur</button>
+		        {% else %}
+		        <button class="btn btn" type="submit">Supprimer cet élève</button>
+		        {% endif %}	
+	            
 	        </form>
 		<p>
 
 	</div>
+	
+<script>
+{% if app.session.get('eleve_ou_prof') == "prof" %}
+$('#ediff_bundle_adminbundle_usertype_droits').val("prof");
+{% else %}
+$('#ediff_bundle_adminbundle_usertype_droits').val("eleve");
+{% endif %}
+</script>
+
 {% endblock %}

@@ -2,16 +2,25 @@
 
 {% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-{% block title %}{{ parent() }} | Utilisateur{% endblock %}
+{% block title %}{{ parent() }} | {% if app.session.get('eleve_ou_prof') == "prof" %}Professeur{% else %}Elève{% endif %}{% endblock %}
 
 {% block body %}
     <div class="hero-unit utilisateur">
-		<h1>Liste des utilisateurs</h1>
+
+		{% if app.session.get('eleve_ou_prof') == "prof" %}
+        <h1>Liste des professeurs</h1>
+        {% else %}
+        <h1>Liste des élèves</h1>
+        {% endif %}
 		
 		{% if delete %}
 			<div class="alert alert-error">
 				<button class="close" data-dismiss="alert" type="button">×</button>
-				Votre utilisateur a bien été supprimé !
+				{% if app.session.get('eleve_ou_prof') == "prof" %}
+		        Votre professeur a bien été supprimé !
+		        {% else %}
+		        Votre élève a bien été supprimé !
+		        {% endif %}
 			</div>
 		{% endif %}
 		
@@ -46,14 +55,20 @@
 		    </tbody>
 		</table>
 		{% else %} 
-		Aucun utilisateur </br>
+		
+		{% if app.session.get('eleve_ou_prof') == "prof" %}
+        <h1>Aucun professeur</h1>
+        {% else %}
+        <h1>Aucun élève</h1>
+        {% endif %}
+
 		{% endif %}
 		
 		</br>
 		
 		<p>
 	        <a class="btn btn-primary" href="{{ path('user_new') }}">
-	            Création d'un nouvel utilisateur
+	            {% if app.session.get('eleve_ou_prof') == "prof" %}Création d'un nouveau professeur{% else %}Création d'un nouvel élève{% endif %}
 	        </a>
 		</p>
 

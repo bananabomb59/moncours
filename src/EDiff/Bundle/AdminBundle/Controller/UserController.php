@@ -17,13 +17,37 @@ class UserController extends Controller
      * Lists all User entities.
      *
      */
-    public function indexAction()
+    public function indexProfAction()
     {
     	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'user')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
     	
+    	$session = $this->getRequest()->getSession();
+		$session->set('eleve_ou_prof', "prof");
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('EDiffAdminBundle:User')->findAll();
+        $entities = $em->getRepository('EDiffAdminBundle:User')->findBy(array('droits' => 'prof'));
+
+        $isDelete = false;
+        if($this->get('request')->query->get('delete') == 'true')
+        	$isDelete = true;
+        
+        return $this->render('EDiffAdminBundle:User:index.html.twig', array(
+            'entities' => $entities,
+        	'delete'   => $isDelete
+        ));
+    }
+    
+	public function indexEleveAction()
+    {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'user')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
+    	$session = $this->getRequest()->getSession();
+		$session->set('eleve_ou_prof', "eleve");
+    	
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $entities = $em->getRepository('EDiffAdminBundle:User')->findBy(array('droits' => 'eleve'));
 
         $isDelete = false;
         if($this->get('request')->query->get('delete') == 'true')
@@ -198,7 +222,13 @@ class UserController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('user', array('delete' => 'true')));
+        $session = $this->getRequest()->getSession();
+		if($session->get('eleve_ou_prof', "prof")) {
+			return $this->redirect($this->generateUrl('user_prof', array('delete' => 'true')));
+		}
+		else {
+			return $this->redirect($this->generateUrl('user_eleve', array('delete' => 'true')));
+		}
     }
 
     private function createDeleteForm($id)

@@ -2,12 +2,17 @@
 
 {% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
-{% block title %}{{ parent() }} | Utilisateur{% endblock %}
+{% block title %}{{ parent() }} | {% if app.session.get('eleve_ou_prof') == "prof" %}Professeur{% else %}Elève{% endif %}{% endblock %}
 
 {% block body %}
     <div class="hero-unit utilisateur">
-		<h1>Création d'un utilisateur</h1>
 		
+		{% if app.session.get('eleve_ou_prof') == "prof" %}
+        <h1>Création d'un professeur</h1>
+        {% else %}
+        <h1>Création d'un élève</h1>
+        {% endif %}
+
 		<form action="{{ path('user_create') }}" method="post" {{ form_enctype(form) }}>
 		    {{ form_widget(form) }}
 		    <p>
@@ -18,10 +23,23 @@
 		</br>
 		
 		<p>
-	        <a class="btn btn-primary btn" href="{{ path('user') }}">
+	        {% if app.session.get('eleve_ou_prof') == "prof" %}
+	        <a class="btn btn-primary btn" href="{{ path('user_prof') }}">
+	        {% else %}
+	        <a class="btn btn-primary btn" href="{{ path('user_eleve') }}">
+	        {% endif %}
 	            Retour à la liste
 	        </a>
 		<p>
 
 	</div>
+	
+<script>
+{% if app.session.get('eleve_ou_prof') == "prof" %}
+$('#ediff_bundle_adminbundle_usertype_droits').val("prof");
+{% else %}
+$('#ediff_bundle_adminbundle_usertype_droits').val("eleve");
+{% endif %}
+</script>
+
 {% endblock %}

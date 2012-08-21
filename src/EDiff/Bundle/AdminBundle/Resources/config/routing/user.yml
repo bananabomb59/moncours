@@ -1,6 +1,10 @@
-user:
-    pattern:  /
-    defaults: { _controller: "EDiffAdminBundle:User:index" }
+user_eleve:
+    pattern:  /eleves
+    defaults: { _controller: "EDiffAdminBundle:User:indexEleve" }
+    
+user_prof:
+    pattern:  /profs
+    defaults: { _controller: "EDiffAdminBundle:User:indexProf" }
 
 user_show:
     pattern:  /{id}/show
