@@ -81,12 +81,32 @@ class UserController extends Controller
         if($this->get('request')->query->get('update') == 'true')
         	$isUpdate = true;
 
-        return $this->render('EDiffAdminBundle:User:show.html.twig', array(
-            'entity'      => $entity,
-        	'update'	  => $isUpdate,
-            'delete_form' => $deleteForm->createView(),
+        $eleve = $em->getRepository('EDiffAdminBundle:User')->find($id);
+        $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $id));
 
-        ));
+        if($eleveClasse) {
+        	$classe = $em->getRepository('EDiffAdminBundle:Classe')->find($eleveClasse->getClasse()->getId());
+        	$annee = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->find($eleveClasse->getAnnee()->getId());
+        	
+        	return $this->render('EDiffAdminBundle:User:show.html.twig', array(
+	            'entity'      => $entity,
+	        	'update'	  => $isUpdate,
+	            'delete_form' => $deleteForm->createView(),
+				'eleve' => $eleve,
+		        'eleveClasse' => $eleveClasse,
+	    		'classe' => $classe,
+	        	'annee' => $annee,
+	    		'exist' => true
+        	));
+        }
+        else {
+        	return $this->render('EDiffAdminBundle:User:show.html.twig', array(
+	            'entity'      => $entity,
+	        	'update'	  => $isUpdate,
+	            'delete_form' => $deleteForm->createView(),
+	    		'exist' => false
+        	));
+        }
     }
 
     /**
@@ -153,11 +173,36 @@ class UserController extends Controller
         $editForm = $this->createForm(new UserType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('EDiffAdminBundle:User:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        // on récupère les objets métier qui vont bien
+        $eleve = $em->getRepository('EDiffAdminBundle:User')->find($id);
+        $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $id));
+        $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
+        $annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
+        
+    	if($eleveClasse) {
+    		return $this->render('EDiffAdminBundle:User:edit.html.twig', array(
+	        	'eleve' => $eleve,
+	        	'eleveClasse' => $eleveClasse,
+    			'classes' => $classes,
+        		'annees' => $annees,
+    			'exist' => true,
+    			'entity'      => $entity,
+            	'edit_form'   => $editForm->createView(),
+            	'delete_form' => $deleteForm->createView()
+       		 ));
+        }
+        else {
+    		return $this->render('EDiffAdminBundle:User:edit.html.twig', array(
+	        	'eleve' => $eleve,
+	        	'eleveClasse' => $eleveClasse,
+    			'classes' => $classes,
+        		'annees' => $annees,
+    			'exist' => false,
+    			'entity'      => $entity,
+            	'edit_form'   => $editForm->createView(),
+            	'delete_form' => $deleteForm->createView()
+       		 ));
+        }
     }
 
     /**
@@ -217,13 +262,19 @@ class UserController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find User entity.');
             }
-
+            
+            // suppression de l'affectation a la classe
+            $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $id));
+        	if ($eleveClasse) {
+                $em->remove($eleveClasse);
+            }
+            
             $em->remove($entity);
             $em->flush();
         }
 
         $session = $this->getRequest()->getSession();
-		if($session->get('eleve_ou_prof', "prof")) {
+		if($session->get('eleve_ou_prof', "prof") == 'prof') {
 			return $this->redirect($this->generateUrl('user_prof', array('delete' => 'true')));
 		}
 		else {

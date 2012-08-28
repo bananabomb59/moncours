@@ -6,7 +6,7 @@
     	<label class="required" for="classe">Classe</label>
     	<select required="required" name="classe">
     		{% for classe in classes %}
-				<option value="{{ classe.id }}" {% if eleveClasse.classe.id == classe.id %} selected="selected" {% endif %}>{{ classe.libelle }}</option>
+				<option value="{{ classe.id }}" {% if exist && eleveClasse.classe.id == classe.id %} selected="selected" {% endif %}>{{ classe.libelle }}</option>
 			{% endfor %}
     	</select>
     </div>
@@ -15,7 +15,7 @@
     	<label class="required" for="annee">Année</label>
     	<select required="required" name="annee">
     		{% for annee in annees %}
-				<option value="{{ annee.id }}" {% if eleveClasse.annee.id == annee.id %} selected="selected" {% endif %}>{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
+				<option value="{{ annee.id }}" {% if exist != 0 && eleveClasse.annee.id == annee.id %} selected="selected" {% endif %}>{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
 			{% endfor %}
     	</select>
     </div>

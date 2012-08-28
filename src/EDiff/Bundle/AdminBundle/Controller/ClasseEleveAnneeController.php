@@ -66,7 +66,7 @@ class ClasseEleveAnneeController extends Controller
         else {
     		return $this->render('EDiffAdminBundle:ClasseEleveAnnee:edit.html.twig', array(
 	        	'eleve' => $eleve,
-	        	'eleveClasse' => $eleveClasse,
+	        	'eleveClasse' => 0,
     			'classes' => $classes,
         		'annees' => $annees,
     			'exist' => false

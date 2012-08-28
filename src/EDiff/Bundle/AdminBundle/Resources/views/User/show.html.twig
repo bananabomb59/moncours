@@ -40,6 +40,19 @@
 			<label class="large" for="password">Date de naissance</label>{{ entity.datenaissance|date('d/m/Y') }}
 		</p>
 		
+		{% if exist %}
+		<p>
+			<label class="large" for="password">Classe</label>{{ classe.libelle }}
+		</p>
+		<p>
+			<label class="large" for="password">Année scolaire</label>{{ annee.anneedebut }} - {{ annee.anneefin }}
+		</p>
+		{% else %}
+		<p>
+			<label class="large" for="password">Classe</label>Aucune affectation. Editez la fiche pour affecter une classe.
+		</p>
+		{% endif %}
+		
 		</br>
 		
 		<p>
