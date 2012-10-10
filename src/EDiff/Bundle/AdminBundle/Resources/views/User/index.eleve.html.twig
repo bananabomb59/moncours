@@ -1,0 +1,114 @@
+{# src/EDiff/Bundle/AdminBundle/Resources/views/User/index.html.twig #}
+
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
+
+{% block title %}{{ parent() }} | {% if app.session.get('eleve_ou_prof') == "prof" %}Professeur{% else %}Elève{% endif %}{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+
+        <h1>Liste des élèves</h1>
+		
+		{% if delete %}
+			<div class="alert alert-error">
+				<button class="close" data-dismiss="alert" type="button">×</button>
+		        Votre élève a bien été supprimé !
+			</div>
+		{% endif %}
+		
+		<!-- BEGIN Filters -->
+		<form action="{{ path('user_eleve') }}" method="post">
+			<select id="choix_classe" name="choix_classe">
+				<option value="-1">Sélectionnez une classe</option>
+				{% for classe in classes %}
+					<option value="{{ classe.id }}" {% if filtreClasse == classe.id %} selected="selected" {% endif %}>{{ classe.libelle }}</option>
+				{% endfor %}
+			</select>
+			
+			<select id="choix_annee" name="choix_annee">
+				<option value="-1">Sélectionnez une année</option>
+				{% for annee in annees %}
+					<option value="{{ annee.id }}" {% if filtreAnnee == annee.id %} selected="selected" {% endif %}>{{ annee.anneedebut }} / {{ annee.anneefin }}</option>
+				{% endfor %}
+			</select>
+			
+			<button class="btn" type="submit">OK !</button>
+		</form>
+		<!-- END Filters -->
+		
+		<!-- BEGIN Tab -->
+		{% if entities|length > 0 %}
+		<table class="table-bordered table">
+		    <thead>
+		        <tr>
+		            <th>Login</th>
+		            <th>Mot de passe</th>
+		            <th>Classe</th>
+		            <th>Annee</th>
+		            <th>Nom</th>
+		            <th>Prenom</th>
+		            <th>Date de naissance</th>
+		            <th>Actions</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		    {% for entity in entities %}
+		        <tr>
+		            <td>{{ entity.user.login }}</td>
+		            <td>******</td>
+		            <td>{{ entity.classe.libelle }}</td>
+		            <td>{{ entity.annee.anneedebut }} / {{ entity.annee.anneefin }}</td>
+		            <td>{{ entity.user.nom }}</td>
+		            <td>{{ entity.user.prenom }}</td>
+		            <td>{% if entity.user.datenaissance %}{{ entity.user.datenaissance|date('d-m-Y') }}{% endif%}</td>
+		            <td>	                
+                        <a class="btn btn btn-small" href="{{ path('user_show', { 'id': entity.user.id }) }}">Voir</a>   
+                        <a class="btn btn btn-small" href="{{ path('user_edit', { 'id': entity.user.id }) }}">Modifier</a>
+		            </td>
+		        </tr>
+		    {% endfor %}
+		    </tbody>
+		</table>
+		<!-- END Tab -->
+		
+		<!-- BEGIN Pagination -->
+		<center>
+			<a class="btn" href="{{ path('user_eleve', { 'pagination_eleve_page': 0 }) }}"><<</a>
+			{% if page == 0 %}
+				<a class="btn" href="{{ path('user_eleve', { 'pagination_eleve_page': 0 }) }}"><</a>
+			{% else %}
+				<a class="btn" href="{{ path('user_eleve', { 'pagination_eleve_page': page - 1 }) }}"><</a>
+			{% endif %}
+			&nbsp;
+			{% for i in range(0, nb_pages - 1) %}
+			    {% if page == i %}
+			    	{{ i + 1 }} &nbsp;
+			    {% else %}
+			    	<a href="{{ path('user_eleve', { 'pagination_eleve_page': i }) }}">{{ i + 1 }}</a> &nbsp;
+			    {% endif %}
+			{% endfor %}
+			{% if page == nb_pages - 1 %}
+				<a class="btn" href="{{ path('user_eleve', { 'pagination_eleve_page': page}) }}">></a>
+			{% else %}
+				<a class="btn" href="{{ path('user_eleve', { 'pagination_eleve_page': page + 1 }) }}">></a>
+			{% endif %}
+			<a class="btn" href="{{ path('user_eleve', { 'pagination_eleve_page': nb_pages - 1}) }}">>></a>
+		</center>
+		<!-- END Pagination -->
+		
+		{% else %} 
+		
+        <h1>Aucun élève</h1>
+
+		{% endif %}
+		
+		</br>
+		
+		<p>
+	        <a class="btn btn-primary" href="{{ path('user_new') }}">
+	            Création d'un nouvel élève
+	        </a>
+		</p>
+
+	</div>
+{% endblock %}

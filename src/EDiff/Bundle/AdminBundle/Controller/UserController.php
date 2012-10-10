@@ -32,7 +32,7 @@ class UserController extends Controller
         if($this->get('request')->query->get('delete') == 'true')
         	$isDelete = true;
         
-        return $this->render('EDiffAdminBundle:User:index.html.twig', array(
+        return $this->render('EDiffAdminBundle:User:index.prof.html.twig', array(
             'entities' => $entities,
         	'delete'   => $isDelete
         ));
@@ -45,17 +45,46 @@ class UserController extends Controller
     	$session = $this->getRequest()->getSession();
 		$session->set('eleve_ou_prof', "eleve");
     	
+		$pagination_eleve_par_page = 5;
+		if($this->get('request')->query->get('pagination_eleve_page')) {
+			$page = $this->get('request')->query->get('pagination_eleve_page');
+		}
+		else {
+			$page = 0;
+		}
+		
+    	$filtreClasse = $this->get('request')->request->get('choix_classe');
+        if($filtreClasse==null) {
+        	$filtreClasse = -1;
+        }
+        
+    	$filtreAnnee = $this->get('request')->request->get('choix_annee');
+        if($filtreAnnee==null) {
+        	$filtreAnnee = -1;
+        }
+        
         $em = $this->getDoctrine()->getEntityManager();
-
-        $entities = $em->getRepository('EDiffAdminBundle:User')->findBy(array('droits' => 'eleve'));
-
+        $all_entities = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->getAllEleves();
+        $users = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->getAvecEleves($page, $pagination_eleve_par_page, $filtreClasse, $filtreAnnee);
+		$annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
+		$classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
+        
+        $nb_elements = count($all_entities);
+        $nb_pages = ceil($nb_elements / $pagination_eleve_par_page);
+        
         $isDelete = false;
         if($this->get('request')->query->get('delete') == 'true')
         	$isDelete = true;
         
-        return $this->render('EDiffAdminBundle:User:index.html.twig', array(
-            'entities' => $entities,
-        	'delete'   => $isDelete
+        return $this->render('EDiffAdminBundle:User:index.eleve.html.twig', array(
+            'entities' => $users,
+        	'delete'   => $isDelete,
+        	'nb_pages' => $nb_pages,
+        	'page'	   => $page,
+        	'annees'   => $annees,
+        	'classes'  => $classes,
+        	'filtreClasse' => $filtreClasse,
+        	'filtreAnnee' => $filtreAnnee
         ));
     }
 
