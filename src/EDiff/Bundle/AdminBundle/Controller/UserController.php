@@ -64,7 +64,7 @@ class UserController extends Controller
         }
         
         $em = $this->getDoctrine()->getEntityManager();
-        $all_entities = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->getAllEleves();
+        $all_entities = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->getAllEleves($filtreClasse, $filtreAnnee);
         $users = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->getAvecEleves($page, $pagination_eleve_par_page, $filtreClasse, $filtreAnnee);
 		$annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
 		$classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
