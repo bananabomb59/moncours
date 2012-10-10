@@ -41,7 +41,7 @@ class Classe_Eleve_AnneeRepository extends EntityRepository
                    ->getResult();
     }
     
-	public function getAllEleves()
+	public function getAllEleves($classe, $annee)
     {
         $qb = $this->createQueryBuilder('e');
 
@@ -49,6 +49,16 @@ class Classe_Eleve_AnneeRepository extends EntityRepository
         $qb ->join('e.user', 'u')
         	->where("u.droits = 'eleve'");
         
+    	if($classe != -1) {
+        	$qb->andWhere('e.classe = :classe')
+        	   ->setParameter('classe', $classe);
+        }
+        
+    	if($annee != -1) {
+        	$qb->andWhere('e.annee = :annee')
+        	   ->setParameter('annee', $annee);
+        }	
+        	
         // Enfin, on retourne le résultat.
         return $qb->getQuery()
                    ->getResult();
