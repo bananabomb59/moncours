@@ -15,11 +15,32 @@
 			</div>
 		{% endif %}
 		
+		<!-- BEGIN Filters -->
+		<form action="{{ path('question') }}" method="post">
+			<select id="choix_niveau" name="choix_niveau">
+				<option value="-1">Sélectionnez un niveau</option>
+				<option value="1" {% if filtreNiveau == 1 %} selected="selected" {% endif %}>Facile</option>
+				<option value="2" {% if filtreNiveau == 2 %} selected="selected" {% endif %}>Moyen</option>
+				<option value="3" {% if filtreNiveau == 3 %} selected="selected" {% endif %}>Difficile</option>
+			</select>
+			
+			<select id="choix_matiere" name="choix_matiere">
+				<option value="-1">Sélectionnez une matière</option>
+				{% for matiere in matieres %}
+					<option value="{{ matiere.id }}" {% if filtreMatiere == matiere.id %} selected="selected" {% endif %}>{{ matiere.libelle }}</option>
+				{% endfor %}
+			</select>
+			
+			<button class="btn" type="submit">OK !</button>
+		</form>
+		<!-- END Filters -->
+		
+		<!-- BEGIN Tab -->
 		{% if entities|length > 0 %}
 		<table class="table-bordered table">
 		    <thead>
 		        <tr>
-		            <th>Type</th>
+		            <!-- <th>Type</th> -->
 		            <th>Niveau</th>
 		            <th>Libelle</th>
 		            <th>Document</th>
@@ -30,8 +51,16 @@
 		    <tbody>
 		    {% for entity in entities %}
 		        <tr>
-		            <td>{{ entity.type }}</td>
-		            <td>{{ entity.niveau }}</td>
+		            <!-- <td>{{ entity.type }}</td> -->
+		            <td>
+		            	{% if entity.niveau == 1 %}
+		            	Facile
+		            	{% elseif entity.niveau == 2 %}
+		            	Moyen
+		            	{% else %}
+		            	Difficile
+		            	{% endif %}
+		            </td>
 		            <td>{{ entity.libelle }}</td>
 		            <td>{{ entity.document }}</td>
 		            <td>{{ entity.matiere }}</td>
@@ -43,6 +72,33 @@
 		    {% endfor %}
 		    </tbody>
 		</table>
+		<!-- END Tab -->
+		
+		<!-- BEGIN Pagination -->
+		<center>
+			<a class="btn" href="{{ path('question', { 'pagination_question_page': 0 }) }}"><<</a>
+			{% if page == 0 %}
+				<a class="btn" href="{{ path('question', { 'pagination_question_page': 0 }) }}"><</a>
+			{% else %}
+				<a class="btn" href="{{ path('question', { 'pagination_question_page': page - 1 }) }}"><</a>
+			{% endif %}
+			&nbsp;
+			{% for i in range(0, nb_pages - 1) %}
+			    {% if page == i %}
+			    	{{ i + 1 }} &nbsp;
+			    {% else %}
+			    	<a href="{{ path('question', { 'pagination_question_page': i }) }}">{{ i + 1 }}</a> &nbsp;
+			    {% endif %}
+			{% endfor %}
+			{% if page == nb_pages - 1 %}
+				<a class="btn" href="{{ path('question', { 'pagination_question_page': page}) }}">></a>
+			{% else %}
+				<a class="btn" href="{{ path('question', { 'pagination_question_page': page + 1 }) }}">></a>
+			{% endif %}
+			<a class="btn" href="{{ path('question', { 'pagination_question_page': nb_pages - 1}) }}">>></a>
+		</center>
+		<!-- END Pagination -->
+		
 		{% else %} 
 		Aucune question </br>
 		{% endif %}

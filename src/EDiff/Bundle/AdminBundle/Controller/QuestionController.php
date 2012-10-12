@@ -21,17 +21,44 @@ class QuestionController extends Controller
     {
     	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'question')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
     	
+    	$pagination_question_par_page = 10;
+		if($this->get('request')->query->get('pagination_question_page')) {
+			$page = $this->get('request')->query->get('pagination_question_page');
+		}
+		else {
+			$page = 0;
+		}
+		
+    	$filtreNiveau = $this->get('request')->request->get('choix_niveau');
+        if($filtreNiveau==null) {
+        	$filtreNiveau = -1;
+        }
+        
+    	$filtreMatiere = $this->get('request')->request->get('choix_matiere');
+        if($filtreMatiere==null) {
+        	$filtreMatiere = -1;
+        }
+    	
         $em = $this->getDoctrine()->getEntityManager();
+		$matieres = $em->getRepository('EDiffAdminBundle:Matiere')->findAll();
+		$all_entities = $em->getRepository('EDiffAdminBundle:Question')->getAllSearch($filtreNiveau, $filtreMatiere);
+		$entities = $em->getRepository('EDiffAdminBundle:Question')->getSearch($page, $pagination_question_par_page, $filtreNiveau, $filtreMatiere);
 
-        $entities = $em->getRepository('EDiffAdminBundle:Question')->findAll();
-
+        $nb_elements = count($all_entities);
+        $nb_pages = ceil($nb_elements / $pagination_question_par_page);
+        
         $isDelete = false;
         if($this->get('request')->query->get('delete') == 'true')
         	$isDelete = true;
         
         return $this->render('EDiffAdminBundle:Question:index.html.twig', array(
             'entities' => $entities,
-        	'delete'   => $isDelete
+        	'delete'   => $isDelete,
+        	'nb_pages' => $nb_pages,
+        	'page'	   => $page,
+        	'matieres' => $matieres,
+        	'filtreNiveau' => $filtreNiveau,
+        	'filtreMatiere' => $filtreMatiere
         ));
     }
 

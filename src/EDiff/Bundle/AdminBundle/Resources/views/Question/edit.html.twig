@@ -9,6 +9,13 @@
     <div class="hero-unit utilisateur">
 		<h1>Edition d'une question</h1>
 		
+		<div class="alert alert-info">
+			<button class="close" data-dismiss="alert" type="button">×</button>
+			Aide : Pour ajouter un document, insérez une URL vers une image. 
+		</div>
+		
+		</br>
+		
 		<form action="{{ path('question_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
 		    {{ form_widget(edit_form) }}
 		    <p>

@@ -8,6 +8,13 @@
     <div class="hero-unit utilisateur">
 		<h1>Création d'une question</h1>
 		
+		<div class="alert alert-info">
+			<button class="close" data-dismiss="alert" type="button">×</button>
+			Pour ajouter un document, insérez une URL vers une image. 
+		</div>
+		
+		</br>
+		
 		<form action="{{ path('question_create') }}" method="post" {{ form_enctype(form) }}>
 		    {{ form_widget(form) }}
 		    <p>

@@ -45,7 +45,7 @@ class UserController extends Controller
     	$session = $this->getRequest()->getSession();
 		$session->set('eleve_ou_prof', "eleve");
     	
-		$pagination_eleve_par_page = 5;
+		$pagination_eleve_par_page = 10;
 		if($this->get('request')->query->get('pagination_eleve_page')) {
 			$page = $this->get('request')->query->get('pagination_eleve_page');
 		}

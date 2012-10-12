@@ -12,4 +12,44 @@ use Doctrine\ORM\EntityRepository;
  */
 class QuestionRepository extends EntityRepository
 {
+	public function getSearch($page, $nb_per_page, $niveau, $matiere)
+    {
+        $qb = $this->createQueryBuilder('q');
+
+        if($niveau != -1) {
+        	$qb->andWhere('q.niveau = :niveau')
+        	   ->setParameter('niveau', $niveau);
+        }
+        
+    	if($matiere != -1) {
+        	$qb->andWhere('q.matiere = :matiere')
+        	   ->setParameter('matiere', $matiere);
+        }
+        	
+        $qb	->setFirstResult($page)
+    		->setMaxResults($nb_per_page);
+        	
+        // Enfin, on retourne le résultat.
+        return $qb->getQuery()
+                   ->getResult();
+    }
+    
+	public function getAllSearch($niveau, $matiere)
+    {
+        $qb = $this->createQueryBuilder('q');
+
+        if($niveau != -1) {
+        	$qb->andWhere('q.niveau = :niveau')
+        	   ->setParameter('niveau', $niveau);
+        }
+        
+    	if($matiere != -1) {
+        	$qb->andWhere('q.matiere = :matiere')
+        	   ->setParameter('matiere', $matiere);
+        }
+        	
+        // Enfin, on retourne le résultat.
+        return $qb->getQuery()
+                   ->getResult();
+    }
 }

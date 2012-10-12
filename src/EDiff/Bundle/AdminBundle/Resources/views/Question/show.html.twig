@@ -19,7 +19,14 @@
 			<label class="large" for="type">Type</label>{{ entity.type }}
 		</p>
 		<p>
-			<label class="large" for="niveau">Niveau</label>{{ entity.niveau }}
+			<label class="large" for="niveau">Niveau</label>
+			{% if entity.niveau == 1 %}
+        	Facile
+        	{% elseif entity.niveau == 2 %}
+        	Moyen
+        	{% else %}
+        	Difficile
+        	{% endif %}
 		</p>
 		<p>
 			<label class="large" for="libelle">Libelle</label>{{ entity.libelle }}
