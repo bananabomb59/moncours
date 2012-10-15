@@ -21,17 +21,61 @@ class QuestionnaireController extends Controller
     {
     	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'questionnaire')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
     	
+    	$pagination_question_par_page = 10;
+		if($this->get('request')->query->get('pagination_questionnaire_page')) {
+			$page = $this->get('request')->query->get('pagination_questionnaire_page');
+		}
+		else {
+			$page = 0;
+		}
+    	
+    	$filtreMatiere = $this->get('request')->request->get('choix_matiere');
+        if($filtreMatiere==null) {
+        	$filtreMatiere = -1;
+        }
+        
+    	$filtreClasse = $this->get('request')->request->get('choix_classe');
+        if($filtreClasse==null) {
+        	$filtreClasse = -1;
+        }
+        
+    	$filtreAnnee = $this->get('request')->request->get('choix_annee');
+        if($filtreAnnee==null) {
+        	$filtreAnnee = -1;
+        }
+        
+    	$filtreStatut = $this->get('request')->request->get('choix_statut');
+        if($filtreStatut==null) {
+        	$filtreStatut = -1;
+        }
+    	
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('EDiffAdminBundle:Questionnaire')->findAll();
-
+        $all_entities = $em->getRepository('EDiffAdminBundle:Questionnaire')->getAllSearch($filtreAnnee, $filtreClasse, $filtreMatiere, $filtreStatut);
+		$entities = $em->getRepository('EDiffAdminBundle:Questionnaire')->getSearch($page, $pagination_question_par_page, $filtreAnnee, $filtreClasse, $filtreMatiere, $filtreStatut);        
+		$matieres = $em->getRepository('EDiffAdminBundle:Matiere')->findAll();
+		$classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
+		$annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
+        
+		$nb_elements = count($all_entities);
+        $nb_pages = ceil($nb_elements / $pagination_question_par_page);
+		
         $isDelete = false;
         if($this->get('request')->query->get('delete') == 'true')
         	$isDelete = true;
         
         return $this->render('EDiffAdminBundle:Questionnaire:index.html.twig', array(
             'entities' => $entities,
-        	'delete'   => $isDelete
+        	'delete'   => $isDelete,
+        	'nb_pages' => $nb_pages,
+        	'page'	   => $page,
+        	'matieres' => $matieres,
+        	'classes' => $classes,
+        	'annees' => $annees,
+        	'filtreMatiere' => $filtreMatiere,
+        	'filtreClasse' => $filtreClasse,
+        	'filtreAnnee' => $filtreAnnee,
+        	'filtreStatut' => $filtreStatut
         ));
     }
 

@@ -15,11 +15,50 @@
 			</div>
 		{% endif %}
 		
+		<!-- BEGIN Filters -->
+		<form action="{{ path('questionnaire') }}" method="post">
+
+			<select id="choix_matiere" name="choix_matiere">
+				<option value="-1">Sélectionnez une matière</option>
+				{% for matiere in matieres %}
+					<option value="{{ matiere.id }}" {% if filtreMatiere == matiere.id %} selected="selected" {% endif %}>{{ matiere.libelle }}</option>
+				{% endfor %}
+			</select>
+			
+			<select id="choix_classe" name="choix_classe">
+				<option value="-1">Sélectionnez une classe</option>
+				{% for classe in classes %}
+					<option value="{{ classe.id }}" {% if filtreClasse == classe.id %} selected="selected" {% endif %}>{{ classe.libelle }}</option>
+				{% endfor %}
+			</select>
+			
+			<select id="choix_annee" name="choix_annee">
+				<option value="-1">Sélectionnez une année scolaire</option>
+				{% for annee in annees %}
+					<option value="{{ annee.id }}" {% if filtreAnnee == annee.id %} selected="selected" {% endif %}>{{ annee.anneedebut }} / {{ annee.anneefin }}</option>
+				{% endfor %}
+			</select>
+			
+			<select id="choix_statut" name="choix_statut">
+				<option value="-1">Sélectionnez un statut</option>
+				<option value="0" {% if filtreStatut == 0 %} selected="selected" {% endif %}>Préparation</option>
+				<option value="1" {% if filtreStatut == 1 %} selected="selected" {% endif %}>Ouvert</option>
+				<option value="2" {% if filtreStatut == 2 %} selected="selected" {% endif %}>Fermé</option>
+			</select>
+			
+			<button class="btn" type="submit">OK !</button>
+		</form>
+		<!-- END Filters -->
+		
+		<!-- BEGIN Tab -->
 		{% if entities|length > 0 %}
 		<table class="table-bordered table">
 		    <thead>
 		        <tr>
 		            <th>Titre</th>
+		            <th>Année</th>
+		            <th>Classe</th>
+		            <th>Matière</th>
 		            <th>Statut</th>
 		            <th>Nombre de questions à répondre</th>
 		            <th>Actions</th>
@@ -29,6 +68,9 @@
 		    {% for entity in entities %}
 		        <tr>
 		            <td>{{ entity.titre }}</td>
+		            <td>{{ entity.anneescolaire.anneedebut }} / {{ entity.anneescolaire.anneefin }}</td>
+		            <td>{{ entity.classe.libelle }}</td>
+		            <td>{{ entity.matiere.libelle }}</td>
 		            <td>
 					{% if entity.statut == 0 %}
 						Préparation
@@ -47,9 +89,36 @@
 		    {% endfor %}
 		    </tbody>
 		</table>
+		
+		<!-- BEGIN Pagination -->
+		<center>
+			<a class="btn" href="{{ path('questionnaire', { 'pagination_questionnaire_page': 0 }) }}"><<</a>
+			{% if page == 0 %}
+				<a class="btn" href="{{ path('questionnaire', { 'pagination_questionnaire_page': 0 }) }}"><</a>
+			{% else %}
+				<a class="btn" href="{{ path('questionnaire', { 'pagination_questionnaire_page': page - 1 }) }}"><</a>
+			{% endif %}
+			&nbsp;
+			{% for i in range(0, nb_pages - 1) %}
+			    {% if page == i %}
+			    	{{ i + 1 }} &nbsp;
+			    {% else %}
+			    	<a href="{{ path('questionnaire', { 'pagination_questionnaire_page': i }) }}">{{ i + 1 }}</a> &nbsp;
+			    {% endif %}
+			{% endfor %}
+			{% if page == nb_pages - 1 %}
+				<a class="btn" href="{{ path('questionnaire', { 'pagination_questionnaire_page': page}) }}">></a>
+			{% else %}
+				<a class="btn" href="{{ path('questionnaire', { 'pagination_questionnaire_page': page + 1 }) }}">></a>
+			{% endif %}
+			<a class="btn" href="{{ path('questionnaire', { 'pagination_questionnaire_page': nb_pages - 1}) }}">>></a>
+		</center>
+		<!-- END Pagination -->
+		
 		{% else %} 
 		Aucun questionnaire </br>
 		{% endif %}
+		<!-- END Tab -->
 		
 		</br>
 		
