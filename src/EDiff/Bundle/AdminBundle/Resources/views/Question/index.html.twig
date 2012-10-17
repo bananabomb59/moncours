@@ -31,6 +31,8 @@
 				{% endfor %}
 			</select>
 			
+			<input id="mot_cle" name="mot_cle" type="text" value="{{ filtreMotCle }}">
+			
 			<button class="btn" type="submit">OK !</button>
 		</form>
 		<!-- END Filters -->
@@ -44,6 +46,7 @@
 		            <th>Niveau</th>
 		            <th>Libelle</th>
 		            <th>Document</th>
+		            <th>Image</th>
 		            <th>Matière</th>
 		            <th>Actions</th>
 		        </tr>
@@ -63,9 +66,11 @@
 		            </td>
 		            <td>{{ entity.libelle }}</td>
 		            <td>{{ entity.document }}</td>
+		            <td>{% if entity.document != '' %}<img src="{{ entity.document }}" height="100"/>{% endif %}</td>
 		            <td>{{ entity.matiere }}</td>
 		            <td>	                
                         <a class="btn btn btn-small" href="{{ path('question_show', { 'id': entity.id }) }}">Voir</a>   
+                        <br/><br/>
                         <a class="btn btn btn-small" href="{{ path('question_edit', { 'id': entity.id }) }}">Modifier</a>
 		            </td>
 		        </tr>

@@ -38,11 +38,16 @@ class QuestionController extends Controller
         if($filtreMatiere==null) {
         	$filtreMatiere = -1;
         }
+        
+    	$filtreMotCle = $this->get('request')->request->get('mot_cle');
+        if($filtreMotCle==null) {
+        	$filtreMotCle = "Mot clé";
+        }
     	
         $em = $this->getDoctrine()->getEntityManager();
 		$matieres = $em->getRepository('EDiffAdminBundle:Matiere')->findAll();
-		$all_entities = $em->getRepository('EDiffAdminBundle:Question')->getAllSearch($filtreNiveau, $filtreMatiere);
-		$entities = $em->getRepository('EDiffAdminBundle:Question')->getSearch($page, $pagination_question_par_page, $filtreNiveau, $filtreMatiere);
+		$all_entities = $em->getRepository('EDiffAdminBundle:Question')->getAllSearch($filtreNiveau, $filtreMatiere, $filtreMotCle);
+		$entities = $em->getRepository('EDiffAdminBundle:Question')->getSearch($page, $pagination_question_par_page, $filtreNiveau, $filtreMatiere, $filtreMotCle);
 
         $nb_elements = count($all_entities);
         $nb_pages = ceil($nb_elements / $pagination_question_par_page);
@@ -58,7 +63,8 @@ class QuestionController extends Controller
         	'page'	   => $page,
         	'matieres' => $matieres,
         	'filtreNiveau' => $filtreNiveau,
-        	'filtreMatiere' => $filtreMatiere
+        	'filtreMatiere' => $filtreMatiere,
+        	'filtreMotCle' => $filtreMotCle
         ));
     }
 

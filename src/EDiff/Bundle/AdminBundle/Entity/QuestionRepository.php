@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class QuestionRepository extends EntityRepository
 {
-	public function getSearch($page, $nb_per_page, $niveau, $matiere)
+	public function getSearch($page, $nb_per_page, $niveau, $matiere, $motcle)
     {
         $qb = $this->createQueryBuilder('q');
 
@@ -25,6 +25,10 @@ class QuestionRepository extends EntityRepository
         	$qb->andWhere('q.matiere = :matiere')
         	   ->setParameter('matiere', $matiere);
         }
+        
+    	if($motcle != "Mot clé") {
+        	$qb->andWhere( $qb->expr()->like('q.libelle', $qb->expr()->literal('%' . $motcle . '%')) );
+        }
         	
         $qb	->setFirstResult($page)
     		->setMaxResults($nb_per_page);
@@ -34,7 +38,7 @@ class QuestionRepository extends EntityRepository
                    ->getResult();
     }
     
-	public function getAllSearch($niveau, $matiere)
+	public function getAllSearch($niveau, $matiere, $motcle)
     {
         $qb = $this->createQueryBuilder('q');
 
