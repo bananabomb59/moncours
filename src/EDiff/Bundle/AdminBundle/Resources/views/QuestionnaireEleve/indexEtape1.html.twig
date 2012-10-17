@@ -1,0 +1,106 @@
+{# src/EDiff/Bundle/AdminBundle/Resources/views/QuestionnaireEleve/index.html.twig #}
+
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
+
+{% block title %}{{ parent() }} | Réponses des élèves{% endblock %}
+
+{% block body %}
+    <div class="hero-unit utilisateur">
+		<h1>Liste des réponses des élèves</h1>
+		
+		<h3>Etape 1 : Choix d'un questionnaire</h3>
+		
+		</br></br>
+		
+		<form id="form_annee_classe">
+
+			<select id="choix_annee" name="choix_annee">
+				<option value="-1">Sélectionnez une année scolaire</option>
+				{% for annee in annees %}
+					<option value="{{ annee.id }}">{{ annee.anneedebut }} / {{ annee.anneefin }}</option>
+				{% endfor %}
+			</select>
+			
+			</br>
+			
+			<select id="choix_classe" name="choix_classe">
+				<option value="-1">Sélectionnez une classe</option>
+				{% for classe in classes %}
+					<option value="{{ classe.id }}">{{ classe.libelle }}</option>
+				{% endfor %}
+			</select>
+			
+			</br>
+			
+			<select id="choix_matiere" name="choix_matiere">
+				<option value="-1">Sélectionnez une matière</option>
+				{% for matiere in matieres %}
+					<option value="{{ matiere.id }}">{{ matiere.libelle }}</option>
+				{% endfor %}
+			</select>
+			
+			</br>
+			
+			<button class="btn" type="submit">OK !</button>
+			<span id="loading"><img src="/img/loading.gif" width="25" height="25"></span>
+		
+		</form>
+		
+		</br></br>
+		
+		<div id="choix_questionnaire"></div>
+		
+	</div>
+	
+<script>
+$("#loading").hide();
+$("#choix_questionnaire").hide();
+
+$("#form_annee_classe").submit(function(){ 
+    $("#choix_questionnaire").hide();
+    $("#loading").show();
+
+	$('input[type=submit]', this).attr('disabled', 'disabled');
+
+	var annee = $("#choix_annee option:selected").val();
+    if(annee==-1) {
+    	$("#loading").hide();
+    	alert("Veuillez sélectionner une année scolaire !");
+    	return false;
+    }
+    
+    var classe = $("#choix_classe option:selected").val();
+    if(classe==-1) {
+    	$("#loading").hide();
+    	alert("Veuillez sélectionner une classe !");
+    	return false;
+    }
+    
+    var matiere = $("#choix_matiere option:selected").val();
+    
+    var DATA = 'classe=' + classe + '&annee=' + annee + '&matiere=' + matiere;
+    
+    $.ajax({
+        type: "POST",
+        url: "{{ path('questionnaireeleve_etape1_recup_questionnaire') }}",
+        data: DATA,
+        cache: false,
+        success: function(data){
+           $('#choix_questionnaire').html(data);
+           $("#loading").hide();
+           $("#choix_questionnaire").show();
+        }
+    });    
+    return false;
+});
+
+function etape2_onClick() {
+	var questionnaire = $("#choix_questionnaire option:selected").val();
+	var classe = $("#choix_classe option:selected").val();
+	var annee = $("#choix_annee option:selected").val();
+   	window.location.href = "{{ path('questionnaireeleve_etape2') }}" + "?id=" + questionnaire + "&classe=" + classe + "&annee=" + annee;
+}
+
+</script>
+
+{% endblock %}

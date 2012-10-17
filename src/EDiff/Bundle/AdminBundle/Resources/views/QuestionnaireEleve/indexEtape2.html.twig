@@ -1,0 +1,50 @@
+{# src/EDiff/Bundle/AdminBundle/Resources/views/QuestionnaireEleve/index.html.twig #}
+
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
+
+{% block title %}{{ parent() }} | Réponses des élèves{% endblock %}
+
+{% block body %}
+    
+    <div class="hero-unit utilisateur">
+		<h1>Liste des réponses des élèves</h1>
+		
+		<h3>Etape 2 : Score des élèves pour le questionnaire "{{ quest.titre }}"</h3>
+		
+		</br></br>
+		
+		{% if eleves|length > 0 %}
+		<table class="table-bordered table">
+		    <thead>
+		        <tr>
+		            <th>Classe</th>
+		            <th>Année scolaire</th>
+		            <th>Elève</th>
+		            <th>Score</th>
+		            <th>+ de détails</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		    {% for eleve in eleves %}
+		        <tr>
+		            <td>{{ eleve[0].questionnaire.classe.libelle }}</td>
+		            <td>{{ eleve[0].questionnaire.anneescolaire.anneedebut }} / {{ eleve[0].questionnaire.anneescolaire.anneefin }}</td>
+		            <td>{{ eleve[0].eleve.nom }} {{ eleve[0].eleve.prenom }}</td>
+		            <td>{{ eleve.score }}</td>
+		            <td><a class="btn btn btn-small" href="{{ path('questionnaireeleve', { 'questionnaire': eleve[0].questionnaire.id, 'eleve': eleve[0].eleve.id }) }}">Liste des réponses</a></td>
+		        </tr>
+		    {% endfor %}
+		    </tbody>
+		</table>
+		
+		{% else %} 
+		
+		Zut ! Encore aucune réponse ! </br></br></br>
+		
+		{% endif %}
+		
+		<a href="{{ path('questionnaireeleve_etape1') }}"> << Etape précédente (choix d'un questionnaire)</a>
+		
+	</div>
+
+{% endblock %}

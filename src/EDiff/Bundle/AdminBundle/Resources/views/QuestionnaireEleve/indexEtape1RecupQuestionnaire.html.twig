@@ -1,0 +1,20 @@
+{# src/EDiff/Bundle/AdminBundle/Resources/views/QuestionnaireEleve/indexEtape1RecupQuestionnaire.html.twig #}
+
+{% if questionnaires|length > 0 %}
+
+	Sélectionnez un questionnaire :
+	<select id="choix_questionnaire" name="choix_questionnaire">
+		{% for questionnaire in questionnaires %}
+			<option value="{{ questionnaire.id }}">{{ questionnaire.titre }}</option>
+		{% endfor %}
+	</select>
+	
+	</br>
+	
+	<a id="etape2" href="#" onClick="etape2_onClick()"> >> Etape suivante (choix d'un élève)</a>
+
+{% else %} 
+		
+		Zut ! Pas de questionnaire pour vos critères. </br>
+		
+{% endif %}

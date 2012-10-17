@@ -7,54 +7,27 @@
 {% block body %}
     <div class="hero-unit utilisateur">
 		<h1>Liste des réponses des élèves</h1>
-		
-		<form action="{{ path('questionnaireeleve') }}" method="post">
-			<select id="choix_question" name="choix_question">
-				<option value="-1">Sélectionnez une question</option>
-				{% for question in questions %}
-					<option value="{{ question.id }}" {% if filtreQuestion == question.id %} selected="selected" {% endif %}>{{ question.libelle }}</option>
-				{% endfor %}
-			</select>
-			
-			<select id="choix_eleve" name="choix_eleve">
-				<option value="-1">Sélectionnez un élève</option>
-				{% for eleve in eleves %}
-					<option value="{{ eleve.id }}" {% if filtreEleve == eleve.id %} selected="selected" {% endif %}>{{ eleve }}</option>
-				{% endfor %}
-			</select>
-			
-			<select id="choix_questionnaire" name="choix_questionnaire">
-				<option value="-1">Sélectionnez un questionnaire</option>
-				{% for questionnaire in questionnaires %}
-					<option value="{{ questionnaire.id }}" {% if filtreQuestionnaire == questionnaire.id %} selected="selected" {% endif %}>{{ questionnaire.titre }}</option>
-				{% endfor %}
-			</select>
-			
-			<button class="btn" type="submit">OK !</button>
-		</form>
-		
-		{% if entities|length > 0 %}
+
+		<h3>Etape 3 : Réponses de "{{ myEleve.nom }} {{ myEleve.prenom }}" au questionnaire "{{ myQuestionnaire.titre }}"</h3>
+
+		</br></br>
+
+		{% if reponses|length > 0 %}
 		<table class="table-bordered table">
 		    <thead>
 		        <tr>
-		            <th>Elève</th>
-		            <th>Matière</th>
-		            <th>Questionnaire</th>
 		            <th>Question</th>
-		            <th>Numero</th>
+		            <th>Numéro</th>
             		<th>Bonne réponse ?</th>
 		        </tr>
 		    </thead>
 		    <tbody>
-		    {% for entity in entities %}
+		    {% for reponse in reponses %}
 		        <tr>
-		            <td>{{ entity.eleve }}</td>
-		            <td>{{ entity.questionnaire.matiere }}</td>
-		            <td>{{ entity.questionnaire }}</td>
-		            <td>{{ entity.question }}</td>
-		            <td>{{ entity.numeroquestion }}</td>
+		            <td>{{ reponse.question }}</td>
+		            <td>{{ reponse.numeroquestion }}</td>
 		            <td>
-		            	{% if entity.bonneoumauvaise == 1 %}
+		            	{% if reponse.bonneoumauvaise == 1 %}
 		            	Bonne réponse
 		            	{% else %}
 						Mauvaise réponse
@@ -64,9 +37,14 @@
 		    {% endfor %}
 		    </tbody>
 		</table>
+		
 		{% else %} 
-		Zut ! Encore aucune réponse ! </br>
+		
+		Oups ! Pas de réponse à ce questionnaire pour cet élève! </br></br></br>
+		
 		{% endif %}
+		
+		<a href="{{ path('questionnaireeleve_etape2') }}?id={{ myQuestionnaire.id }}&classe={{ myQuestionnaire.classe.id }}&annee={{ myQuestionnaire.anneescolaire.id }}"> << Etape précédente (Score des élèves)</a>
 
 	</div>
 {% endblock %}

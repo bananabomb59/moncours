@@ -4,6 +4,7 @@ namespace EDiff\Bundle\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use EDiff\Bundle\AdminBundle\Entity\Questionnaire;
 use EDiff\Bundle\AdminBundle\Entity\QuestionnaireEleve;
 use EDiff\Bundle\AdminBundle\Form\QuestionnaireEleveType;
 
@@ -17,48 +18,85 @@ class QuestionnaireEleveController extends Controller
      * Lists all QuestionnaireEleve entities.
      *
      */
-    public function indexAction()
+    public function indexAction($questionnaire, $eleve)
     {
     	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'questionnaireeleve')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
     	
         $em = $this->getDoctrine()->getEntityManager();
-
-        $eleves = $em->getRepository('EDiffAdminBundle:User')->findBy(array('droits' => 'eleve'));
-        $questions = $em->getRepository('EDiffAdminBundle:Question')->findAll();
-        $questionnaires = $em->getRepository('EDiffAdminBundle:Questionnaire')->findAll();
-
-        $isDelete = false;
-        if($this->get('request')->query->get('delete') == 'true')
-        	$isDelete = true;
+        $myEleve = $em->getRepository('EDiffAdminBundle:User')->find($eleve);
+        $myQuestionnaire = $em->getRepository('EDiffAdminBundle:Questionnaire')->find($questionnaire);
+        $reponses = $em->getRepository('EDiffAdminBundle:QuestionnaireEleve')->getAllSearch(-1, $eleve, $questionnaire);
         
-        // On récupère la valeur des filtres
-        $filtreQuestion = $this->get('request')->request->get('choix_question');
-        if($filtreQuestion==null) {
-        	$filtreQuestion = -1;
-        }	
-        
-        $filtreEleve = $this->get('request')->request->get('choix_eleve');
-        if($filtreEleve==null) {
-        	$filtreEleve = -1;
-        }	
-        
-        $filtreQuestionnaire = $this->get('request')->request->get('choix_questionnaire');
-        if($filtreQuestionnaire==null) {
-        	$filtreQuestionnaire = -1;
-        }	
-        
-        // On récupère les entités filtrées
-        $entities = $em->getRepository('EDiffAdminBundle:QuestionnaireEleve')->myFindBy($filtreQuestion, $filtreEleve, $filtreQuestionnaire);
-        	
         return $this->render('EDiffAdminBundle:QuestionnaireEleve:index.html.twig', array(
-            'entities' => $entities,
-        	'delete'   => $isDelete,
-        	'eleves'   => $eleves,
-        	'questions' => $questions,
-        	'questionnaires' => $questionnaires,
-        	'filtreEleve' => $filtreEleve,
-        	'filtreQuestionnaire' => $filtreQuestionnaire,
-        	'filtreQuestion' => $filtreQuestion
+            'reponses' => $reponses,
+        	'myEleve' => $myEleve,
+        	'myQuestionnaire' => $myQuestionnaire
+        ));
+    }
+    
+	public function indexEtape1Action()
+    {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'questionnaireeleve')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
+		$annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
+		$matieres = $em->getRepository('EDiffAdminBundle:Matiere')->findAll();
+
+        return $this->render('EDiffAdminBundle:QuestionnaireEleve:indexEtape1.html.twig', array(
+            'classes' => $classes,
+        	'annees'   => $annees,
+        	'matieres'  => $matieres       	
+        ));
+    }
+    
+	public function indexEtape1RecupQuestionnaireAction()
+    {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'questionnaireeleve')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+
+    	// on récupère la reponse via le formulaire
+    	$request = $this->get('request');
+    	$classe = $request->request->get('classe');
+    	$annee = $request->request->get('annee');
+    	$matiere = $request->request->get('matiere');
+    	
+    	// On récupère les questionnaires
+        $em = $this->getDoctrine()->getEntityManager();
+        $questionnaires = $em->getRepository('EDiffAdminBundle:Questionnaire')->getAllSearch($annee, $classe, $matiere, -1);
+
+        // On retourne la réponse AJAX
+        return $this->render('EDiffAdminBundle:QuestionnaireEleve:indexEtape1RecupQuestionnaire.html.twig', array(
+            'questionnaires' => $questionnaires
+        ));
+    }
+    
+	public function indexEtape2Action()
+    {
+    	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'questionnaireeleve')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+
+    	// on récupère la reponse via les paramètres
+    	$request = $this->get('request');
+    	$classe = $request->query->get('classe');
+    	$annee = $request->query->get('annee');
+    	$questionnaire = $request->query->get('id');
+    	
+		// On recupere les objets qui vont bien
+        $em = $this->getDoctrine()->getEntityManager();
+        $quest = $em->getRepository('EDiffAdminBundle:Questionnaire')->find($questionnaire);
+		$elevesClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findBy(array('classe' => $classe, 'annee' => $annee));
+
+		$elevesId = array();
+		foreach ($elevesClasse as $eleveClasse)
+		{
+			$elevesId[] = $eleveClasse->getUser()->getId();
+		} 
+		
+		$eleves = $em->getRepository('EDiffAdminBundle:QuestionnaireEleve')->getQuestionnaireEleve(array(1,4), $questionnaire);
+		
+        return $this->render('EDiffAdminBundle:QuestionnaireEleve:indexEtape2.html.twig', array(
+            'eleves' => $eleves,
+        	'quest' => $quest
         ));
     }
 

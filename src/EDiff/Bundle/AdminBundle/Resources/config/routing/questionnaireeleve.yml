@@ -1,9 +1,21 @@
 questionnaireeleve:
-    pattern:  /
+    pattern:  /etape3/{questionnaire}/{eleve}
     defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:index" }
 
+questionnaireeleve_etape1:
+    pattern:  /etape1
+    defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:indexEtape1" }
+
+questionnaireeleve_etape1_recup_questionnaire:
+    pattern:  /etape1/recupQuestionnaire
+    defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:indexEtape1RecupQuestionnaire" }
+
+questionnaireeleve_etape2:
+    pattern:  /etape2
+    defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:indexEtape2" }
+
 questionnaireeleve_show:
-    pattern:  /{id}/show
+    pattern:  /{questionnaire}/{eleve}/show
     defaults: { _controller: "EDiffAdminBundle:QuestionnaireEleve:show" }
 
 questionnaireeleve_new:

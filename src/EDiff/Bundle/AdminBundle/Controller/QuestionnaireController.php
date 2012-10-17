@@ -21,7 +21,7 @@ class QuestionnaireController extends Controller
     {
     	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'questionnaire')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
     	
-    	$pagination_question_par_page = 10;
+    	$pagination_questionnaire_par_page = 10;
 		if($this->get('request')->query->get('pagination_questionnaire_page')) {
 			$page = $this->get('request')->query->get('pagination_questionnaire_page');
 		}
@@ -58,7 +58,7 @@ class QuestionnaireController extends Controller
 		$annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
         
 		$nb_elements = count($all_entities);
-        $nb_pages = ceil($nb_elements / $pagination_question_par_page);
+        $nb_pages = ceil($nb_elements / $pagination_questionnaire_par_page);
 		
         $isDelete = false;
         if($this->get('request')->query->get('delete') == 'true')

@@ -63,4 +63,27 @@ class Classe_Eleve_AnneeRepository extends EntityRepository
         return $qb->getQuery()
                    ->getResult();
     }
+    
+	public function getAvecReponses($classe, $annee)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        // On fait une jointure sur la table des tags, avec pour alias « t ».
+        $qb ->join('e.user', 'u')
+        	->where("u.droits = 'eleve'");
+        
+    	if($classe != -1) {
+        	$qb->andWhere('e.classe = :classe')
+        	   ->setParameter('classe', $classe);
+        }
+        
+    	if($annee != -1) {
+        	$qb->andWhere('e.annee = :annee')
+        	   ->setParameter('annee', $annee);
+        }	
+        	
+        // Enfin, on retourne le résultat.
+        return $qb->getQuery()
+                   ->getResult();
+    }
 }

@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class QuestionnaireEleveRepository extends EntityRepository
 {
-	public function myFindBy($question, $eleve, $questionnaire)
+	public function getSearch($page, $nb_per_page, $question, $eleve, $questionnaire)
 	{
 		$qb = $this->createQueryBuilder('a');
 
@@ -31,8 +31,49 @@ class QuestionnaireEleveRepository extends EntityRepository
 	         ->setParameter('questionnaire_id', $questionnaire);	
 		}
 	    
-	    $qb->orderBy('a.id', 'DESC');
+	    $qb	->setFirstResult($page)
+    		->setMaxResults($nb_per_page);
 	
+	    return $qb->getQuery()->getResult();
+	}
+	
+	public function getAllSearch($question, $eleve, $questionnaire)
+	{
+		$qb = $this->createQueryBuilder('a');
+
+		if($question != -1) {
+			$qb->where('a.question = :question_id')
+	         ->setParameter('question_id', $question);	
+		}
+		
+		if($eleve != -1) {
+			$qb->andWhere('a.eleve = :eleve_id')
+	         ->setParameter('eleve_id', $eleve);	
+		}
+		
+		if($questionnaire != -1) {
+			$qb->andWhere('a.questionnaire = :questionnaire_id')
+	         ->setParameter('questionnaire_id', $questionnaire);	
+		}
+	
+	    return $qb->getQuery()->getResult();
+	}
+	
+	public function getQuestionnaireEleve($eleves, $questionnaire)
+	{
+		$qb = $this->createQueryBuilder('qe');
+		
+		$qb->addSelect('SUM(qe.bonne_ou_mauvaise) as score');
+		
+		$qb->where('qe.questionnaire = :questionnaire_id')
+			->setParameter('questionnaire_id', $questionnaire);
+		
+		$qb->andWhere('qe.eleve IN (:ids)')
+            ->setParameter('ids', $eleves);
+
+		$qb->groupBy('qe.questionnaire', 'qe.eleve');
+		$qb->orderBy('score', 'DESC');
+		
 	    return $qb->getQuery()->getResult();
 	}
 }

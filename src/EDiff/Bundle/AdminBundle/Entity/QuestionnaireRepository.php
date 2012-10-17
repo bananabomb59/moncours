@@ -21,7 +21,7 @@ class QuestionnaireRepository extends EntityRepository
         	   ->setParameter('annee', $annee);
         }
         
-    	if($annee != -1) {
+    	if($classe != -1) {
         	$qb->andWhere('q.classe = :classe')
         	   ->setParameter('classe', $classe);
         }
