@@ -30,7 +30,8 @@ class QuestionnaireEleveController extends Controller
         return $this->render('EDiffAdminBundle:QuestionnaireEleve:index.html.twig', array(
             'reponses' => $reponses,
         	'myEleve' => $myEleve,
-        	'myQuestionnaire' => $myQuestionnaire
+        	'myQuestionnaire' => $myQuestionnaire,
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
     
@@ -47,7 +48,8 @@ class QuestionnaireEleveController extends Controller
         return $this->render('EDiffAdminBundle:QuestionnaireEleve:indexEtape1.html.twig', array(
             'classes' => $classes,
         	'annees'   => $annees,
-        	'matieres'  => $matieres       	
+        	'matieres'  => $matieres,
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"       	
         ));
     }
     
@@ -96,7 +98,8 @@ class QuestionnaireEleveController extends Controller
 		
         return $this->render('EDiffAdminBundle:QuestionnaireEleve:indexEtape2.html.twig', array(
             'eleves' => $eleves,
-        	'quest' => $quest
+        	'quest' => $quest,
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -126,7 +129,7 @@ class QuestionnaireEleveController extends Controller
             'entity'      => $entity,
         	'update'	  => $isUpdate,
             'delete_form' => $deleteForm->createView(),
-
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -198,6 +201,7 @@ class QuestionnaireEleveController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -235,6 +239,7 @@ class QuestionnaireEleveController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 

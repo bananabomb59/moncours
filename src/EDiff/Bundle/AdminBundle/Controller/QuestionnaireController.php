@@ -75,7 +75,8 @@ class QuestionnaireController extends Controller
         	'filtreMatiere' => $filtreMatiere,
         	'filtreClasse' => $filtreClasse,
         	'filtreAnnee' => $filtreAnnee,
-        	'filtreStatut' => $filtreStatut
+        	'filtreStatut' => $filtreStatut,
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -105,7 +106,7 @@ class QuestionnaireController extends Controller
             'entity'      => $entity,
         	'update'	  => $isUpdate,
             'delete_form' => $deleteForm->createView(),
-
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -122,7 +123,8 @@ class QuestionnaireController extends Controller
 
         return $this->render('EDiffAdminBundle:Questionnaire:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -150,7 +152,8 @@ class QuestionnaireController extends Controller
 
         return $this->render('EDiffAdminBundle:Questionnaire:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -177,6 +180,7 @@ class QuestionnaireController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -214,6 +218,7 @@ class QuestionnaireController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 

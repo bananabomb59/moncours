@@ -34,7 +34,8 @@ class UserController extends Controller
         
         return $this->render('EDiffAdminBundle:User:index.prof.html.twig', array(
             'entities' => $entities,
-        	'delete'   => $isDelete
+        	'delete'   => $isDelete,
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
     
@@ -75,8 +76,8 @@ class UserController extends Controller
         $isDelete = false;
         if($this->get('request')->query->get('delete') == 'true')
         	$isDelete = true;
-        
-        return $this->render('EDiffAdminBundle:User:index.eleve.html.twig', array(
+        	
+        $var=array(
             'entities' => $users,
         	'delete'   => $isDelete,
         	'nb_pages' => $nb_pages,
@@ -84,8 +85,11 @@ class UserController extends Controller
         	'annees'   => $annees,
         	'classes'  => $classes,
         	'filtreClasse' => $filtreClasse,
-        	'filtreAnnee' => $filtreAnnee
-        ));
+        	'filtreAnnee' => $filtreAnnee,
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
+        );
+
+        return $this->render('EDiffAdminBundle:User:index.eleve.html.twig',$var);
     }
 
     /**
@@ -125,7 +129,8 @@ class UserController extends Controller
 		        'eleveClasse' => $eleveClasse,
 	    		'classe' => $classe,
 	        	'annee' => $annee,
-	    		'exist' => true
+	    		'exist' => true,
+        		'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         	));
         }
         else {
@@ -133,7 +138,8 @@ class UserController extends Controller
 	            'entity'      => $entity,
 	        	'update'	  => $isUpdate,
 	            'delete_form' => $deleteForm->createView(),
-	    		'exist' => false
+	    		'exist' => false,
+        		'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         	));
         }
     }
@@ -151,7 +157,8 @@ class UserController extends Controller
 
         return $this->render('EDiffAdminBundle:User:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -179,7 +186,8 @@ class UserController extends Controller
 
         return $this->render('EDiffAdminBundle:User:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -217,7 +225,8 @@ class UserController extends Controller
     			'exist' => true,
     			'entity'      => $entity,
             	'edit_form'   => $editForm->createView(),
-            	'delete_form' => $deleteForm->createView()
+            	'delete_form' => $deleteForm->createView(),
+    			'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
        		 ));
         }
         else {
@@ -229,7 +238,8 @@ class UserController extends Controller
     			'exist' => false,
     			'entity'      => $entity,
             	'edit_form'   => $editForm->createView(),
-            	'delete_form' => $deleteForm->createView()
+            	'delete_form' => $deleteForm->createView(),
+    			'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
        		 ));
         }
     }
@@ -268,6 +278,7 @@ class UserController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 

@@ -64,7 +64,8 @@ class QuestionController extends Controller
         	'matieres' => $matieres,
         	'filtreNiveau' => $filtreNiveau,
         	'filtreMatiere' => $filtreMatiere,
-        	'filtreMotCle' => $filtreMotCle
+        	'filtreMotCle' => $filtreMotCle,
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -97,7 +98,7 @@ class QuestionController extends Controller
         	'reponses'    => $reponses,
         	'update'	  => $isUpdate,
             'delete_form' => $deleteForm->createView(),
-
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -114,7 +115,8 @@ class QuestionController extends Controller
 
         return $this->render('EDiffAdminBundle:Question:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -169,6 +171,7 @@ class QuestionController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -206,6 +209,7 @@ class QuestionController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 

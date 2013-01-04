@@ -1,6 +1,6 @@
-{# src/EDiff/Bundle/AdminBundle/Resources/views/User/index.html.twig #}
+{# src/EDiff/Bundle/AdminBundle/Resources/views/User/index.eleve.html.twig #}
 
-{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
+{% extends layout %}
 
 {% block title %}{{ parent() }} | {% if app.session.get('eleve_ou_prof') == "prof" %}Professeur{% else %}Elève{% endif %}{% endblock %}
 
