@@ -555,7 +555,7 @@ class AccueilController extends Controller
 				$redirect = true;
 			}
 			if($droits == 'prof') {
-				if($page != 'competence' && $page != 'question' && $page != 'questionnaire' && $page != 'questionnaireeleve') {
+				if($page != 'competence' && $page != 'question' && $page != 'questionnaire' && $page != 'questionnaireeleve' && $page != 'user') {
 					$redirect = true;
 				}
 			}
