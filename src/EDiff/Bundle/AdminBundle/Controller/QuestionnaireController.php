@@ -52,7 +52,7 @@ class QuestionnaireController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $all_entities = $em->getRepository('EDiffAdminBundle:Questionnaire')->getAllSearch($filtreAnnee, $filtreClasse, $filtreMatiere, $filtreStatut);
-		$entities = $em->getRepository('EDiffAdminBundle:Questionnaire')->getSearch($page, $pagination_question_par_page, $filtreAnnee, $filtreClasse, $filtreMatiere, $filtreStatut);        
+		$entities = $em->getRepository('EDiffAdminBundle:Questionnaire')->getSearch($page, $pagination_questionnaire_par_page, $filtreAnnee, $filtreClasse, $filtreMatiere, $filtreStatut);        
 		$matieres = $em->getRepository('EDiffAdminBundle:Matiere')->findAll();
 		$classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
 		$annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
