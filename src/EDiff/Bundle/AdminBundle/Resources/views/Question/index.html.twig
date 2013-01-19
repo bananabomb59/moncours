@@ -5,7 +5,7 @@
 {% block title %}{{ parent() }} | Question{% endblock %}
 
 {% block body %}
-    <div class="hero-unit utilisateur">
+    <div class="hero-unit questions">
 		<h1>Liste des questions</h1>
 		
 		{% if delete %}
@@ -45,7 +45,6 @@
 		            <!-- <th>Type</th> -->
 		            <th>Niveau</th>
 		            <th>Libelle</th>
-		            <th>Document</th>
 		            <th>Image</th>
 		            <th>Matière</th>
 		            <th>Actions</th>
@@ -65,8 +64,7 @@
 		            	{% endif %}
 		            </td>
 		            <td>{{ entity.libelle }}</td>
-		            <td>{{ entity.document }}</td>
-		            <td>{% if entity.document != '' %}<img src="{{ entity.document }}" height="100"/>{% endif %}</td>
+		            <td>{% if entity.document != '' %}<img src="{{ entity.document }}" height="100"/>{% else %}Aucune{% endif %}</td>
 		            <td>{{ entity.matiere }}</td>
 		            <td>	                
                         <a class="btn btn btn-small" href="{{ path('question_show', { 'id': entity.id }) }}">Voir</a>   

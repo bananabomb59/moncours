@@ -93,7 +93,10 @@ body {
 	height: 300px;
 }
 .hero-unit.utilisateur {
-	height: 465px;
+	height: auto;
+}
+.hero-unit.questions {
+	height: auto;
 }
 .hero-unit h1 {
 	margin-bottom:0.5em;
