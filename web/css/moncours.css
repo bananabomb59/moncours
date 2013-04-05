@@ -95,6 +95,13 @@ body {
 .hero-unit.utilisateur {
 	height: auto;
 }
+.hero-unit.utilisateur #infos{
+	width:500px;
+	float:left;
+}
+.hero-unit.utilisateur #affectations {
+	float:left;
+}
 .hero-unit.questions {
 	height: auto;
 }

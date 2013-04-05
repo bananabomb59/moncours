@@ -116,6 +116,8 @@ class UserController extends Controller
 
         $eleve = $em->getRepository('EDiffAdminBundle:User')->find($id);
         $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $id));
+        $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
+        $annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
 
         if($eleveClasse) {
         	$classe = $em->getRepository('EDiffAdminBundle:Classe')->find($eleveClasse->getClasse()->getId());
@@ -129,6 +131,8 @@ class UserController extends Controller
 		        'eleveClasse' => $eleveClasse,
 	    		'classe' => $classe,
 	        	'annee' => $annee,
+        		'classes' => $classes,
+        		'annees' => $annees,
 	    		'exist' => true,
         		'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         	));
@@ -330,5 +334,18 @@ class UserController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    public function showAffectationsAction($id){
+		if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'user')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
+    	
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
+        $annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();    	
+        // On retourne la réponse AJAX
+        return $this->render('EDiffAdminBundle:User:showAffectations.html.twig', array(
+            'questionnaires' => $questionnaires
+        ));
     }
 }

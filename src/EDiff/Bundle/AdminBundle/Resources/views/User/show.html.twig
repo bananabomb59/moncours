@@ -24,6 +24,7 @@
 			</div>
 		{% endif %}
 		
+		<div id="infos">
 		<p>
 			<label class="large" for="login">Login</label>{{ entity.login }}
 		</p>
@@ -52,9 +53,48 @@
 			<label class="large" for="password">Classe</label>Aucune affectation. Editez la fiche pour affecter une classe.
 		</p>
 		{% endif %}
+		</div>
 		
-		</br>
+		{% if app.session.get('eleve_ou_prof') == "eleve" %}
+		<div id="affectations">
+			<p>Affectations de cet élève</p>
+			<p>2010/2011 - 6ème B</p>
+			<p>2011/2012 - 5ème E</p>
+			<p><a class="btn" href="#" onclick="displayNouvelleAffectationEleve();">Ajouter</a></p>
+			
+			<form id="form_valider_affectation" method="post" style="display:none;">
+	
+			<input type="hidden" name="eleve" id="eleve" value="{{ eleve.id }}" />
 		
+		    <div>
+		    	<label class="required" for="classe">Classe</label>
+		    	<select required="required" name="classe">
+		    		{% for classe in classes %}
+						<option value="{{ classe.id }}" {% if (exist and eleveClasse.classe.id == classe.id) %} selected="selected" {% endif %}>{{ classe.libelle }}</option>
+					{% endfor %}
+		    	</select>
+		    </div>
+		    
+		    <div>
+		    	<label class="required" for="annee">Année</label>
+		    	<select required="required" name="annee">
+		    		{% for annee in annees %}
+						<option value="{{ annee.id }}" {% if (exist and eleveClasse.annee.id == annee.id) %} selected="selected" {% endif %}>{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
+					{% endfor %}
+		    	</select>
+		    </div>
+		    
+		    <p>
+		        <span id="loading2"><img src="/img/loading.gif" width="16" height="16"></span>
+		        <button class="btn btn-large" type="button" onClick="submitNouvelleAffectationEleve()" id="submitbutton">Affecter à cette classe !</button>
+		        <button class="btn btn-large" type="button" onClick="cancelNouvelleAffectationEleve()">Annuler</button>
+		    </p>
+			</form>
+		</div>
+		{% endif %}
+		
+		<br style="clear:both;" />
+				
 		<p>
 		
 			{% if app.session.get('eleve_ou_prof') == "prof" %}
