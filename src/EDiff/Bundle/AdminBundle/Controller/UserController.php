@@ -22,7 +22,11 @@ class UserController extends Controller
     	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'user')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
     	
     	$session = $this->getRequest()->getSession();
-		$session->set('eleve_ou_prof', "prof");
+    	$user=$session->get('user', false);
+		if ($user) {
+			$droits = $user->getDroits();
+		}
+    	$session->set('eleve_ou_prof', $droits);
     	
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -34,8 +38,7 @@ class UserController extends Controller
         
         return $this->render('EDiffAdminBundle:User:index.prof.html.twig', array(
             'entities' => $entities,
-        	'delete'   => $isDelete,
-        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
+        	'delete'   => $isDelete
         ));
     }
     
@@ -44,9 +47,13 @@ class UserController extends Controller
     	if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'user')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
     	
     	$session = $this->getRequest()->getSession();
-		$session->set('eleve_ou_prof', "eleve");
+		$user=$session->get('user', false);
+		if ($user) {
+			$droits = $user->getDroits();
+		}
+    	$session->set('eleve_ou_prof', $droits);
     	
-		$pagination_eleve_par_page = 10;
+		$pagination_eleve_par_page = 30;
 		if($this->get('request')->query->get('pagination_eleve_page')) {
 			$page = $this->get('request')->query->get('pagination_eleve_page');
 		}
@@ -76,8 +83,8 @@ class UserController extends Controller
         $isDelete = false;
         if($this->get('request')->query->get('delete') == 'true')
         	$isDelete = true;
-        	
-        $var=array(
+        
+        return $this->render('EDiffAdminBundle:User:index.eleve.html.twig', array(
             'entities' => $users,
         	'delete'   => $isDelete,
         	'nb_pages' => $nb_pages,
@@ -85,11 +92,8 @@ class UserController extends Controller
         	'annees'   => $annees,
         	'classes'  => $classes,
         	'filtreClasse' => $filtreClasse,
-        	'filtreAnnee' => $filtreAnnee,
-        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
-        );
-
-        return $this->render('EDiffAdminBundle:User:index.eleve.html.twig',$var);
+        	'filtreAnnee' => $filtreAnnee
+        ));
     }
 
     /**
@@ -116,8 +120,6 @@ class UserController extends Controller
 
         $eleve = $em->getRepository('EDiffAdminBundle:User')->find($id);
         $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $id));
-        $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
-        $annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
 
         if($eleveClasse) {
         	$classe = $em->getRepository('EDiffAdminBundle:Classe')->find($eleveClasse->getClasse()->getId());
@@ -131,10 +133,7 @@ class UserController extends Controller
 		        'eleveClasse' => $eleveClasse,
 	    		'classe' => $classe,
 	        	'annee' => $annee,
-        		'classes' => $classes,
-        		'annees' => $annees,
-	    		'exist' => true,
-        		'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
+	    		'exist' => true
         	));
         }
         else {
@@ -142,8 +141,7 @@ class UserController extends Controller
 	            'entity'      => $entity,
 	        	'update'	  => $isUpdate,
 	            'delete_form' => $deleteForm->createView(),
-	    		'exist' => false,
-        		'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
+	    		'exist' => false
         	));
         }
     }
@@ -161,8 +159,7 @@ class UserController extends Controller
 
         return $this->render('EDiffAdminBundle:User:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView(),
-        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
+            'form'   => $form->createView()
         ));
     }
 
@@ -190,8 +187,7 @@ class UserController extends Controller
 
         return $this->render('EDiffAdminBundle:User:new.html.twig', array(
             'entity' => $entity,
-            'form'   => $form->createView(),
-        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
+            'form'   => $form->createView()
         ));
     }
 
@@ -229,8 +225,7 @@ class UserController extends Controller
     			'exist' => true,
     			'entity'      => $entity,
             	'edit_form'   => $editForm->createView(),
-            	'delete_form' => $deleteForm->createView(),
-    			'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
+            	'delete_form' => $deleteForm->createView()
        		 ));
         }
         else {
@@ -242,8 +237,7 @@ class UserController extends Controller
     			'exist' => false,
     			'entity'      => $entity,
             	'edit_form'   => $editForm->createView(),
-            	'delete_form' => $deleteForm->createView(),
-    			'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
+            	'delete_form' => $deleteForm->createView()
        		 ));
         }
     }
@@ -282,7 +276,6 @@ class UserController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        	'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
         ));
     }
 
@@ -298,7 +291,7 @@ class UserController extends Controller
         $request = $this->getRequest();
 
         $form->bindRequest($request);
-
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
             $entity = $em->getRepository('EDiffAdminBundle:User')->find($id);
@@ -334,18 +327,5 @@ class UserController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
-    }
-    
-    public function showAffectationsAction($id){
-		if(AccueilController::verifUserAdmin($this->getRequest()->getSession(), 'user')) return $this->redirect($this->generateUrl('EDiffAdminBundle_accueil', array()));
-    	
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
-        $annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();    	
-        // On retourne la réponse AJAX
-        return $this->render('EDiffAdminBundle:User:showAffectations.html.twig', array(
-            'questionnaires' => $questionnaires
-        ));
     }
 }

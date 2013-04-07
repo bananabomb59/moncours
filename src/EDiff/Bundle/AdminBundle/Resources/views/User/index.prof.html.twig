@@ -1,6 +1,6 @@
 {# src/EDiff/Bundle/AdminBundle/Resources/views/User/index.html.twig #}
 
-{% extends layout %}
+{% extends "EDiffAdminBundle::layout_admin.html.twig" %}
 
 {% block title %}{{ parent() }} | {% if app.session.get('eleve_ou_prof') == "prof" %}Professeur{% else %}Elève{% endif %}{% endblock %}
 
@@ -21,26 +21,24 @@
 		<table class="table-bordered table">
 		    <thead>
 		        <tr>
-		            <th>Login</th>
-		            <th>Mot de passe</th>
 		            <th>Nom</th>
 		            <th>Prenom</th>
-		            <th>Date de naissance</th>
-		            <th>Actions</th>
+		            <th>Login</th>
+		            {% if app.session.get('eleve_ou_prof') == "admin" %}<th>Actions</th>{% endif %}
 		        </tr>
 		    </thead>
 		    <tbody>
 		    {% for entity in entities %}
 		        <tr>
-		            <td>{{ entity.login }}</td>
-		            <td>******</td>
-		            <td>{{ entity.nom }}</td>
+		            <td><a href="{{ path('user_show', { 'id': entity.id }) }}"> {{ entity.nom }}</a></td>
 		            <td>{{ entity.prenom }}</td>
-		            <td>{% if entity.datenaissance %}{{ entity.datenaissance|date('d-m-Y') }}{% endif%}</td>
-		            <td>	                
-                        <a class="btn btn btn-small" href="{{ path('user_show', { 'id': entity.id }) }}">Voir</a>   
+		            <td>{{ entity.login }}</td>
+		            {% if app.session.get('eleve_ou_prof') == "admin" %}
+		            <td>	                   
                         <a class="btn btn btn-small" href="{{ path('user_edit', { 'id': entity.id }) }}">Modifier</a>
+                        <a class="btn btn btn-small" href="{{ path('user_delete', { 'id': entity.id }) }}" onClick="valid_delete()">Supprimer</a>
 		            </td>
+		            {% endif %}
 		        </tr>
 		    {% endfor %}
 		    </tbody>
@@ -62,4 +60,11 @@
 		</p>
 
 	</div>
+	
+	<script>
+	function valid_delete() {
+		alert('Etes-vous sûr de vouloir supprimer cet utilisateur ?');
+	}
+	</script>
+	
 {% endblock %}
