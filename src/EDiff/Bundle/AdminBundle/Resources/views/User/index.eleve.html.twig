@@ -45,7 +45,7 @@
 		            <th>Prenom</th>
 		            <th>Login</th>
 		            <th>Classe Année courante</th>
-		            {% if app.session.get('eleve_ou_prof') == "admin" %}<th>Actions</th>{% endif %}
+		            {% if app.session.get('user').droits == "admin" %}<th>Actions</th>{% endif %}
 		        </tr>
 		    </thead>
 		    <tbody>
@@ -55,7 +55,7 @@
 		            <td>{{ entity.user.prenom }}</td>
 		            <td>{{ entity.user.login }}</td>
 		            <td>{{ entity.classe.libelle }}</td>
-		            {% if app.session.get('eleve_ou_prof') == "admin" %}
+		            {% if app.session.get('user').droits == "admin" %}
 		            <td>	                   
                         <a class="btn btn btn-small" href="{{ path('user_edit', { 'id': entity.user.id }) }}">Modifier</a>
                         <a class="btn btn btn-small" href="{{ path('user_delete', { 'id': entity.user.id }) }}" onClick="valid_delete()">Supprimer</a>

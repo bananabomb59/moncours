@@ -7,119 +7,157 @@
 {% block body %}
     <div class="hero-unit utilisateur">
     
-		{% if app.session.get('eleve_ou_prof') == "prof" %}
+            {% if app.session.get('eleve_ou_prof') == "prof" %}
         <h1>Fiche d'un professeur</h1>
         {% else %}
         <h1>Fiche d'un élève</h1>
         {% endif %}
-		
-		{% if update %}
-			<div class="alert alert-error">
-				<button class="close" data-dismiss="alert" type="button">×</button>
-				{% if app.session.get('eleve_ou_prof') == "prof" %}
-		        Le professeur a bien été modifié !
-		        {% else %}
-		        L'élève a bien été modifié !
-		        {% endif %}	
-			</div>
-		{% endif %}
-		
-		<div id="infos">
-		<p>
-			<label class="large" for="login">Login</label>{{ entity.login }}
-		</p>
-		<p>
-			<label class="large" for="password">Mot de passe</label>******
-		</p>
-		<p>
-			<label class="large" for="password">Nom</label>{{ entity.nom }}
-		</p>
-		<p>
-			<label class="large" for="password">Prénom</label>{{ entity.prenom }}
-		</p>
-		<p>
-			<label class="large" for="password">Date de naissance</label>{{ entity.datenaissance|date('d/m/Y') }}
-		</p>
-		
-		{% if exist %}
-		<p>
-			<label class="large" for="password">Classe</label>{{ classe.libelle }}
-		</p>
-		<p>
-			<label class="large" for="password">Année scolaire</label>{{ annee.anneedebut }} - {{ annee.anneefin }}
-		</p>
-		{% else %}
-		<p>
-			<label class="large" for="password">Classe</label>Aucune affectation. Editez la fiche pour affecter une classe.
-		</p>
-		{% endif %}
-		</div>
-		
-		{% if app.session.get('eleve_ou_prof') == "eleve" %}
-		<div id="affectations">
-			<p>Affectations de cet élève</p>
-			<p>2010/2011 - 6ème B</p>
-			<p>2011/2012 - 5ème E</p>
-			<p><a class="btn" href="#" onclick="displayNouvelleAffectationEleve();">Ajouter</a></p>
-			
-			<form id="form_valider_affectation" method="post" style="display:none;">
-	
-			<input type="hidden" name="eleve" id="eleve" value="{{ eleve.id }}" />
-		
-		    <div>
-		    	<label class="required" for="classe">Classe</label>
-		    	<select required="required" name="classe">
-		    		{% for classe in classes %}
-						<option value="{{ classe.id }}" {% if (exist and eleveClasse.classe.id == classe.id) %} selected="selected" {% endif %}>{{ classe.libelle }}</option>
-					{% endfor %}
-		    	</select>
-		    </div>
-		    
-		    <div>
-		    	<label class="required" for="annee">Année</label>
-		    	<select required="required" name="annee">
-		    		{% for annee in annees %}
-						<option value="{{ annee.id }}" {% if (exist and eleveClasse.annee.id == annee.id) %} selected="selected" {% endif %}>{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
-					{% endfor %}
-		    	</select>
-		    </div>
-		    
-		    <p>
-		        <span id="loading2"><img src="/img/loading.gif" width="16" height="16"></span>
-		        <button class="btn btn-large" type="button" onClick="submitNouvelleAffectationEleve()" id="submitbutton">Affecter à cette classe !</button>
-		        <button class="btn btn-large" type="button" onClick="cancelNouvelleAffectationEleve()">Annuler</button>
-		    </p>
-			</form>
-		</div>
-		{% endif %}
-		
-		<br style="clear:both;" />
-				
-		<p>
-		
-			{% if app.session.get('eleve_ou_prof') == "prof" %}
-	        <a class="btn btn-primary btn" href="{{ path('user_prof') }}">
-	        {% else %}
-	        <a class="btn btn-primary btn" href="{{ path('user_eleve') }}">
-	        {% endif %}
-	            Retour à la liste
-	        </a>
+            
+            {% if update %}
+                  <div class="alert alert-error">
+                        <button class="close" data-dismiss="alert" type="button">×</button>
+                        {% if app.session.get('eleve_ou_prof') == "prof" %}
+                    Le professeur a bien été modifié !
+                    {% else %}
+                    L'élève a bien été modifié !
+                    {% endif %}     
+                  </div>
+            {% endif %}
+            
+            <div id="infos">
+            <p>
+                  <label class="large" for="login">Login</label>{{ entity.login }}
+            </p>
+            <p>
+                  <label class="large" for="password">Mot de passe</label>******
+            </p>
+            <p>
+                  <label class="large" for="password">Nom</label>{{ entity.nom }}
+            </p>
+            <p>
+                  <label class="large" for="password">Prénom</label>{{ entity.prenom }}
+            </p>
+            <p>
+                  <label class="large" for="password">Date de naissance</label>{{ entity.datenaissance|date('d/m/Y') }}
+            </p>
+            
+            {% if exist %}
+            <p>
+                  <label class="large" for="password">Classe</label>{{ classe.libelle }}
+            </p>
+            <p>
+                  <label class="large" for="password">Année scolaire</label>{{ annee.anneedebut }} - {{ annee.anneefin }}
+            </p>
+            {% else %}
+            <p>
+                  <label class="large" for="password">Classe</label>Aucune affectation. Editez la fiche pour affecter une classe.
+            </p>
+            {% endif %}
+            </div>
+            
+            {% if app.session.get('eleve_ou_prof') == "eleve" %}
+            <div id="affectations">
+                  
+                  <p>Affectations de cet élève</p>
+                  <p>2010/2011 - 6ème B</p>
+                  <p>2011/2012 - 5ème E</p>
+                  <p><a class="btn" href="#" onclick="displayNouvelleAffectationEleve();">Ajouter</a></p>
+                  
+                  <form id="form_valider_affectation" method="post" style="display:none;">
+      
+                  <input type="hidden" name="eleve" id="eleve" value="{{ eleve.id }}" />
+            
+	                <div>
+	                  <label class="required" for="classe">Classe</label>
+	                  <select required="required" name="classe">
+	                        {% for classe in classes %}
+	                                   <option value="{{ classe.id }}" {% if (exist and eleveClasse.classe.id == classe.id) %} selected="selected" {% endif %}>{{ classe.libelle }}</option>
+	                             {% endfor %}
+	                  </select>
+	                </div>
+                
+	                <div>
+	                  <label class="required" for="annee">Année</label>
+	                  <select required="required" name="annee">
+	                        {% for annee in annees %}
+	                                   <option value="{{ annee.id }}" {% if (exist and eleveClasse.annee.id == annee.id) %} selected="selected" {% endif %}>{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
+	                             {% endfor %}
+	                  </select>
+	                </div>
+                
+	                <p>
+	                    <span id="loading2"><img src="/img/loading.gif" width="16" height="16"></span>
+	                    <button class="btn btn-large" type="submit">Affecter à cette classe !</button>
+	                    <button class="btn btn-large" type="button" onClick="cancelNouvelleAffectationEleve()">Annuler</button>
+	                </p>
+	                
+                  </form>
+            </div>
+            {% endif %}
+            
+            <br style="clear:both;" />
+                        
+            <p>
+            
+              {% if app.session.get('eleve_ou_prof') == "prof" %}
+              <a class="btn btn-primary btn" href="{{ path('user_prof') }}">
+              {% else %}
+              <a class="btn btn-primary btn" href="{{ path('user_eleve') }}">
+              {% endif %}
+                  Retour à la liste
+              </a>
 
-	        <a class="btn" href="{{ path('user_edit', { 'id': entity.id }) }}">
-	            Modifier
-	        </a>
+              <a class="btn" href="{{ path('user_edit', { 'id': entity.id }) }}">
+                  Modifier
+              </a>
 
-	        <form action="{{ path('user_delete', { 'id': entity.id }) }}" method="post">
-	            {{ form_widget(delete_form) }}
+              <form action="{{ path('user_delete', { 'id': entity.id }) }}" method="post">
+                  {{ form_widget(delete_form) }}
 
-	            {% if app.session.get('eleve_ou_prof') == "prof" %}
-		        <button class="btn btn" type="submit">Supprimer ce professeur</button>
-		        {% else %}
-		        <button class="btn btn" type="submit">Supprimer cet élève</button>
-		        {% endif %}	
-	            
-	        </form>
-		<p>
+                  {% if app.session.get('eleve_ou_prof') == "prof" %}
+                    <button class="btn btn" type="submit">Supprimer ce professeur</button>
+                    {% else %}
+                    <button class="btn btn" type="submit">Supprimer cet élève</button>
+                    {% endif %}     
+                  
+              </form>
+            <p>
 
-	</div>
+      </div>
+      
+ <script>
+{% if app.session.get('eleve_ou_prof') == "prof" %}
+$('#ediff_bundle_adminbundle_usertype_droits').val("prof");
+$("#affectations").hide();
+{% else %}
+$('#ediff_bundle_adminbundle_usertype_droits').val("eleve");
+$("#affectations").show();
+{% endif %}
+
+$("#loading2").hide();
+
+$("#form_valider_affectation").submit(function(){ 
+
+    $("#loading2").show();
+
+    var eleve = $("#eleve").val();
+    var annee = $("select[name='annee'] > option:selected").val();
+    var classe = $("select[name='classe'] > option:selected").val();
+    var DATA = 'eleve=' + eleve + '&annee=' + annee + '&classe=' + classe;
+    
+    $.ajax({
+        type: "POST",
+        url: "{{ path('user_show_affectations') }}",
+        data: DATA,
+        cache: false,
+        success: function(data){
+           $('#affectations').html(data);
+           $("#loading2").hide();
+        }
+    });    
+    return false;
+});
+
+</script>
+
 {% endblock %}

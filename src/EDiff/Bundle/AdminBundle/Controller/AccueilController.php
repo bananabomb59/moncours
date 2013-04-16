@@ -566,4 +566,23 @@ class AccueilController extends Controller
 		
 		return $redirect;
     }
+    
+	static public function isAdmin($session)
+    {		
+		/* Vérifier si le user est en session et s'il a les droits admin, sinon retour à l'écran de login */
+		$user=$session->get('user', false);
+		if ($user) {
+			// On récupère les droits pour rediriger vers le site admin ou front
+			$droits = $user->getDroits();
+			if($droits == 'admin') {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+    }
 }

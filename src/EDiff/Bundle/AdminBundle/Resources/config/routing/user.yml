@@ -34,5 +34,5 @@ user_delete:
     requirements: { _method: post }
 
 user_show_affectations:
-    pattern:  /{id}/showAffectations
+    pattern:  /showAffectations
     defaults: { _controller: "EDiffAdminBundle:User:showAffectations" }

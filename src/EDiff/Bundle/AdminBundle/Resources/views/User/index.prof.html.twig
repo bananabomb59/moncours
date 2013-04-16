@@ -24,7 +24,7 @@
 		            <th>Nom</th>
 		            <th>Prenom</th>
 		            <th>Login</th>
-		            {% if app.session.get('eleve_ou_prof') == "admin" %}<th>Actions</th>{% endif %}
+		            {% if app.session.get('user').droits == "admin" %}<th>Actions</th>{% endif %}
 		        </tr>
 		    </thead>
 		    <tbody>
@@ -33,7 +33,7 @@
 		            <td><a href="{{ path('user_show', { 'id': entity.id }) }}"> {{ entity.nom }}</a></td>
 		            <td>{{ entity.prenom }}</td>
 		            <td>{{ entity.login }}</td>
-		            {% if app.session.get('eleve_ou_prof') == "admin" %}
+		            {% if app.session.get('user').droits == "admin" %}
 		            <td>	                   
                         <a class="btn btn btn-small" href="{{ path('user_edit', { 'id': entity.id }) }}">Modifier</a>
                         <a class="btn btn btn-small" href="{{ path('user_delete', { 'id': entity.id }) }}" onClick="valid_delete()">Supprimer</a>
