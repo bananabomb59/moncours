@@ -41,26 +41,17 @@
                   <label class="large" for="password">Date de naissance</label>{{ entity.datenaissance|date('d/m/Y') }}
             </p>
             
-            {% if exist %}
-            <p>
-                  <label class="large" for="password">Classe</label>{{ classe.libelle }}
-            </p>
-            <p>
-                  <label class="large" for="password">Année scolaire</label>{{ annee.anneedebut }} - {{ annee.anneefin }}
-            </p>
-            {% else %}
-            <p>
-                  <label class="large" for="password">Classe</label>Aucune affectation. Editez la fiche pour affecter une classe.
-            </p>
-            {% endif %}
             </div>
             
             {% if app.session.get('eleve_ou_prof') == "eleve" %}
             <div id="affectations">
                   
                   <p>Affectations de cet élève</p>
-                  <p>2010/2011 - 6ème B</p>
-                  <p>2011/2012 - 5ème E</p>
+                  
+                  {% for affectation in affectations %}
+                       <p>{{ affectation.annee.anneedebut }}/{{ affectation.annee.anneefin }} - {{ affectation.classe.libelle }}</p>
+                  {% endfor %}
+
                   <p><a class="btn" href="#" onclick="displayNouvelleAffectationEleve();">Ajouter</a></p>
                   
                   <form id="form_valider_affectation" method="post" style="display:none;">
@@ -71,8 +62,8 @@
 	                  <label class="required" for="classe">Classe</label>
 	                  <select required="required" name="classe">
 	                        {% for classe in classes %}
-	                                   <option value="{{ classe.id }}" {% if (exist and eleveClasse.classe.id == classe.id) %} selected="selected" {% endif %}>{{ classe.libelle }}</option>
-	                             {% endfor %}
+	                        	<option value="{{ classe.id }}">{{ classe.libelle }}</option>
+	                        {% endfor %}
 	                  </select>
 	                </div>
                 
@@ -80,8 +71,8 @@
 	                  <label class="required" for="annee">Année</label>
 	                  <select required="required" name="annee">
 	                        {% for annee in annees %}
-	                                   <option value="{{ annee.id }}" {% if (exist and eleveClasse.annee.id == annee.id) %} selected="selected" {% endif %}>{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
-	                             {% endfor %}
+                            	<option value="{{ annee.id }}">{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
+                            {% endfor %}
 	                  </select>
 	                </div>
                 

@@ -1,41 +1,42 @@
 {# src/EDiff/Bundle/AdminBundle/Resources/views/User/showAffectations.html.twig #}
 	
-		{% if app.session.get('eleve_ou_prof') == "eleve" %}
+{% if app.session.get('eleve_ou_prof') == "eleve" %}
 
-			<p>Affectations de cet élève</p>
-			<p>2010/2011 - 6ème B</p>
-			<p>2011/2012 - 5ème E</p>
-			<p><a class="btn" href="#" onclick="displayNouvelleAffectationEleve();">Ajouter</a></p>
-			
-			<form id="form_valider_affectation" method="post" style="display:none;">
+	<p>Affectations de cet élève</p>
 	
-			<input type="hidden" name="eleve" id="eleve" value="{{ eleve.id }}" />
-		
-		    <div>
-		    	<label class="required" for="classe">Classe</label>
-		    	<select required="required" name="classe">
-		    		{% for classe in classes %}
-						<option value="{{ classe.id }}" {% if (exist and eleveClasse.classe.id == classe.id) %} selected="selected" {% endif %}>{{ classe.libelle }}</option>
-					{% endfor %}
-		    	</select>
-		    </div>
-		    
-		    <div>
-		    	<label class="required" for="annee">Année</label>
-		    	<select required="required" name="annee">
-		    		{% for annee in annees %}
-						<option value="{{ annee.id }}" {% if (exist and eleveClasse.annee.id == annee.id) %} selected="selected" {% endif %}>{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
-					{% endfor %}
-		    	</select>
-		    </div>
-		    
-		    <p>
-		        <span id="loading2"><img src="/img/loading.gif" width="16" height="16"></span>
-		        <button class="btn btn-large" type="button" onClick="submitNouvelleAffectationEleve()" id="submitbutton">Affecter à cette classe !</button>
-		        <button class="btn btn-large" type="button" onClick="cancelNouvelleAffectationEleve()">Annuler</button>
-		    </p>
-			</form>
+	{% for affectation in affectations %}
+    	<p>{{ affectation.annee.anneedebut }}/{{ affectation.annee.anneefin }} - {{ affectation.classe.libelle }}</p>
+    {% endfor %}
+	
+	<p><a class="btn" href="#" onclick="displayNouvelleAffectationEleve();">Ajouter</a></p>
+	
+	<form id="form_valider_affectation" method="post" style="display:none;">
 
-		{% endif %}
-		
-	
+	<input type="hidden" name="eleve" id="eleve" value="{{ eleve.id }}" />
+
+    <div>
+    	<label class="required" for="classe">Classe</label>
+    	<select required="required" name="classe">
+    		{% for classe in classes %}
+				<option value="{{ classe.id }}">{{ classe.libelle }}</option>
+			{% endfor %}
+    	</select>
+    </div>
+    
+    <div>
+    	<label class="required" for="annee">Année</label>
+    	<select required="required" name="annee">
+    		{% for annee in annees %}
+				<option value="{{ annee.id }}">{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
+			{% endfor %}
+    	</select>
+    </div>
+    
+    <p>
+        <span id="loading2"><img src="/img/loading.gif" width="16" height="16"></span>
+        <button class="btn btn-large" type="button" onClick="submitNouvelleAffectationEleve()" id="submitbutton">Affecter à cette classe !</button>
+        <button class="btn btn-large" type="button" onClick="cancelNouvelleAffectationEleve()">Annuler</button>
+    </p>
+	</form>
+
+{% endif %}

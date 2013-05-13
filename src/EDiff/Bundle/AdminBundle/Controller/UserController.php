@@ -4,6 +4,7 @@ namespace EDiff\Bundle\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use EDiff\Bundle\AdminBundle\Entity\Classe_Eleve_Annee;
 use EDiff\Bundle\AdminBundle\Entity\User;
 use EDiff\Bundle\AdminBundle\Form\UserType;
 
@@ -115,37 +116,20 @@ class UserController extends Controller
             $isUpdate = true;
 
         $eleve = $em->getRepository('EDiffAdminBundle:User')->find($id);
-        $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $id));
+        $affectations = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findBy(array('user' => $id));
         $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
         $annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
 
-        if($eleveClasse) {
-            $classe = $em->getRepository('EDiffAdminBundle:Classe')->find($eleveClasse->getClasse()->getId());
-            $annee = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->find($eleveClasse->getAnnee()->getId());
-            
-            return $this->render('EDiffAdminBundle:User:show.html.twig', array(
-                  'entity'      => $entity,
-                  'update'      => $isUpdate,
-                  'delete_form' => $deleteForm->createView(),
-                        'eleve' => $eleve,
-                    'eleveClasse' => $eleveClasse,
-                  'classe' => $classe,
-                  'annee' => $annee,
-                  'classes' => $classes,
-                  'annees' => $annees,
-                  'exist' => true,
-                  'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
-            ));
-        }
-        else {
-            return $this->render('EDiffAdminBundle:User:show.html.twig', array(
-                  'entity'      => $entity,
-                  'update'      => $isUpdate,
-                  'delete_form' => $deleteForm->createView(),
-                  'exist' => false,
-                  'layout' => "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
-            ));
-        }
+        return $this->render('EDiffAdminBundle:User:show.html.twig', array(
+          'entity'      => $entity,
+          'update'      => $isUpdate,
+          'delete_form' => $deleteForm->createView(),
+          'eleve' 		=> $eleve,
+          'affectations' => $affectations,
+          'classes' 	=> $classes,
+          'annees' 		=> $annees,
+          'layout' 		=> "EDiffAdminBundle::layout_".$this->getRequest()->getSession()->get('user')->getDroits().".html.twig"
+        ));
     }
 
     /**
@@ -220,7 +204,7 @@ class UserController extends Controller
         $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
         $annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();
         
-      if($eleveClasse) {
+      	if($eleveClasse) {
             return $this->render('EDiffAdminBundle:User:edit.html.twig', array(
                   'eleve' => $eleve,
                   'eleveClasse' => $eleveClasse,
@@ -307,10 +291,20 @@ class UserController extends Controller
                 throw $this->createNotFoundException('Unable to find User entity.');
             }
             
-            // suppression de l'affectation a la classe
-            $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $id));
-            if ($eleveClasse) {
-                $em->remove($eleveClasse);
+            // suppression des affectations a la classe
+            $affectations = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findBy(array('user' => $id));
+            if ($affectations) {
+                foreach($affectations as $affectation) {
+            		$em->remove($affectation);
+                }
+            }
+            
+        	// suppression des réponses de l'élève
+            $reponses = $em->getRepository('EDiffAdminBundle:QuestionnaireEleve')->findBy(array('eleve' => $id));
+            if ($reponses) {
+                foreach($reponses as $reponse) {
+            		$em->remove($reponse);
+                }
             }
             
             $em->remove($entity);
@@ -318,12 +312,12 @@ class UserController extends Controller
         }
 
         $session = $this->getRequest()->getSession();
-            if($session->get('eleve_ou_prof', "prof") == 'prof') {
-                  return $this->redirect($this->generateUrl('user_prof', array('delete' => 'true')));
-            }
-            else {
-                  return $this->redirect($this->generateUrl('user_eleve', array('delete' => 'true')));
-            }
+        if($session->get('eleve_ou_prof', "prof") == 'prof') {
+            return $this->redirect($this->generateUrl('user_prof', array('delete' => 'true')));
+        }
+        else {
+        	return $this->redirect($this->generateUrl('user_eleve', array('delete' => 'true')));
+        }
     }
 
     private function createDeleteForm($id)
@@ -349,36 +343,30 @@ class UserController extends Controller
     	
     	// On enregistre l'affectation
     	$eleve = $em->getRepository('EDiffAdminBundle:User')->find($idEleve);
-    	
-    	/*
     	$classe = $em->getRepository('EDiffAdminBundle:Classe')->find($idClasse);
         $annee = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->find($idAnnee);
-        
-        $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $idEleve));
 
-    	if($eleveClasse) {
-    		$eleveClasse->setClasse($classe);
-    		$eleveClasse->setAnnee($annee);
-    	}
-    	else {
-    		$eleveClasseAnnee = new Classe_Eleve_Annee();
-    		$eleveClasseAnnee->setClasse($classe);
-    		$eleveClasseAnnee->setAnnee($annee);
-    		$eleveClasseAnnee->setUser($eleve);
+        // Creation de l'affectation
+   		$eleveClasseAnnee = new Classe_Eleve_Annee();
+   		$eleveClasseAnnee->setClasse($classe);
+   		$eleveClasseAnnee->setAnnee($annee);
+   		$eleveClasseAnnee->setUser($eleve);
     		
-    		$em->persist($eleveClasseAnnee);
-    	}
-    	
+   		// Sauvegarde de l'affectation
+   		$em->persist($eleveClasseAnnee);
 		$em->flush();
-		*/
 
+		// On récupère les classes et annees pour peupler le formulaire
+		$affectations = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findBy(array('user' => $idEleve));
         $classes = $em->getRepository('EDiffAdminBundle:Classe')->findAll();
         $annees = $em->getRepository('EDiffAdminBundle:AnneeScolaire')->findAll();      
+        
         // On retourne la réponse AJAX
         return $this->render('EDiffAdminBundle:User:showAffectations.html.twig', array(
             'classes' => $classes,
             'annees' => $annees,
-        	'eleve' => $eleve
+        	'eleve' => $eleve,
+        	'affectations' => $affectations
         ));
     }
 }

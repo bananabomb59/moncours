@@ -30,6 +30,8 @@ class Classe_Eleve_AnneeRepository extends EntityRepository
         	   ->setParameter('annee', $annee);
         }
         	
+        $qb->groupBy('u.id');
+        
         $qb	->setFirstResult($page)
     		->setMaxResults($nb_per_page);
         	
@@ -59,6 +61,8 @@ class Classe_Eleve_AnneeRepository extends EntityRepository
         	   ->setParameter('annee', $annee);
         }	
         	
+        $qb->groupBy('u.id');
+        
         // Enfin, on retourne le résultat.
         return $qb->getQuery()
                    ->getResult();
@@ -81,6 +85,8 @@ class Classe_Eleve_AnneeRepository extends EntityRepository
         	$qb->andWhere('e.annee = :annee')
         	   ->setParameter('annee', $annee);
         }	
+        
+        $qb->groupBy('u.id');
         	
         // Enfin, on retourne le résultat.
         return $qb->getQuery()
