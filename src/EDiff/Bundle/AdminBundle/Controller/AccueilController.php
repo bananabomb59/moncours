@@ -43,7 +43,7 @@ class AccueilController extends Controller
     }
     
     public function indexAdminAction()
-    {
+    {    	
         return $this->render('EDiffAdminBundle:Accueil:indexAdmin.html.twig', array());
     }
     
@@ -555,7 +555,7 @@ class AccueilController extends Controller
 				$redirect = true;
 			}
 			if($droits == 'prof') {
-				if($page != 'competence' && $page != 'question' && $page != 'questionnaire' && $page != 'questionnaireeleve') {
+				if($page != 'user' && $page != 'competence' && $page != 'question' && $page != 'questionnaire' && $page != 'questionnaireeleve') {
 					$redirect = true;
 				}
 			}

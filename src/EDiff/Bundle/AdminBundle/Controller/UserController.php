@@ -32,7 +32,7 @@ class UserController extends Controller
         $isDelete = false;
         if($this->get('request')->query->get('delete') == 'true')
             $isDelete = true;
-        
+    
         return $this->render('EDiffAdminBundle:User:index.prof.html.twig', array(
             'entities' => $entities,
             'delete'   => $isDelete,
@@ -77,6 +77,14 @@ class UserController extends Controller
         $isDelete = false;
         if($this->get('request')->query->get('delete') == 'true')
             $isDelete = true;
+            
+            $logger = $this->get('logger');
+    	$logger->info("DROITS : " . $this->getRequest()->getSession()->get('user')->getDroits());
+    	$logger->info("DROITS : " . $this->getRequest()->getSession()->get('user')->getDroits());
+    	$logger->info("DROITS : " . $this->getRequest()->getSession()->get('user')->getDroits());
+    	$logger->info("DROITS : " . $this->getRequest()->getSession()->get('user')->getDroits());
+    	$logger->info("DROITS : " . $this->getRequest()->getSession()->get('user')->getDroits());
+        
             
         $var=array(
             'entities' => $users,
