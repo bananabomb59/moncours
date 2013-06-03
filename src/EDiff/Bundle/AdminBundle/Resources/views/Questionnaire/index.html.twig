@@ -35,7 +35,7 @@
 			<select id="choix_annee" name="choix_annee">
 				<option value="-1">Sélectionnez une année scolaire</option>
 				{% for annee in annees %}
-					<option value="{{ annee.id }}" {% if filtreAnnee == annee.id %} selected="selected" {% endif %}>{{ annee.anneedebut }} / {{ annee.anneefin }}</option>
+					<option value="{{ annee.id }}" {% if filtreAnnee == annee.id %} selected="selected" {% endif %}>{{ annee.datedebut|date('Y') }} / {{ annee.datefin|date('Y') }}</option>
 				{% endfor %}
 			</select>
 			
@@ -68,7 +68,7 @@
 		    {% for entity in entities %}
 		        <tr>
 		            <td>{{ entity.titre }}</td>
-		            <td>{{ entity.anneescolaire.anneedebut }} / {{ entity.anneescolaire.anneefin }}</td>
+		            <td>{{ entity.anneescolaire.datedebut|date('Y') }} / {{ entity.anneescolaire.datefin|date('Y') }}</td>
 		            <td>{{ entity.classe.libelle }}</td>
 		            <td>{{ entity.matiere.libelle }}</td>
 		            <td>

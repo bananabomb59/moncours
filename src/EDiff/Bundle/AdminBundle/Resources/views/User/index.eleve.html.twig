@@ -28,7 +28,7 @@
 			<select id="choix_annee" name="choix_annee">
 				<option value="-1">Sélectionnez une année</option>
 				{% for annee in annees %}
-					<option value="{{ annee.id }}" {% if filtreAnnee == annee.id %} selected="selected" {% endif %}>{{ annee.anneedebut }} / {{ annee.anneefin }}</option>
+<option value="{{ annee.id }}" {% if filtreAnnee == annee.id %} selected="selected" {% endif %}>{{ annee.datedebut|date('Y') }} / {{ annee.datefin|date('Y') }}</option>
 				{% endfor %}
 			</select>
 			

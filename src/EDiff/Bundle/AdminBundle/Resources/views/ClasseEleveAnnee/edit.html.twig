@@ -15,7 +15,7 @@
     	<label class="required" for="annee">Année</label>
     	<select required="required" name="annee">
     		{% for annee in annees %}
-				<option value="{{ annee.id }}" {% if exist != 0 && eleveClasse.annee.id == annee.id %} selected="selected" {% endif %}>{{ annee.anneeDebut }} - {{ annee.anneeFin }}</option>
+				<option value="{{ annee.id }}" {% if exist != 0 && eleveClasse.annee.id == annee.id %} selected="selected" {% endif %}>{{ annee.datedebut|date('Y') }} - {{ annee.datefin|date('Y') }}</option>
 			{% endfor %}
     	</select>
     </div>

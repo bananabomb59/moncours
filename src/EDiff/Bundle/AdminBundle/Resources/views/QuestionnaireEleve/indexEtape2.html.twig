@@ -28,7 +28,7 @@
 		    {% for eleve in eleves %}
 		        <tr>
 		            <td>{{ eleve[0].questionnaire.classe.libelle }}</td>
-		            <td>{{ eleve[0].questionnaire.anneescolaire.anneedebut }} / {{ eleve[0].questionnaire.anneescolaire.anneefin }}</td>
+		            <td>{{ eleve[0].questionnaire.anneescolaire.datedebut|date('Y') }} / {{ eleve[0].questionnaire.anneescolaire.datefin|date('Y') }}</td>
 		            <td>{{ eleve[0].eleve.nom }} {{ eleve[0].eleve.prenom }}</td>
 		            <td>{{ eleve.score }}</td>
 		            <td><a class="btn btn btn-small" href="{{ path('questionnaireeleve', { 'questionnaire': eleve[0].questionnaire.id, 'eleve': eleve[0].eleve.id }) }}">Liste des réponses</a></td>

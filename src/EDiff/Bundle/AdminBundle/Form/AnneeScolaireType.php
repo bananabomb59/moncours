@@ -10,8 +10,14 @@ class AnneeScolaireType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('annee_debut')
-            ->add('annee_fin')
+            ->add('date_debut', 'date', array(
+			    'widget' => 'single_text',
+			    'format' => 'dd/MM/yyyy',
+			))
+            ->add('date_fin', 'date', array(
+			    'widget' => 'single_text',
+			    'format' => 'dd/MM/yyyy',
+			))
         ;
     }
 

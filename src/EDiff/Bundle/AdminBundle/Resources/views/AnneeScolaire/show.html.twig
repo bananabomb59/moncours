@@ -16,10 +16,10 @@
 		{% endif %}
 		
 		<p>
-			<label class="large" for="anneedebut">Année de début</label>{{ entity.anneedebut }}
+			<label class="large" for="anneedebut">Date de début</label>{{ entity.datedebut|date('d-m-Y') }}
 		</p>
 		<p>
-			<label class="large" for="anneefin">Année de fin</label>{{ entity.anneefin }}
+			<label class="large" for="anneefin">Date de fin</label>{{ entity.datefin|date('d-m-Y') }}
 		</p>
 		
 		</br>

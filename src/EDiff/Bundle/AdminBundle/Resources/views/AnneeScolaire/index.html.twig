@@ -19,16 +19,16 @@
 		<table class="table-bordered table">
 		    <thead>
 		        <tr>
-		            <th>Annee de début</th>
-		            <th>Annee de fin</th>
+		            <th>Date de début</th>
+		            <th>Date de fin</th>
 		            <th>Actions</th>
 		        </tr>
 		    </thead>
 		    <tbody>
 		    {% for entity in entities %}
 		        <tr>
-		            <td>{{ entity.anneedebut }}</td>
-		            <td>{{ entity.anneefin }}</td>
+		            <td>{{ entity.datedebut|date('d-m-Y')}}</td>
+		            <td>{{ entity.datefin|date('d-m-Y')}}</td>
 		            <td>
 		            	<a class="btn btn btn-small" href="{{ path('anneescolaire_show', { 'id': entity.id }) }}">Voir</a>
 		                <a class="btn btn btn-small" href="{{ path('anneescolaire_edit', { 'id': entity.id }) }}">Modifier</a>

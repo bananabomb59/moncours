@@ -22,18 +22,18 @@ class AnneeScolaire
     private $id;
 
     /**
-     * @var smallint $annee_debut
+     * @var date $annee_debut
      *
-     * @ORM\Column(name="annee_debut", type="smallint")
+     * @ORM\Column(name="date_debut", type="date")
      */
-    private $annee_debut;
+    private $date_debut;
 
     /**
-     * @var smallint $annee_fin
+     * @var date $date_fin
      *
-     * @ORM\Column(name="annee_fin", type="smallint")
+     * @ORM\Column(name="date_fin", type="date")
      */
-    private $annee_fin;
+    private $date_fin;
 
 
     /**
@@ -47,47 +47,47 @@ class AnneeScolaire
     }
 
     /**
-     * Set annee_debut
+     * Set date_debut
      *
-     * @param smallint $anneeDebut
+     * @param smallint $dateDebut
      */
-    public function setAnneeDebut($anneeDebut)
+    public function setDateDebut($dateDebut)
     {
-        $this->annee_debut = $anneeDebut;
+        $this->date_debut = $dateDebut;
     }
 
     /**
-     * Get annee_debut
+     * Get date_debut
      *
      * @return smallint 
      */
-    public function getAnneeDebut()
+    public function getDateDebut()
     {
-        return $this->annee_debut;
+        return $this->date_debut;
     }
 
     /**
-     * Set annee_fin
+     * Set date_fin
      *
-     * @param smallint $anneeFin
+     * @param smallint $dateFin
      */
-    public function setAnneeFin($anneeFin)
+    public function setDateFin($dateFin)
     {
-        $this->annee_fin = $anneeFin;
+        $this->date_fin = $dateFin;
     }
 
     /**
-     * Get annee_fin
+     * Get date_fin
      *
      * @return smallint 
      */
-    public function getAnneeFin()
+    public function getDateFin()
     {
-        return $this->annee_fin;
+        return $this->date_fin;
     }
     
     public function __toString()
     {
-    	return "".$this->annee_debut." / ".$this->annee_fin;
+    	return "".$this->date_debut->format('Y')." / ".$this->date_fin->format('Y');
     }
 }
