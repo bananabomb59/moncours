@@ -182,8 +182,12 @@ class AccueilController extends Controller
 			return $this->redirect($this->generateUrl('EDiffAdminBundle_liste_matieres', array()));
 		}
     	
-        $questionnaires = $em->getRepository('EDiffAdminBundle:Questionnaire')->findByMatiere($matiere->getId());
-        	
+		// on récupère les objets métier qui vont bien
+        $eleveClasse = $em->getRepository('EDiffAdminBundle:Classe_Eleve_Annee')->findOneBy(array('user' => $user->getId()));
+
+        // On recupere les questionnaires valides
+        $questionnaires = $em->getRepository('EDiffAdminBundle:Questionnaire')->getAllSearch($eleveClasse->getAnnee()->getId(), $eleveClasse->getClasse()->getId(), $matiere->getId(), -1);
+        
         /*
          * affiner selon les statuts
          * 1/ statut Préparation > ne pas afficher
