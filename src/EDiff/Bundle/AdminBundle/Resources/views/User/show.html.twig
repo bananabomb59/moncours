@@ -52,7 +52,9 @@
                        <p>{{ affectation.annee.anneedebut }}/{{ affectation.annee.anneefin }} - {{ affectation.classe.libelle }}</p>
                   {% endfor %}
 
+				  {% if app.session.get('user').droits == "admin" %}
                   <p><a class="btn" href="#" onclick="displayNouvelleAffectationEleve();">Ajouter</a></p>
+                  {% endif %}
                   
                   <form id="form_valider_affectation" method="post" style="display:none;">
       

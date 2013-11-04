@@ -78,9 +78,9 @@
 			&nbsp;
 			{% for i in range(0, nb_pages - 1) %}
 			    {% if page == i %}
-			    	{{ i + 1 }} &nbsp;
+			    	{{ i + 1 }} / {{ nb_pages }} &nbsp;
 			    {% else %}
-			    	<a href="{{ path('user_eleve', { 'pagination_eleve_page': i }) }}">{{ i + 1 }}</a> &nbsp;
+			    	<a href="{{ path('user_eleve', { 'pagination_eleve_page': i }) }}">{{ i + 1 }} / {{ nb_pages }} </a> &nbsp;
 			    {% endif %}
 			{% endfor %}
 			{% if page == nb_pages - 1 %}

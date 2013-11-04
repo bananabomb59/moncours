@@ -84,6 +84,9 @@
 		            <td>	                
                         <a class="btn btn btn-small" href="{{ path('questionnaire_show', { 'id': entity.id }) }}">Voir</a>   
                         <a class="btn btn btn-small" href="{{ path('questionnaire_edit', { 'id': entity.id }) }}">Modifier</a>
+                        {% if entity.statut == 1 or entity.statut == 2 %}
+                        	<a class="btn btn btn-small" href="{{ path('questionnaireeleve_etape2', { 'id': entity.id }) }}">Voir les réponses</a>
+                        {% endif %}	
 		            </td>
 		        </tr>
 		    {% endfor %}
